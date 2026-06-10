@@ -1,0 +1,73 @@
+[log]
+    abbrevCommit = true
+
+[core]
+    abbrev = 6
+
+[format]
+    pretty = medium
+
+[alias]
+    log = "log --abbrev-commit --abbrev=6 --pretty=medium"
+
+    panicfire = "!sh -c 'git commit -am wip && shutdown -h +1 \"Git panicfire engaged\"'"
+
+    local-branches = "log --branches --not --remotes --no-walk --decorate --oneline"
+
+    # Safe force push
+    force-push = "push --force-with-lease"
+
+    # Debug git aliases `git debug <alias>`
+    debug = "!GIT_TRACE=1 git"
+
+    # Pretty graph log
+    log-graph = "log --graph --abbrev-commit --decorate --all"
+
+    # Short version of status
+    status-short = "status --short --branch --renames --ahead-behind"
+
+    # Last commit info - detailed (with diff)
+    last = "!git-last"
+
+    # Verbose remote list - with links
+    remote-verbose = "remote --verbose"
+
+    # Log all unpushed commits
+    unpushed = "!git-unpushed"
+
+    # Interactive rebase all unpushed commits
+    rebase-unpushed = "!git-rebase-unpushed"
+
+    # Amend commit without editing message
+    amend = "commit --amend --no-edit"
+
+    clone-bare = "!git-clone-bare"
+
+    ### Additional Shorthands
+    ap = add -p
+    fp = "force-push"
+    lg = "log-graph"
+    lb = "local-branches"
+    sts = "status-short"
+    rv = "remote-verbose"
+    up = "unpushed"
+    rebup = "rebase-unpushed"
+    wt = "worktree"
+    wtl = "!git-wt-list"
+
+    ciaclean = "!git-ciaclean"
+
+    wt-add = "!git-wt-add"
+    wt-rm = "!git-wt-rm"
+    wt-peek = "!git-wt-peek"
+    wt-clean = "!git-wt-clean"
+
+    # Diff shortcuts
+    d = "diff"
+    sd = "diff --staged"
+    dr = "diff --diff-algorithm=patience"
+    sdr = "diff --staged --diff-algorithm=patience"
+    dc = "diff --diff-algorithm=myers"
+    sdc = "diff --staged --diff-algorithm=myers"
+    de = "diff --diff-algorithm=minimal"
+    sde = "diff --staged --diff-algorithm=minimal"

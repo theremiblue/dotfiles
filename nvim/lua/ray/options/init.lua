@@ -1,0 +1,5 @@
+require("ray.options.colors")
+require("ray.options.spellcheck")
+require("ray.options.format")
+require("ray.options.diff")
+require("ray.lsp")

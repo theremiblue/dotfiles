@@ -1,0 +1,9 @@
+#!/bin/bash
+cd "$(dirname "$0")"
+
+./setup.sh
+./cleanup.sh
+
+./ai/setup.sh
+./ai/cleanup.sh
+

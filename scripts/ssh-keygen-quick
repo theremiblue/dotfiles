@@ -1,0 +1,96 @@
+#!/bin/bash
+
+usage() {
+    cat >&2 <<'EOF'
+Usage: ssh-keygen-quick [-a] [-c] [-g] <label>
+
+Options:
+  -a       Add key to ssh-agent
+  -c       Copy public key to clipboard
+  -h       Show this help
+EOF
+    exit 1
+}
+
+clip_copy() {
+    if command -v pbcopy &>/dev/null; then
+        pbcopy
+    elif command -v xclip &>/dev/null; then
+        xclip -selection clipboard
+    elif command -v xsel &>/dev/null; then
+        xsel --clipboard --input
+    else
+        return 1
+    fi
+}
+
+open_url() {
+    if command -v open &>/dev/null; then
+        open "$1"
+    elif command -v xdg-open &>/dev/null; then
+        xdg-open "$1"
+    elif command -v wslview &>/dev/null; then
+        wslview "$1"
+    else
+        echo "Open this URL manually:"
+        echo "  $1"
+    fi
+}
+
+dir="$HOME/.ssh"
+add_agent=
+copy_clip=
+
+while getopts "acgh" opt; do
+    case "$opt" in
+        a) add_agent=1 ;;
+        c) copy_clip=1 ;;
+        h) usage ;;
+        *) usage ;;
+    esac
+done
+shift $((OPTIND - 1))
+
+if [[ $# -lt 1 ]]; then
+    usage
+fi
+
+label=$1
+default_email="$(git config user.email)"
+
+read -rp "Email [$default_email]: " email
+if [[ -z "$email" ]]; then
+    email="$default_email"
+fi
+
+keypath="$dir/id_$label"
+pubpath="$dir/id_$label.pub"
+
+if [[ -e "$keypath" ]] || [[ -e "$pubpath" ]]; then
+    echo "Key already exists: $keypath" >&2
+    exit 1
+fi
+
+mkdir -p "$dir"
+
+ssh-keygen -t ed25519 -f "$keypath" -C "$email" -N ""
+
+if [[ -n "$add_agent" ]]; then
+    if [[ "$(uname -s)" == Darwin ]]; then
+        ssh-add --apple-use-keychain "$keypath"
+    else
+        ssh-add "$keypath"
+    fi
+    echo "+ ssh-agent"
+fi
+
+if [[ -n "$copy_clip" ]]; then
+    if clip_copy < "$pubpath"; then
+        echo "+ clipboard"
+    else
+        echo "No clipboard tool found" >&2
+        exit 1
+    fi
+fi
+
+ssh-keygen -lf "$pubpath"

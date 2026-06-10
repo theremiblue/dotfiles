@@ -1,0 +1,56 @@
+#!/bin/bash
+
+first_quickfix_location() {
+    awk -F: 'NR==1{
+        # -F: splits "file:line:col: msg" into $1=file, $2=line.
+        # On Windows, "C:/file:line:col" makes $1 just "C".
+        # /^[A-Za-z]$/ detects that drive-letter-only first field.
+        if ($1 ~ /^[A-Za-z]$/) {
+            print $1 ":" $2, $3
+        } else {
+            print $1, $2
+        }
+    }' "$1"
+}
+
+log=".dev.log"
+warn=
+script=
+
+while getopts "w" opt; do
+    case $opt in
+        w) warn="-w" ;;
+    esac
+done
+shift $((OPTIND - 1))
+
+for candidate in ./dev ./dev.sh ./.dev; do
+    if [[ -x "$candidate" ]]; then
+        script="$candidate"
+        break
+    fi
+done
+
+if [[ -z "$script" ]]; then
+    echo "No dev script found" >&2
+    exit 1
+fi
+
+"$script" "$@" 2>&1 | tee "$log"
+exit_code=${PIPESTATUS[0]}
+
+if [[ $exit_code -ne 0 ]]; then
+    dev-parse $warn "$log" > "$log.qf"
+
+    if [[ -s "$log.qf" ]]; then
+        echo "Failed with exit code $exit_code. Opening editor..." >&2
+
+        read -r first_file first_line < <(first_quickfix_location "$log.qf")
+        nvim "$first_file" "+$first_line" \
+            -c "cgetfile $log.qf" \
+            -c "copen" \
+            -c "wincmd p"
+    fi
+fi
+
+exit $exit_code

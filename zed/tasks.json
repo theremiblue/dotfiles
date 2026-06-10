@@ -1,0 +1,9 @@
+[
+  {
+    "label": "dev",
+    "command": "dev",
+    "use_new_terminal": false,
+    "reveal": "always",
+    "hide": "on_success",
+  }
+]

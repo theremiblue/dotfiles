@@ -1,0 +1,32 @@
+format = """
+$env_var_WSL_DISTRO_NAME$username@$hostname $directory $git_branch
+$character"""
+
+[env_var.WSL_DISTRO_NAME]
+format = "[WSL ](bold #b294bb)"
+disabled = false
+
+[character]
+success_symbol = "[>](bold green)"
+error_symbol = "[x](bold red)"
+vimcmd_symbol = "[<](bold green)"
+
+[username]
+style_user = "bold #8abeb7"
+style_root = "bold #cc6666"
+format = "[$user]($style)"
+disabled = false
+show_always = true
+
+[hostname]
+ssh_only = false
+format = "[$hostname](bold #f0c674)"
+disabled = false
+
+[directory]
+format = "[$path]($style)"
+style = "bold #81a2be"
+
+[git_branch]
+symbol = " "
+format = "[$symbol$branch]($style)"

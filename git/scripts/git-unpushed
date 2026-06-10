@@ -1,0 +1,6 @@
+#!/bin/bash
+
+set -e
+
+git fetch --quiet
+git log --oneline @{u}..HEAD

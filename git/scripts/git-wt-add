@@ -1,0 +1,47 @@
+#!/bin/bash
+
+set -e
+
+if [[ $# -lt 1 ]]; then
+    echo "Usage: git wt-add <branch> [path]"
+    exit 1
+fi
+
+if [[ "$(git rev-parse --is-bare-repository)" != "true" ]]; then
+    echo "Error: requires a bare repository" >&2
+    exit 1
+fi
+
+branch="$1"
+base=$(git config worktree.base) || {
+    echo "Error: worktree.base not set" >&2
+    echo "Run: git config worktree.base <path>" >&2
+    exit 1
+}
+
+if [[ -n "$2" ]]; then
+    target="$base/$2"
+else
+    target="$base/$branch"
+fi
+
+mkdir -p "$(dirname "$target")"
+
+if git show-ref --verify --quiet "refs/heads/$branch"; then
+    git worktree add "$target" "$branch"
+else
+    git worktree add -b "$branch" "$target"
+fi
+
+echo "Worktree: $target"
+
+# Initialize submodules in the new worktree.
+# Worktrees share the bare repo's modules/ directory, but stale entries
+# from other worktrees can leave broken .git pointers. Deinit first to
+# clear any stale state, then init fresh.
+if [[ -f "$target/.gitmodules" ]]; then
+    echo "Initializing submodules..."
+    git -C "$target" submodule deinit --all -f 2>/dev/null || true
+    git -C "$target" submodule update --init --recursive
+    echo "Submodules ready."
+fi

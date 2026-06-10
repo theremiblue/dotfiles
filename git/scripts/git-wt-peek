@@ -1,0 +1,15 @@
+#!/bin/bash
+
+set -e
+
+if [[ $# -lt 1 ]]; then
+    echo "Usage: git wt-peek <revision>"
+    exit 1
+fi
+
+dir=$(mktemp -d)
+trap 'git worktree remove --force "$dir" 2>/dev/null' EXIT
+
+git worktree add --detach "$dir" "$1"
+echo "Peek: $dir"
+(cd "$dir" && "$SHELL")
