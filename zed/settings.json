@@ -65,6 +65,7 @@
         "enable_preview_from_project_panel": false,
         "enabled": false,
     },
+    "max_tabs": 4,
 
     // Fonts
     "ui_font_family": "JetBrainsMono Nerd Font",
