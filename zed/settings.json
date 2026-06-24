@@ -48,7 +48,7 @@
         "show_menus": false,
     },
     "project_panel": {
-        "button": false,
+        "button": true,
         "default_width": 240,
         "indent_size": 24,
         "dock": "right",
