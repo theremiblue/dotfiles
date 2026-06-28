@@ -53,6 +53,9 @@ scripts=(
 if [ -n "$macos" ]; then
     scripts+=("$DOTFILES_DIR/scripts/macos"/*)
 fi
+if [ -n "$linux" ]; then
+    scripts+=("$DOTFILES_DIR/scripts/linux"/*)
+fi
 for script in "${scripts[@]}"; do
     if [ ! -f "$script" ]; then
         continue

@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+repo_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+config_dir="$repo_dir/quickshell"
+
+echo "Reloading Quickshell from $config_dir"
+
+quickshell kill --any-display >/dev/null 2>&1 || true
+quickshell kill --path "$config_dir" --any-display >/dev/null 2>&1 || true
+
+quickshell --daemonize

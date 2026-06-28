@@ -1,0 +1,201 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+field_separator=$'\037'
+seen_dirs=":"
+seen_icon_dirs=":"
+
+append_icon_dir() {
+  local dir="$1/icons"
+
+  if [ -d "$dir" ]; then
+    case "$seen_icon_dirs" in
+      *:"$dir":*) ;;
+      *)
+        seen_icon_dirs="$seen_icon_dirs$dir:"
+        icon_dirs+=("$dir")
+        ;;
+    esac
+  fi
+
+  dir="$1/pixmaps"
+  if [ -d "$dir" ]; then
+    case "$seen_icon_dirs" in
+      *:"$dir":*) ;;
+      *)
+        seen_icon_dirs="$seen_icon_dirs$dir:"
+        icon_dirs+=("$dir")
+        ;;
+    esac
+  fi
+}
+
+append_app_dir() {
+  local dir="$1/applications"
+
+  if [ ! -d "$dir" ]; then
+    return
+  fi
+
+  case "$seen_dirs" in
+    *:"$dir":*) return ;;
+  esac
+
+  seen_dirs="$seen_dirs$dir:"
+  app_dirs+=("$dir")
+}
+
+desktop_field() {
+  local file="$1"
+  local section=""
+  local type=""
+  local name=""
+  local generic=""
+  local comment=""
+  local icon=""
+  local nodisplay=""
+  local hidden=""
+  local line key value
+
+  while IFS= read -r line || [ -n "$line" ]; do
+    case "$line" in
+      "["*"]")
+        section="$line"
+        continue
+        ;;
+    esac
+
+    if [ "$section" != "[Desktop Entry]" ]; then
+      continue
+    fi
+
+    case "$line" in
+      ""|"#"*) continue ;;
+      *=*) ;;
+      *) continue ;;
+    esac
+
+    key="${line%%=*}"
+    value="${line#*=}"
+
+    case "$key" in
+      Type) type="$value" ;;
+      Name) name="$value" ;;
+      GenericName) generic="$value" ;;
+      Comment) comment="$value" ;;
+      Icon) icon="$value" ;;
+      NoDisplay) nodisplay="$value" ;;
+      Hidden) hidden="$value" ;;
+    esac
+  done < "$file"
+
+  if [ "$type" != "Application" ] ||
+      [ -z "$name" ] ||
+      [ "$nodisplay" = "true" ] ||
+      [ "$hidden" = "true" ]; then
+    return
+  fi
+
+  printf '%s%s%s%s%s%s%s%s%s\n' \
+    "$file" "$field_separator" \
+    "$(clean_field "$name")" "$field_separator" \
+    "$(clean_field "$generic")" "$field_separator" \
+    "$(clean_field "$comment")" "$field_separator" \
+    "$(clean_field "$icon")"
+}
+
+clean_field() {
+  local value="$1"
+
+  value="${value//\\n/ }"
+  value="${value//$field_separator/ }"
+  printf '%s\n' "$value"
+}
+
+resolve_icon() {
+  local icon="$1"
+  local ext
+  local match
+  local size
+
+  if [ -z "$icon" ]; then
+    return
+  fi
+
+  if [[ "$icon" == /* || "$icon" == */* ]]; then
+    if [ -f "$icon" ]; then
+      printf '%s\n' "$icon"
+      return
+    fi
+
+    for ext in svg png xpm; do
+      if [ -f "$icon.$ext" ]; then
+        printf '%s\n' "$icon.$ext"
+        return
+      fi
+    done
+
+    return
+  fi
+
+  if [[ "$icon" == *.* ]]; then
+    for dir in "${icon_dirs[@]}"; do
+      match="$(find "$dir" -type f -name "$icon" -print -quit 2>/dev/null)" || true
+      if [ -n "$match" ]; then
+        printf '%s\n' "$match"
+        return
+      fi
+    done
+  fi
+
+  for dir in "${icon_dirs[@]}"; do
+    match="$(find "$dir" -type f -path "*/scalable/apps/$icon.svg" -print -quit 2>/dev/null)" || true
+    if [ -n "$match" ]; then
+      printf '%s\n' "$match"
+      return
+    fi
+  done
+
+  for size in 32x32 48x48 24x24 22x22 64x64 128x128 256x256 192x192 512x512 16x16; do
+    for ext in png xpm svg; do
+      for dir in "${icon_dirs[@]}"; do
+        match="$(find "$dir" -type f -path "*/$size/apps/$icon.$ext" -print -quit 2>/dev/null)" || true
+        if [ -n "$match" ]; then
+          printf '%s\n' "$match"
+          return
+        fi
+      done
+    done
+  done
+
+  for ext in svg png xpm; do
+    for dir in "${icon_dirs[@]}"; do
+      match="$(find "$dir" -type f -name "$icon.$ext" -print 2>/dev/null | sort -Vr | head -n 1)" || true
+      if [ -n "$match" ]; then
+        printf '%s\n' "$match"
+        return
+      fi
+    done
+  done
+}
+
+declare -a app_dirs=()
+declare -a icon_dirs=()
+
+append_app_dir "${XDG_DATA_HOME:-$HOME/.local/share}"
+append_icon_dir "${XDG_DATA_HOME:-$HOME/.local/share}"
+
+IFS=':' read -r -a data_dirs <<< "${XDG_DATA_DIRS:-/usr/local/share:/usr/share}"
+for dir in "${data_dirs[@]}"; do
+  append_app_dir "$dir"
+  append_icon_dir "$dir"
+done
+
+for dir in "${app_dirs[@]}"; do
+  find "$dir" -type f -name "*.desktop" -print 2>/dev/null
+done | sort -u | while IFS= read -r file; do
+  desktop_field "$file"
+done | while IFS="$field_separator" read -r file name generic comment icon; do
+  icon_path="$(resolve_icon "$icon")"
+  printf '%s%s%s%s%s%s%s%s%s%s%s\n' "$file" "$field_separator" "$name" "$field_separator" "$generic" "$field_separator" "$comment" "$field_separator" "$icon_path" "$field_separator" "$icon"
+done | sort -f -t "$field_separator" -k2,2

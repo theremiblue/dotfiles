@@ -1,0 +1,40 @@
+#!/bin/sh
+
+dir="$HOME/Pictures/Screenshots"
+file="$dir/$(date +%Y-%m-%d_%H-%M-%S).png"
+timeout_ms=3000
+
+mkdir -p "$dir"
+
+notify() {
+    notify-send -t "$timeout_ms" "$1" "$2"
+}
+
+copy_file() {
+    wl-copy --type image/png < "$1"
+}
+
+case "$1" in
+    full-save)
+        grim -t png "$file" && notify "Screenshot saved" "$file"
+        ;;
+
+    region-save)
+        area="$(slurp)" || exit 1
+        grim -t png -g "$area" "$file" && notify "Region screenshot saved" "$file"
+        ;;
+
+    full-copy)
+        grim -t png "$file" && copy_file "$file" && notify "Screenshot copied" "$file"
+        ;;
+
+    region-copy)
+        area="$(slurp)" || exit 1
+        grim -t png -g "$area" "$file" && copy_file "$file" && notify "Region screenshot copied" "$file"
+        ;;
+
+    *)
+        echo "usage: screenshot {full-save|region-save|full-copy|region-copy}" >&2
+        exit 2
+        ;;
+esac

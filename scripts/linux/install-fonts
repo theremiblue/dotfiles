@@ -1,0 +1,76 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+usage() {
+  cat <<'EOF'
+Usage: install-fonts [--user|--system]
+
+Install the fonts vendored in this dotfiles repo and rebuild the fontconfig
+cache. The install copies the font directories with their license/readme files.
+
+Options:
+  --user      Install for the current user (default)
+  --system    Install system-wide under /usr/local/share/fonts/dotfiles
+  -h, --help  Show this help
+EOF
+}
+
+run_root() {
+  if [ "$(id -u)" -eq 0 ]; then
+    "$@"
+  else
+    sudo "$@"
+  fi
+}
+
+script_path="$(readlink -f "${BASH_SOURCE[0]}")"
+dotfiles_dir="$(cd "$(dirname "$script_path")/../.." && pwd)"
+source_dir="$dotfiles_dir/fonts"
+scope="${1:---user}"
+
+case "$scope" in
+  --user)
+    target_dir="${XDG_DATA_HOME:-$HOME/.local/share}/fonts/dotfiles"
+    install_cmd=(install -d "$target_dir")
+    copy_cmd=(cp -a "$source_dir/." "$target_dir/")
+    cache_cmd=(fc-cache -f "$target_dir")
+    ;;
+  --system)
+    target_dir="/usr/local/share/fonts/dotfiles"
+    install_cmd=(run_root install -d "$target_dir")
+    copy_cmd=(run_root cp -a "$source_dir/." "$target_dir/")
+    cache_cmd=(run_root fc-cache -f "$target_dir")
+    ;;
+  -h|--help)
+    usage
+    exit 0
+    ;;
+  *)
+    usage >&2
+    exit 2
+    ;;
+esac
+
+if [ ! -d "$source_dir" ]; then
+  echo "Font source directory not found: $source_dir" >&2
+  exit 1
+fi
+
+"${install_cmd[@]}"
+"${copy_cmd[@]}"
+
+if command -v fc-cache >/dev/null 2>&1; then
+  "${cache_cmd[@]}"
+else
+  echo "fc-cache was not found. Install fontconfig, then run: fc-cache -r" >&2
+fi
+
+echo "Installed fonts from $source_dir to $target_dir"
+
+if command -v fc-match >/dev/null 2>&1; then
+  echo
+  echo "Current fontconfig matches:"
+  fc-match monospace
+  fc-match sans-serif
+  fc-match serif
+fi

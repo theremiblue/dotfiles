@@ -1,0 +1,7 @@
+singleton IdleInhibitor 1.0 IdleInhibitor.qml
+singleton KeyboardLayout 1.0 KeyboardLayout.qml
+singleton Network 1.0 Network.qml
+singleton Notifications 1.0 Notifications.qml
+singleton Drawers 1.0 Drawers.qml
+singleton Resources 1.0 Resources.qml
+singleton Lantern 1.0 Lantern.qml
