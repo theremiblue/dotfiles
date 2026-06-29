@@ -309,8 +309,8 @@ Rectangle {
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.bottom: parent.bottom
-        anchors.leftMargin: root.border.width
-        anchors.rightMargin: root.border.width
+        anchors.leftMargin: root.radius
+        anchors.rightMargin: root.radius
         anchors.bottomMargin: root.border.width
 
         visible: root.showProgress
@@ -324,6 +324,7 @@ Rectangle {
             anchors.bottom: parent.bottom
 
             width: progressTrack.width * root.expiryProgress
+            radius: height / 2
             color: root.accentColor
         }
     }

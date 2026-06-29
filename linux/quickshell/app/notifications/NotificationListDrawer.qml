@@ -4,38 +4,18 @@ import QtQuick
 import QtQuick.Layouts
 
 import qs.config as Config
+import qs.ui.controls as Controls
 import qs.ui.primitives as UIPrimitives
 import qs.services as Services
 
 UIPrimitives.Drawer {
     id: root
 
+    drawerType: Services.Drawers.notifications
     drawerSize: UIPrimitives.Drawer.Size.Normal
     drawerPosition: UIPrimitives.Drawer.Position.AnchorCenter
-    anchorCenterX: Services.Drawers.anchorCenterX
     customWidth: Config.Theme.notificationWidth + contentPadding * 2
     borderColor: Config.Theme.base0D
-
-    Component.onCompleted: {
-        if (Services.Drawers.notificationsVisible) {
-            root.open();
-        }
-    }
-
-    onDismissed: Services.Drawers.hideNotifications()
-
-    Connections {
-        target: Services.Drawers
-
-        function onNotificationsVisibleChanged() {
-            if (Services.Drawers.notificationsVisible) {
-                root.open();
-                return;
-            }
-
-            root.close();
-        }
-    }
 
     ColumnLayout {
         anchors.fill: parent
@@ -58,6 +38,14 @@ UIPrimitives.Drawer {
                 text: Services.Notifications.count.toString()
                 color: Config.Theme.barMuted
                 horizontalAlignment: Text.AlignRight
+            }
+
+            Controls.UtilityButton {
+                visible: Services.Notifications.count > 0
+                label: "Clear"
+                accentColor: Config.Theme.base0D
+
+                onClicked: Services.Notifications.clearAll()
             }
         }
 

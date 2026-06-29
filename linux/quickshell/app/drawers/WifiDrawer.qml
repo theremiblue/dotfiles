@@ -63,41 +63,21 @@ UIPrimitives.Drawer {
         Services.Network.connectWifi(network.ssid, delegate.password);
     }
 
+    drawerType: Services.Drawers.wifi
     drawerSize: UIPrimitives.Drawer.Size.Small
     drawerPosition: UIPrimitives.Drawer.Position.AnchorCenter
-    anchorCenterX: Services.Drawers.anchorCenterX
     borderColor: Services.Network.wifiEnabled ? Config.Theme.base0D : Config.Theme.base08
 
-    Component.onCompleted: {
-        if (Services.Drawers.wifiVisible) {
-            Services.Network.refresh();
-            Services.Network.scanWifi();
-            root.open();
-        }
-    }
-
-    onDismissed: Services.Drawers.hideWifi()
-
-    Connections {
-        target: Services.Drawers
-
-        function onWifiVisibleChanged() {
-            if (Services.Drawers.wifiVisible) {
-                Services.Network.refresh();
-                Services.Network.scanWifi();
-                root.open();
-                return;
-            }
-
-            root.close();
-        }
+    onDrawerActivated: {
+        Services.Network.refresh();
+        Services.Network.scanWifi();
     }
 
     Connections {
         target: Services.Network
 
         function onWifiEnabledChanged() {
-            if (Services.Drawers.wifiVisible && Services.Network.wifiEnabled) {
+            if (root.drawerActive && Services.Network.wifiEnabled) {
                 Services.Network.scanWifi();
             }
         }

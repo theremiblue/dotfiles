@@ -29,13 +29,13 @@
             - Through strawberry
         - Spotify?
             - Web enough?
-        - [ ] cd rip software
+        - [x] cd rip software
         - [ ] other music stuff
         - [x] REAPER
             - [ ] popups are weird
             - [ ] Rendering is not consistent
             - [ ] Audio system is weird?
-    - VPN?
+    - [x] NordVP 
     - Mail, Calendar, contacts? Fastmail?
 
 - /home snapshots

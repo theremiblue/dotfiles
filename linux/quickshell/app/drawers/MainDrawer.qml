@@ -8,6 +8,7 @@ import qs.ui.primitives as UIPrimitives
 UIPrimitives.Drawer {
     id: root
 
+    drawerType: Services.Drawers.main
     drawerSize: UIPrimitives.Drawer.Size.Large
     drawerPosition: UIPrimitives.Drawer.Position.ScreenHorizontalCenter
     borderColor: Config.Theme.base0D
@@ -211,30 +212,29 @@ UIPrimitives.Drawer {
 
     Component.onCompleted: {
         Services.Resources.refresh();
-
-        if (Services.Drawers.mainVisible) {
-            root.open();
-        }
     }
 
-    onDismissed: Services.Drawers.hideMain()
-
-    Connections {
-        target: Services.Drawers
-
-        function onMainVisibleChanged() {
-            if (Services.Drawers.mainVisible) {
-                root.open();
-                return;
-            }
-
-            root.close();
-        }
-    }
+    onDrawerActivated: Services.Resources.refresh()
 
     UIPrimitives.Tabs {
         width: parent.width
         tabs: ["Resource monitor"]
+        rightContent: [
+            UIPrimitives.Icon {
+                Layout.preferredWidth: 16
+                Layout.preferredHeight: 16
+
+                source: Config.Theme.linuxPenguinIcon
+                implicitSize: 16
+            },
+
+            UIPrimitives.AppText {
+                text: Services.Resources.kernelVersion
+                color: Config.Theme.barMuted
+                font.family: Config.Theme.monospaceFontFamily
+                font.pixelSize: Config.Theme.smallFontSize
+            }
+        ]
 
         ColumnLayout {
             width: parent.width

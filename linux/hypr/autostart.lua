@@ -1,7 +1,15 @@
 local props = require("props")
 
-local function app_on_workspace(workspace, command)
-    hl.exec_cmd("[workspace " .. workspace .. " silent] uwsm app -- " .. command)
+local function app_on_workspace(workspace, command, rules)
+    local launchRules = { "workspace " .. workspace .. " silent" }
+
+    if rules then
+        for _, rule in ipairs(rules) do
+            table.insert(launchRules, rule)
+        end
+    end
+
+    hl.exec_cmd("[" .. table.concat(launchRules, "; ") .. "] uwsm app -- " .. command)
 end
 
 return function()
@@ -12,5 +20,5 @@ return function()
 
     app_on_workspace(1, props.programs.terminal)
     app_on_workspace(4, "telegram-desktop")
-    app_on_workspace(2, props.programs.browser)
+    app_on_workspace(2, props.programs.browser, { "fullscreenstate 1 1" })
 end

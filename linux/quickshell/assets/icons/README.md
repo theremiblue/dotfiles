@@ -23,9 +23,22 @@ Downloaded from the official outline SVG set and adjusted to a `1.75` stroke wit
 - `power`
 - `arrow-down`
 - `arrow-up`
+- `chevron-left`
+- `chevron-right`
 - `search`
+- `volume`
+- `volume-2`
+- `volume-3`
+- `volume-off`
+- `vpn-connected`
+- `vpn-disconnected`
 
 ## Arch Linux Logo
 
 Source: <https://gitlab.archlinux.org/archlinux/packaging/packages/filesystem/-/raw/main/archlinux-logo.svg>
 License: 0BSD from the Arch Linux `filesystem` package, stored in `LICENSES/archlinux-filesystem-0BSD.txt`.
+
+## Linux Penguin
+
+Source: <https://commons.wikimedia.org/wiki/File:Tux.svg>
+Attribution and license notes are stored in `LICENSES/tux-attribution.txt`.

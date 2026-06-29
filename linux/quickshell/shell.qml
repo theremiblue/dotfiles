@@ -14,16 +14,21 @@ import qs.app.lantern as Lantern
 ShellRoot {
     settings.watchFiles: true
 
+    Drawers.Drawers {
+        id: drawerController
+    }
+
     Variants {
         model: Quickshell.screens
 
         delegate: AppShell.ScreenShell {
             required property ShellScreen modelData
+
             screen: modelData
+            drawerLayer: drawerController
         }
     }
 
-    Drawers.Drawers {}
     Lantern.Lantern {}
     Notifications.NotificationDaemon {}
 }

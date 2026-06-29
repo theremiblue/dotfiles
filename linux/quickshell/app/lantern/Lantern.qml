@@ -13,7 +13,6 @@ PanelWindow {
     readonly property int edgeMargin: Config.Theme.padding * 4
     readonly property int panelWidth: Math.min(720, Math.round(screen.width * 0.48))
     readonly property int panelTop: Math.round(screen.height * 0.16)
-    readonly property int shadowSize: 18
     readonly property int appIconSize: 20
     readonly property real dimOpacity: 0.42
     readonly property var results: Services.Lantern.search(searchInput.text)
@@ -40,37 +39,6 @@ PanelWindow {
     }
 
     property int selectedIndex: 0
-
-    component AppIcon: Item {
-        id: appIcon
-
-        property string source: ""
-        property string label: ""
-        property int iconSize: 16
-
-        Image {
-            anchors.centerIn: parent
-
-            visible: appIcon.source.length > 0
-            width: appIcon.iconSize
-            height: appIcon.iconSize
-            source: appIcon.source
-            fillMode: Image.PreserveAspectFit
-            asynchronous: true
-            mipmap: true
-            smooth: true
-        }
-
-        UIPrimitives.AppText {
-            anchors.centerIn: parent
-
-            visible: appIcon.source.length === 0
-            text: appIcon.label.length > 0 ? appIcon.label[0].toUpperCase() : "?"
-            color: Config.Theme.base0D
-            font.pixelSize: appIcon.iconSize
-            font.family: Config.Theme.monospaceFontFamily
-        }
-    }
 
     visible: Services.Lantern.visible
     implicitWidth: screen.width
@@ -132,40 +100,14 @@ PanelWindow {
             onClicked: Services.Lantern.hide()
         }
 
-        Item {
+        UIPrimitives.PanelShadow {
             id: frameShadow
 
-            width: frame.width + root.shadowSize * 2
-            height: frame.height + root.shadowSize * 2
-            x: frame.x - root.shadowSize
-            y: frame.y - root.shadowSize
-
-            Rectangle {
-                anchors.centerIn: parent
-
-                width: frame.width + root.shadowSize * 2
-                height: frame.height + root.shadowSize * 2
-                radius: frame.radius + root.shadowSize
-                color: Qt.rgba(0, 0, 0, 0.10)
-            }
-
-            Rectangle {
-                anchors.centerIn: parent
-
-                width: frame.width + root.shadowSize
-                height: frame.height + root.shadowSize
-                radius: frame.radius + root.shadowSize / 2
-                color: Qt.rgba(0, 0, 0, 0.14)
-            }
-
-            Rectangle {
-                anchors.centerIn: parent
-
-                width: frame.width + Config.Theme.padding * 2
-                height: frame.height + Config.Theme.padding * 2
-                radius: frame.radius + Config.Theme.padding
-                color: Qt.rgba(0, 0, 0, 0.16)
-            }
+            sourceWidth: frame.width
+            sourceHeight: frame.height
+            sourceRadius: frame.radius
+            x: frame.x - margin
+            y: frame.y - margin
         }
 
         Rectangle {
@@ -180,6 +122,11 @@ PanelWindow {
             border.color: Config.Theme.base0D
             border.width: 1
             clip: true
+
+            MouseArea {
+                anchors.fill: parent
+                acceptedButtons: Qt.AllButtons
+            }
 
             ColumnLayout {
                 id: content
@@ -301,7 +248,7 @@ PanelWindow {
                                     anchors.rightMargin: Config.Theme.padding * 3
                                     spacing: Config.Theme.spacing * 2
 
-                                    AppIcon {
+                                    UIPrimitives.AppIcon {
                                         Layout.preferredWidth: root.appIconSize
                                         Layout.preferredHeight: root.appIconSize
                                         Layout.alignment: Qt.AlignVCenter

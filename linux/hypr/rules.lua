@@ -62,3 +62,17 @@ hl.window_rule({
 
     workspace = "2",
 })
+
+hl.workspace_rule({
+    workspace = "f[1]",
+    gaps_in   = 0,
+    gaps_out  = 0,
+})
+
+hl.window_rule({
+    name  = "no-border-maximized-tiled",
+    match = { float = false, workspace = "f[1]" },
+
+    border_size = 0,
+    rounding    = 0,
+})

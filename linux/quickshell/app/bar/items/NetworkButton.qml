@@ -7,6 +7,8 @@ import qs.services as Services
 UIPrimitives.IconButton {
     id: root
 
+    required property var drawerLayer
+
     readonly property color connectedTextColor: "#00c853"
     readonly property color disconnectedTextColor: Config.Theme.barMuted
     readonly property url connectedIcon: Config.Theme.tablerIcon("network-connected")
@@ -37,6 +39,6 @@ UIPrimitives.IconButton {
 
     onClicked: {
         Services.Network.refresh();
-        Services.Drawers.toggleNetwork(root);
+        drawerLayer.toggle(Services.Drawers.network, root);
     }
 }

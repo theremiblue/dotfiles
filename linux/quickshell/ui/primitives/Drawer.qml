@@ -3,6 +3,7 @@ import Quickshell.Wayland
 import QtQuick
 
 import qs.config as Config
+import qs.services as Services
 
 PanelWindow {
     id: root
@@ -21,13 +22,15 @@ PanelWindow {
 
     default property alias content: contentHost.data
 
+    signal drawerActivated
+    signal drawerDeactivated
     signal dismissed
 
+    property string drawerType: Services.Drawers.none
     property bool drawerOpen: false
     property bool renderVisible: false
     property int drawerSize: Drawer.Size.Normal
     property int drawerPosition: Drawer.Position.AnchorCenter
-    property real anchorCenterX: -1
     property int customWidth: 0
     property int customHeight: 0
     property int animationDuration: Config.Theme.animationDurationNormal
@@ -35,10 +38,10 @@ PanelWindow {
     property int contentPadding: Config.Theme.padding * 3
     property int edgeMargin: Config.Theme.padding * 2
     property int topOffset: Config.Theme.barHeight
-    property int shadowSize: 14
+    property real anchorCenterX: -1
     property color backgroundColor: Config.Theme.base01
     property color borderColor: Config.Theme.barBorder
-    property color shadowColor: Qt.rgba(0, 0, 0, 0.45)
+    readonly property bool drawerActive: Services.Drawers.isActive(drawerType)
     readonly property int maxDrawerHeight: Math.max(0, screen.height - topOffset - edgeMargin)
     readonly property int maxContentHeight: Math.max(0, maxDrawerHeight - contentPadding * 2)
     readonly property int fittedContentHeight: {
@@ -93,7 +96,7 @@ PanelWindow {
 
     function hiddenTopForPosition() {
         if (drawerPosition === Drawer.Position.ScreenCenter) {
-            return frameTopForPosition() - shadowSize;
+            return frameTopForPosition() - panelShadow.margin;
         }
 
         return -drawerHost.height;
@@ -134,6 +137,17 @@ PanelWindow {
         dismissed();
     }
 
+    function syncDrawerActive() {
+        if (drawerActive) {
+            drawerActivated();
+            open();
+            return;
+        }
+
+        close();
+        drawerDeactivated();
+    }
+
     function updateMouseLeaveTimer() {
         if (!drawerOpen) {
             mouseLeaveTimer.stop();
@@ -160,6 +174,14 @@ PanelWindow {
     WlrLayershell.namespace: "quickshell-bar-drawers"
     WlrLayershell.layer: WlrLayer.Overlay
     WlrLayershell.keyboardFocus: renderVisible ? WlrKeyboardFocus.Exclusive : WlrKeyboardFocus.None
+
+    Component.onCompleted: syncDrawerActive()
+    onDrawerActiveChanged: syncDrawerActive()
+    onDismissed: {
+        if (drawerType !== Services.Drawers.none) {
+            Services.Drawers.hide(drawerType);
+        }
+    }
 
     anchors {
         top: true
@@ -199,13 +221,20 @@ PanelWindow {
             root.dismiss();
         }
 
+        MouseArea {
+            anchors.fill: parent
+            acceptedButtons: Qt.AllButtons
+
+            onClicked: root.dismiss()
+        }
+
         Item {
             id: drawerHost
 
-            width: frame.width + root.shadowSize * 2
-            height: frame.height + root.shadowSize * 2
-            x: root.frameLeftForPosition() - root.shadowSize
-            y: root.drawerOpen ? root.frameTopForPosition() - root.shadowSize : root.hiddenTopForPosition()
+            width: frame.width + panelShadow.margin * 2
+            height: frame.height + panelShadow.margin * 2
+            x: root.frameLeftForPosition() - panelShadow.margin
+            y: root.drawerOpen ? root.frameTopForPosition() - panelShadow.margin : root.hiddenTopForPosition()
             opacity: root.drawerOpen ? 1 : 0
 
             Behavior on y {
@@ -222,29 +251,14 @@ PanelWindow {
                 }
             }
 
-            Item {
+            PanelShadow {
+                id: panelShadow
+
                 anchors.centerIn: frame
 
-                width: frame.width + root.shadowSize * 2
-                height: frame.height + root.shadowSize * 2
-
-                Rectangle {
-                    anchors.centerIn: parent
-
-                    width: parent.width
-                    height: parent.height
-                    radius: frame.radius + root.shadowSize
-                    color: Qt.rgba(root.shadowColor.r, root.shadowColor.g, root.shadowColor.b, 0.08)
-                }
-
-                Rectangle {
-                    anchors.centerIn: parent
-
-                    width: frame.width + root.shadowSize
-                    height: frame.height + root.shadowSize
-                    radius: frame.radius + root.shadowSize / 2
-                    color: Qt.rgba(root.shadowColor.r, root.shadowColor.g, root.shadowColor.b, 0.12)
-                }
+                sourceWidth: frame.width
+                sourceHeight: frame.height
+                sourceRadius: frame.radius
             }
 
             Rectangle {
@@ -254,12 +268,17 @@ PanelWindow {
                 height: root.implicitHeight
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.top: parent.top
-                anchors.topMargin: root.shadowSize
+                anchors.topMargin: panelShadow.margin
 
                 color: root.backgroundColor
                 border.color: root.borderColor
                 border.width: 1
                 radius: 6
+
+                MouseArea {
+                    anchors.fill: parent
+                    acceptedButtons: Qt.AllButtons
+                }
 
                 HoverHandler {
                     id: drawerHover

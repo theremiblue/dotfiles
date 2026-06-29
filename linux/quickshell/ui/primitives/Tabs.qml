@@ -7,6 +7,7 @@ Item {
     id: root
 
     default property alias content: contentHost.data
+    property alias rightContent: rightContentLayout.data
 
     property var tabs: []
     property int currentIndex: 0
@@ -75,6 +76,14 @@ Item {
 
             Item {
                 Layout.fillWidth: true
+            }
+
+            RowLayout {
+                id: rightContentLayout
+
+                Layout.preferredHeight: 24
+                Layout.alignment: Qt.AlignVCenter
+                spacing: Config.Theme.spacing
             }
         }
 

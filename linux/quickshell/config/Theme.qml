@@ -28,6 +28,7 @@ QtObject {
     readonly property color barHoverBackground: base01
     readonly property color barAccent: base0D
     readonly property color barUrgent: base08
+    readonly property color bluetoothAccent: "#0082fc"
 
     readonly property int barHeight: 18
     readonly property int fontSize: 10
@@ -42,6 +43,11 @@ QtObject {
     readonly property int animationDurationShort: 120
     readonly property int animationDurationNormal: 180
     readonly property int animationDurationLong: 300
+    readonly property int panelShadowSize: 14
+    readonly property color panelShadowColor: "#000000"
+    readonly property real panelShadowOuterOpacity: 0.08
+    readonly property real panelShadowMiddleOpacity: 0.12
+    readonly property real panelShadowInnerOpacity: 0.16
     readonly property real drawerSizeSmall: 0.2
     readonly property real drawerSizeNormal: 0.4
     readonly property real drawerSizeLarge: 0.8
@@ -54,6 +60,7 @@ QtObject {
     }
 
     readonly property url archIcon: Qt.resolvedUrl("../assets/icons/arch/archlinux-logo.svg")
+    readonly property url linuxPenguinIcon: Qt.resolvedUrl("../assets/icons/linux/tux.svg")
 
     readonly property int minWorkspaceCount: 4
 }

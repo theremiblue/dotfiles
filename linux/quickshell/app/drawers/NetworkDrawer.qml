@@ -39,33 +39,12 @@ UIPrimitives.Drawer {
         return valueOrFallback(parts.join(" / "));
     }
 
+    drawerType: Services.Drawers.network
     drawerSize: UIPrimitives.Drawer.Size.Small
     drawerPosition: UIPrimitives.Drawer.Position.AnchorCenter
-    anchorCenterX: Services.Drawers.anchorCenterX
     borderColor: Services.Network.ethernetConnected ? Config.Theme.base0B : Config.Theme.base08
 
-    Component.onCompleted: {
-        if (Services.Drawers.networkVisible) {
-            Services.Network.refresh();
-            root.open();
-        }
-    }
-
-    onDismissed: Services.Drawers.hideNetwork()
-
-    Connections {
-        target: Services.Drawers
-
-        function onNetworkVisibleChanged() {
-            if (Services.Drawers.networkVisible) {
-                Services.Network.refresh();
-                root.open();
-                return;
-            }
-
-            root.close();
-        }
-    }
+    onDrawerActivated: Services.Network.refresh()
 
     ColumnLayout {
         anchors.fill: parent

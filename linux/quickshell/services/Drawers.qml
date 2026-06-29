@@ -1,132 +1,74 @@
 pragma Singleton
 
 import Quickshell
+import Quickshell.Io
 
 Singleton {
     id: root
 
-    property bool powerVisible: false
-    property bool networkVisible: false
-    property bool wifiVisible: false
-    property bool notificationsVisible: false
-    property bool mainVisible: false
-    property real anchorCenterX: -1
+    readonly property string none: ""
+    readonly property string power: "power"
+    readonly property string network: "network"
+    readonly property string vpn: "vpn"
+    readonly property string wifi: "wifi"
+    readonly property string bluetooth: "bluetooth"
+    readonly property string sound: "sound"
+    readonly property string notifications: "notifications"
+    readonly property string main: "main"
 
-    function setAnchorFromItem(item) {
-        if (!item) {
-            anchorCenterX = -1;
+    property string active: none
+    function isDrawer(drawer) {
+        return drawer === power
+            || drawer === network
+            || drawer === vpn
+            || drawer === wifi
+            || drawer === bluetooth
+            || drawer === sound
+            || drawer === notifications
+            || drawer === main;
+    }
+
+    function isActive(drawer) {
+        return active === drawer;
+    }
+
+    function show(drawer) {
+        if (!isDrawer(drawer)) {
+            active = none;
             return;
         }
 
-        const point = item.mapToItem(null, item.width / 2, item.height / 2);
-        anchorCenterX = point.x;
+        active = drawer;
     }
 
-    function showPower() {
-        networkVisible = false;
-        wifiVisible = false;
-        notificationsVisible = false;
-        mainVisible = false;
-        powerVisible = true;
+    function hide(drawer) {
+        if (!drawer || active === drawer) {
+            active = none;
+        }
     }
 
-    function hidePower() {
-        powerVisible = false;
-    }
-
-    function togglePower() {
-        if (powerVisible) {
-            hidePower();
+    function toggle(drawer) {
+        if (active === drawer) {
+            hide(drawer);
             return;
         }
 
-        showPower();
+        show(drawer);
     }
 
-    function showNetwork(anchorItem) {
-        setAnchorFromItem(anchorItem);
-        powerVisible = false;
-        wifiVisible = false;
-        notificationsVisible = false;
-        mainVisible = false;
-        networkVisible = true;
-    }
+    IpcHandler {
+        target: "drawers"
 
-    function hideNetwork() {
-        networkVisible = false;
-    }
-
-    function toggleNetwork(anchorItem) {
-        if (networkVisible) {
-            hideNetwork();
-            return;
+        function show(drawer: string) {
+            root.show(drawer);
         }
 
-        showNetwork(anchorItem);
-    }
-
-    function showWifi(anchorItem) {
-        setAnchorFromItem(anchorItem);
-        powerVisible = false;
-        networkVisible = false;
-        notificationsVisible = false;
-        mainVisible = false;
-        wifiVisible = true;
-    }
-
-    function hideWifi() {
-        wifiVisible = false;
-    }
-
-    function toggleWifi(anchorItem) {
-        if (wifiVisible) {
-            hideWifi();
-            return;
+        function hide(drawer: string) {
+            root.hide(drawer);
         }
 
-        showWifi(anchorItem);
-    }
-
-    function showNotifications(anchorItem) {
-        setAnchorFromItem(anchorItem);
-        powerVisible = false;
-        networkVisible = false;
-        wifiVisible = false;
-        mainVisible = false;
-        notificationsVisible = true;
-    }
-
-    function hideNotifications() {
-        notificationsVisible = false;
-    }
-
-    function toggleNotifications(anchorItem) {
-        if (notificationsVisible) {
-            hideNotifications();
-            return;
+        function toggle(drawer: string) {
+            root.toggle(drawer);
         }
-
-        showNotifications(anchorItem);
-    }
-
-    function showMain() {
-        powerVisible = false;
-        networkVisible = false;
-        wifiVisible = false;
-        notificationsVisible = false;
-        mainVisible = true;
-    }
-
-    function hideMain() {
-        mainVisible = false;
-    }
-
-    function toggleMain() {
-        if (mainVisible) {
-            hideMain();
-            return;
-        }
-
-        showMain();
     }
 }

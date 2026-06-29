@@ -27,6 +27,10 @@ Singleton {
     property string diskText: "0%"
     property string diskDetail: "Unavailable"
     property string error: ""
+    readonly property string kernelVersion: {
+        const version = kernelReleaseFile.text().trim();
+        return version.length > 0 ? version : "unknown";
+    }
 
     property real previousCpuTotal: -1
     property real previousCpuIdle: -1
@@ -195,6 +199,14 @@ Singleton {
         repeat: true
 
         onTriggered: root.refresh()
+    }
+
+    FileView {
+        id: kernelReleaseFile
+
+        path: "/proc/sys/kernel/osrelease"
+        blockLoading: true
+        printErrors: false
     }
 
     Component {

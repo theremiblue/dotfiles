@@ -5,16 +5,18 @@ import QtQuick.Layouts
 import qs.app.bar as Bar
 import qs.app.bar.items as Items
 import qs.config as Config
+import qs.services as Services
 import qs.ui.controls as Controls
 
 Item {
     id: statusBar
 
     required property ShellScreen screen
+    required property var drawerLayer
 
     readonly property int position: Bar.BarConfig.position
     readonly property int implicitSize: Bar.BarConfig.size
-    readonly property int archHoverShadowHeight: 14
+    readonly property int archHoverGlowHeight: 14
 
     readonly property bool vertical: Bar.BarConfig.isVertical(position)
     readonly property bool horizontal: !vertical
@@ -23,7 +25,22 @@ Item {
         return Qt.rgba(color.r, color.g, color.b, alpha);
     }
 
-    implicitHeight: implicitSize + archHoverShadowHeight
+    function registerDrawerAnchors() {
+        if (!drawerLayer) {
+            return;
+        }
+
+        drawerLayer.setAnchor(Services.Drawers.power, archIcon);
+        drawerLayer.setAnchor(Services.Drawers.main, windowTitle);
+        drawerLayer.setAnchor(Services.Drawers.sound, soundButton);
+        drawerLayer.setAnchor(Services.Drawers.wifi, wifiButton);
+        drawerLayer.setAnchor(Services.Drawers.bluetooth, bluetoothButton);
+        drawerLayer.setAnchor(Services.Drawers.network, networkButton);
+        drawerLayer.setAnchor(Services.Drawers.vpn, vpnButton);
+        drawerLayer.setAnchor(Services.Drawers.notifications, notificationButton);
+    }
+
+    implicitHeight: implicitSize + archHoverGlowHeight
 
     readonly property int exclusiveZone: Bar.BarConfig.reserveSpace ? implicitSize : 0
 
@@ -63,11 +80,11 @@ Item {
 
             Items.ArchButton {
                 id: archIcon
+
+                drawerLayer: statusBar.drawerLayer
             }
 
-            Item {
-                implicitWidth: Config.Theme.spacing
-            }
+            Spacer {}
 
             Items.Workspaces {
                 screen: statusBar.screen
@@ -75,12 +92,15 @@ Item {
         }
 
         Items.WindowTitle {
+            id: windowTitle
+
             anchors.top: parent.top
             anchors.bottom: parent.bottom
             anchors.horizontalCenter: parent.horizontalCenter
 
             width: Math.max(0, parent.width - Math.max(leftGroup.implicitWidth, rightGroup.implicitWidth) * 2 - Config.Theme.spacing * 2)
             screen: statusBar.screen
+            drawerLayer: statusBar.drawerLayer
         }
 
         RowLayout {
@@ -93,23 +113,45 @@ Item {
 
             Items.Tray {}
 
-            Item {
-                implicitWidth: Config.Theme.spacing
+            Items.SoundButton {
+                id: soundButton
+
+                drawerLayer: statusBar.drawerLayer
             }
+
+            Spacer {}
 
             Controls.ButtonGroup {
+                id: networkingButtonGroup
+
                 spacing: Config.Theme.statusIconSpacing
 
-                Items.WifiButton {}
+                Items.WifiButton {
+                    id: wifiButton
 
-                Items.BluetoothButton {}
+                    drawerLayer: statusBar.drawerLayer
+                }
 
-                Items.NetworkButton {}
+                Items.BluetoothButton {
+                    id: bluetoothButton
+
+                    drawerLayer: statusBar.drawerLayer
+                }
+
+                Items.NetworkButton {
+                    id: networkButton
+
+                    drawerLayer: statusBar.drawerLayer
+                }
+
+                Items.VpnButton {
+                    id: vpnButton
+
+                    drawerLayer: statusBar.drawerLayer
+                }
             }
 
-            Item {
-                implicitWidth: Config.Theme.spacing
-            }
+            Spacer {}
 
             Items.Clock {}
 
@@ -117,7 +159,11 @@ Item {
 
             Items.IdleInhibitorButton {}
 
-            Items.NotificationButton {}
+            Items.NotificationButton {
+                id: notificationButton
+
+                drawerLayer: statusBar.drawerLayer
+            }
 
             Item {
                 implicitWidth: Config.Theme.padding
@@ -141,12 +187,15 @@ Item {
         }
     }
 
+    Component.onCompleted: registerDrawerAnchors()
+    onDrawerLayerChanged: registerDrawerAnchors()
+
     Item {
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.top: barSurface.bottom
 
-        height: statusBar.archHoverShadowHeight
+        height: statusBar.archHoverGlowHeight
         clip: true
         opacity: archIcon.hovered ? 1 : 0
 

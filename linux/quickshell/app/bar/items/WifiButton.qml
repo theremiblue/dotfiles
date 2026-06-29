@@ -7,6 +7,8 @@ import qs.services as Services
 UIPrimitives.IconButton {
     id: root
 
+    required property var drawerLayer
+
     readonly property color enabledTextColor: "#00aaff"
     readonly property color disabledTextColor: Config.Theme.barMuted
     readonly property url enabledIcon: Config.Theme.tablerIcon("wifi-enabled")
@@ -32,9 +34,9 @@ UIPrimitives.IconButton {
     alternateIconSource: Services.Network.wifiEnabled ? disabledIcon : enabledIcon
     textColor: currentIconColor()
     hoverTextColor: textColor
-    underlineColor: Services.Drawers.wifiVisible ? Config.Theme.base0D : textColor
-    underlineVisible: containsMouse || Services.Drawers.wifiVisible
+    underlineColor: Services.Drawers.isActive(Services.Drawers.wifi) ? Config.Theme.base0D : textColor
+    underlineVisible: containsMouse || Services.Drawers.isActive(Services.Drawers.wifi)
     iconSize: Config.Theme.statusIconSize
 
-    onClicked: Services.Drawers.toggleWifi(root)
+    onClicked: drawerLayer.toggle(Services.Drawers.wifi, root)
 }

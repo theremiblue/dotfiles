@@ -1,0 +1,13 @@
+Tux SVG
+
+Source:
+https://commons.wikimedia.org/wiki/File:Tux.svg
+
+Attribution:
+Original Tux image by Larry Ewing, created with GIMP.
+Vector conversion by Simon Budig.
+SVG work by Garrett LeSage.
+
+Notes:
+The Commons file page should be treated as the canonical source for current
+license and attribution details.

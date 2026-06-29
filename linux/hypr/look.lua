@@ -67,6 +67,11 @@ hl.config({
         new_status = "master",
     },
 
+    misc = {
+        disable_hyprland_logo = true,
+        disable_splash_rendering = true,
+    },
+
     scrolling = {
         fullscreen_on_one_column = true,
     },

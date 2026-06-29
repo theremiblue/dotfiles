@@ -1,10 +1,14 @@
 -- https://wiki.hypr.land/Configuring/Basics/Binds/
 
 local props = require("props")
+local window_modes = require("window_modes")
 
 
 local lmb = "mouse:272"
 local rmb = "mouse:273"
+
+-- Open the power drawer when the Super/Windows key is tapped.
+hl.bind("SUPER + Super_L", hl.dsp.exec_cmd("quickshell ipc call drawers toggle power"), { release = true })
 
 hl.bind("SUPER + Space", hl.dsp.exec_cmd("hyprctl switchxkblayout all next"))
 -- hl.bind(props.mod .. " + M",
@@ -13,6 +17,7 @@ hl.dsp.exec_cmd("command -v hyprshutdown >/dev/null 2>&1 && hyprshutdown || hypr
 hl.bind(props.mod .. " + C", hl.dsp.window.close())
 
 hl.bind(props.mod .. " + V", hl.dsp.window.float({ action = "toggle" }))
+hl.bind(props.mod .. " + F", window_modes.cycle)
 hl.bind(props.mod .. " + P", hl.dsp.window.pseudo())       -- TODO: what?
 hl.bind(props.mod .. " + J", hl.dsp.layout("togglesplit")) -- dwindle only
 
@@ -55,7 +60,6 @@ hl.bind("XF86AudioPause", hl.dsp.exec_cmd("playerctl play-pause"), { locked = tr
 hl.bind("XF86AudioPlay", hl.dsp.exec_cmd("playerctl play-pause"), { locked = true })
 hl.bind("XF86AudioPrev", hl.dsp.exec_cmd("playerctl previous"), { locked = true })
 
--- TODO: super key doesn't work
 hl.bind(props.mod .. " + Return", hl.dsp.exec_cmd(props.programs.terminal))
 hl.bind(props.mod .. " + E", hl.dsp.exec_cmd(props.programs.fileManager))
 hl.bind(props.mod .. " + R", hl.dsp.exec_cmd(props.programs.menu))

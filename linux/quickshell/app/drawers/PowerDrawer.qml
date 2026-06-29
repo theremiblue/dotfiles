@@ -11,12 +11,12 @@ ScratchDrawer {
     id: root
 
     function hideAndRun(command) {
-        Services.Drawers.hidePower();
+        root.dismiss();
         Quickshell.execDetached(command);
     }
 
     function logout() {
-        Services.Drawers.hidePower();
+        root.dismiss();
 
         if (Hyprland.usingLua) {
             Hyprland.dispatch("hl.dsp.exit()");
@@ -26,32 +26,11 @@ ScratchDrawer {
         Hyprland.dispatch("exit");
     }
 
-    visible: false
+    drawerType: Services.Drawers.power
     drawerSize: ScratchDrawer.Size.Small
     drawerPosition: ScratchDrawer.Position.ScreenCenter
     backgroundColor: Config.Theme.base01
     borderColor: Config.Theme.base0E
-
-    Component.onCompleted: {
-        if (Services.Drawers.powerVisible) {
-            root.open();
-        }
-    }
-
-    onDismissed: Services.Drawers.hidePower()
-
-    Connections {
-        target: Services.Drawers
-
-        function onPowerVisibleChanged() {
-            if (Services.Drawers.powerVisible) {
-                root.open();
-                return;
-            }
-
-            root.hide();
-        }
-    }
 
     RowLayout {
         anchors.fill: parent

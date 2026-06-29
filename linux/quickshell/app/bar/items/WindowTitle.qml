@@ -10,6 +10,7 @@ MouseArea {
     id: root
 
     required property ShellScreen screen
+    required property var drawerLayer
 
     readonly property string title: {
         if (Hyprland.activeToplevel) {
@@ -49,10 +50,10 @@ MouseArea {
         anchors.right: parent.right
         anchors.bottom: parent.bottom
 
-        visible: root.containsMouse || Services.Drawers.mainVisible
+        visible: root.containsMouse || Services.Drawers.isActive(Services.Drawers.main)
         height: 2
-        color: Services.Drawers.mainVisible ? Config.Theme.base0D : Config.Theme.base04
+        color: Services.Drawers.isActive(Services.Drawers.main) ? Config.Theme.base0D : Config.Theme.base04
     }
 
-    onClicked: Services.Drawers.toggleMain()
+    onClicked: drawerLayer.toggle(Services.Drawers.main, root)
 }

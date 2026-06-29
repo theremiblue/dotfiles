@@ -7,11 +7,13 @@ import qs.services as Services
 MouseArea {
     id: root
 
+    required property var drawerLayer
+
     readonly property color highlightColor: Qt.rgba(0.09, 0.58, 0.82, 0.85)
     readonly property bool hovered: containsMouse
 
-    function togglePowerDrawer() {
-        Services.Drawers.togglePower();
+    function toggleDrawer() {
+        drawerLayer.toggle(Services.Drawers.power, root);
     }
 
     implicitWidth: Config.Theme.barHeight + Config.Theme.padding
@@ -35,5 +37,5 @@ MouseArea {
         }
     }
 
-    onClicked: togglePowerDrawer()
+    onClicked: toggleDrawer()
 }

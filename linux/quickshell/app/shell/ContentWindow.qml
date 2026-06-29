@@ -7,6 +7,7 @@ PanelWindow {
     id: root
 
     required property ShellScreen targetScreen
+    required property var drawerLayer
 
     property alias bar: statusBar
 
@@ -24,10 +25,18 @@ PanelWindow {
     focusable: true
     color: "transparent"
 
+    mask: Region {
+        x: 0
+        y: 0
+        width: root.width
+        height: statusBar.implicitSize
+    }
+
     Bar.Bar {
         id: statusBar
 
         anchors.fill: parent
         screen: root.screen
+        drawerLayer: root.drawerLayer
     }
 }

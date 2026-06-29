@@ -40,6 +40,63 @@ Singleton {
         return app.comment;
     }
 
+    function appKey(value) {
+        return cleanText(value)
+            .toLowerCase()
+            .replace(/\.desktop$/, "")
+            .replace(/[^a-z0-9]+/g, "");
+    }
+
+    function appIconSourceForHints(hints) {
+        const keys = [];
+
+        for (const hint of hints || []) {
+            const key = appKey(hint);
+
+            if (key.length > 0 && !keys.includes(key)) {
+                keys.push(key);
+            }
+        }
+
+        if (keys.length === 0) {
+            return "";
+        }
+
+        for (const app of apps) {
+            if (app.iconSource.length === 0) {
+                continue;
+            }
+
+            const appKeys = [
+                appKey(app.name),
+                appKey(app.iconName),
+                appKey(app.path.split("/").pop())
+            ];
+
+            for (const key of keys) {
+                if (appKeys.includes(key)) {
+                    return app.iconSource;
+                }
+            }
+        }
+
+        for (const app of apps) {
+            if (app.iconSource.length === 0) {
+                continue;
+            }
+
+            const nameKey = appKey(app.name);
+
+            for (const key of keys) {
+                if (nameKey.length > 0 && key.length > 0 && nameKey.includes(key)) {
+                    return app.iconSource;
+                }
+            }
+        }
+
+        return "";
+    }
+
     function parseApps(output) {
         const parsed = [];
         const lines = output.trim().split("\n");

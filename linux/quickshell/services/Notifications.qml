@@ -25,6 +25,14 @@ Singleton {
         notification.tracked = false;
     }
 
+    function clearAll() {
+        const notifications = server.trackedNotifications.values.slice();
+
+        for (const notification of notifications) {
+            dismiss(notification);
+        }
+    }
+
     NotificationService.NotificationServer {
         id: server
 

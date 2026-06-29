@@ -2,6 +2,8 @@
 
 This is a Quickshell replacement for the previous Waybar and notification daemon setup.
 
+Note: this config is vibecoded and should be treated as personal, fast-moving dotfiles rather than a polished reusable package.
+
 ## Install
 
 ```sh
