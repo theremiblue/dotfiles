@@ -8,3 +8,4 @@ singleton Resources 1.0 Resources.qml
 singleton Lantern 1.0 Lantern.qml
 singleton Sound 1.0 Sound.qml
 singleton Vpn 1.0 Vpn.qml
+singleton Niri 1.0 Niri.qml

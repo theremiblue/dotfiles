@@ -7,10 +7,10 @@ local window_modes = require("window_modes")
 local lmb = "mouse:272"
 local rmb = "mouse:273"
 
--- Open the power drawer when the Super/Windows key is tapped.
-hl.bind("SUPER + Super_L", hl.dsp.exec_cmd("quickshell ipc call drawers toggle power"), { release = true })
+-- Open the power drawer when the left Super key is tapped.
+hl.bind(props.mod .. " + Super_L", hl.dsp.exec_cmd("quickshell ipc call drawers toggle power"), { release = true })
 
-hl.bind("SUPER + Space", hl.dsp.exec_cmd("hyprctl switchxkblayout all next"))
+hl.bind(props.super .. " + Space", hl.dsp.exec_cmd("hyprctl switchxkblayout all next"))
 -- hl.bind(props.mod .. " + M",
 hl.dsp.exec_cmd("command -v hyprshutdown >/dev/null 2>&1 && hyprshutdown || hyprctl dispatch 'hl.dsp.exit()'")
 
@@ -33,16 +33,16 @@ hl.bind(props.mod .. " + down", hl.dsp.focus({ direction = "down" }))
 for i = 1, 10 do
     local key = i % 10 -- 10 maps to key 0
     hl.bind(props.super .. " + " .. key, hl.dsp.focus({ workspace = i }))
-    hl.bind(props.super .. " + SHIFT + " .. key, hl.dsp.window.move({ workspace = i }))
+    hl.bind(props.super_shift .. " + " .. key, hl.dsp.window.move({ workspace = i }))
 end
 
 -- Example special workspace (scratchpad)
 hl.bind(props.mod .. " + S", hl.dsp.workspace.toggle_special("magic"))
-hl.bind(props.mod .. " + SHIFT + S", hl.dsp.window.move({ workspace = "special:magic" }))
+hl.bind(props.mod_shift .. " + S", hl.dsp.window.move({ workspace = "special:magic" }))
 
 -- Move/resize windows with props.mod + LMB/RMB and dragging
-hl.bind(props.mod .. " + " .. lmb, hl.dsp.window.drag(), { mouse = true })
-hl.bind(props.mod .. " + " .. rmb, hl.dsp.window.resize(), { mouse = true })
+hl.bind(props.mouse_mod .. " + " .. lmb, hl.dsp.window.drag(), { mouse = true })
+hl.bind(props.mouse_mod .. " + " .. rmb, hl.dsp.window.resize(), { mouse = true })
 
 hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd("wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+"),
     { locked = true, repeating = true })

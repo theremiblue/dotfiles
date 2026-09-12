@@ -1,0 +1,247 @@
+// Documentation: https://github.com/YaLTeR/niri/wiki
+output "DP-1" {
+    mode "3840x2160"
+
+    scale 1.5
+}
+
+// TODO: remove static workspaces
+workspace "1"
+workspace "2"
+workspace "3"
+workspace "4"
+workspace "5"
+workspace "6"
+workspace "7"
+workspace "8"
+workspace "9"
+workspace "10"
+
+input {
+    keyboard {
+        xkb {
+            layout "us,ru"
+        }
+        repeat-delay 400
+        repeat-rate 40
+        track-layout "global"
+    }
+
+    mouse {
+        accel-speed 0.0
+    }
+}
+
+layout {
+    gaps 0
+
+    center-focused-column "never"
+
+    default-column-width {
+        proportion 1.0
+    }
+
+    preset-column-widths {
+        proportion 0.33333
+        proportion 0.5
+        proportion 0.66667
+    }
+
+    focus-ring {
+        off
+    }
+
+    border {
+        off
+    }
+
+    shadow {
+        off
+    }
+}
+
+// No client-side decorations
+prefer-no-csd
+
+window-rule {
+    match is-floating=true
+    border {
+        width 2
+        active-color "#81a2be"
+        inactive-color "#373b41"
+    }
+    shadow {
+        on
+        softness 15
+        spread 2
+        offset x=0 y=2
+        color "#00000066"
+    }
+    geometry-corner-radius 0
+}
+
+window-rule {
+    match is-floating=false
+    open-maximized true
+    border {
+        off
+    }
+    shadow {
+        off
+    }
+    geometry-corner-radius 0
+}
+
+window-rule {
+    match app-id=r#"^kitty$"#
+    open-on-workspace "1"
+}
+
+window-rule {
+    match app-id=r#"^(librewolf|LibreWolf)$"#
+    open-on-workspace "2"
+}
+
+window-rule {
+    match app-id=r#"^(org\.telegram\.desktop|TelegramDesktop)$"#
+    open-on-workspace "4"
+}
+
+window-rule {
+    match app-id=r#"^(discord|Discord)$"#
+    open-on-workspace "5"
+}
+
+window-rule {
+    match app-id=r#"^REAPER$"#
+    open-on-workspace "7"
+    variable-refresh-rate true
+}
+
+window-rule {
+    match app-id=r#"hyprland-run"#
+    open-floating true
+}
+
+window-rule {
+    match app-id=r#"thunar"# title=r#"File Operation Progress"#
+    open-floating true
+}
+
+spawn-at-startup "xwayland-satellite"
+spawn-at-startup "uwsm" "app" "--" "hyprpaper"
+spawn-at-startup "uwsm" "app" "--" "env" "QT_SCALE_FACTOR=2" "quickshell"
+spawn-at-startup "uwsm" "app" "--" "/usr/lib/polkit-kde-authentication-agent-1"
+spawn-at-startup "uwsm" "app" "--" "kitty"
+spawn-at-startup "uwsm" "app" "--" "librewolf"
+spawn-at-startup "uwsm" "app" "--" "telegram-desktop"
+
+binds {
+    // Application Launchers
+    Mod+Return { spawn "uwsm" "app" "--" "kitty"; }
+    Mod+E      { spawn "uwsm" "app" "--" "thunar"; }
+    Mod+R      { spawn "lantern"; }
+    Alt+Space  { spawn "lantern"; }
+    Mod+B      { spawn "uwsm" "app" "--" "librewolf"; }
+
+    // Quickshell Power Drawer
+    Mod+P { spawn "quickshell" "ipc" "call" "drawers" "toggle" "power"; }
+
+    // Window Actions
+    Mod+C repeat=false { close-window; }
+    Mod+V              { toggle-window-floating; }
+    Mod+Shift+V        { switch-focus-between-floating-and-tiling; }
+    Mod+F              { fullscreen-window; }
+    Mod+M              { maximize-column; }
+
+    // Column / Window Resizing & Layout Presets
+    Mod+J { switch-preset-column-width; }
+    Mod+Minus { set-column-width "-10%"; }
+    Mod+Equal { set-column-width "+10%"; }
+
+    // Keyboard Layout Switching
+    Mod+Space { switch-layout "next"; }
+
+    // Directional Navigation
+    Mod+Left  { focus-column-left; }
+    Mod+Right { focus-column-right; }
+    Mod+Up    { focus-window-up; }
+    Mod+Down  { focus-window-down; }
+    Mod+H     { focus-column-left; }
+    Mod+L     { focus-column-right; }
+    Mod+K     { focus-window-up; }
+
+    // Mouse Wheel Navigation with Mod (Super / Windows key)
+    // Horizontal navigation along ribbon with Keychron thumb wheel
+    Mod+WheelScrollRight      { focus-column-right; }
+    Mod+WheelScrollLeft       { focus-column-left; }
+    Mod+Ctrl+WheelScrollRight { move-column-right; }
+    Mod+Ctrl+WheelScrollLeft  { move-column-left; }
+
+    // Vertical workspace navigation with main mouse scroll wheel + Mod
+    Mod+WheelScrollDown      cooldown-ms=150 { focus-workspace-down; }
+    Mod+WheelScrollUp        cooldown-ms=150 { focus-workspace-up; }
+    Mod+Ctrl+WheelScrollDown cooldown-ms=150 { move-column-to-workspace-down; }
+    Mod+Ctrl+WheelScrollUp   cooldown-ms=150 { move-column-to-workspace-up; }
+
+    // Moving Columns and Windows
+    Mod+Ctrl+Left  { move-column-left; }
+    Mod+Ctrl+Right { move-column-right; }
+    Mod+Ctrl+Up    { move-window-up; }
+    Mod+Ctrl+Down  { move-window-down; }
+    Mod+Ctrl+H     { move-column-left; }
+    Mod+Ctrl+L     { move-column-right; }
+    Mod+Ctrl+K     { move-window-up; }
+    Mod+Ctrl+J     { move-window-down; }
+
+    // Workspace Switching: WIN + 1..9 (and 0 for 10)
+    Mod+1 { focus-workspace "1"; }
+    Mod+2 { focus-workspace "2"; }
+    Mod+3 { focus-workspace "3"; }
+    Mod+4 { focus-workspace "4"; }
+    Mod+5 { focus-workspace "5"; }
+    Mod+6 { focus-workspace "6"; }
+    Mod+7 { focus-workspace "7"; }
+    Mod+8 { focus-workspace "8"; }
+    Mod+9 { focus-workspace "9"; }
+    Mod+0 { focus-workspace "10"; }
+
+    // Moving Windows to Workspace: WIN + SHIFT + 1..9 (and 0 for 10)
+    Mod+Shift+1 { move-window-to-workspace "1"; }
+    Mod+Shift+2 { move-window-to-workspace "2"; }
+    Mod+Shift+3 { move-window-to-workspace "3"; }
+    Mod+Shift+4 { move-window-to-workspace "4"; }
+    Mod+Shift+5 { move-window-to-workspace "5"; }
+    Mod+Shift+6 { move-window-to-workspace "6"; }
+    Mod+Shift+7 { move-window-to-workspace "7"; }
+    Mod+Shift+8 { move-window-to-workspace "8"; }
+    Mod+Shift+9 { move-window-to-workspace "9"; }
+    Mod+Shift+0 { move-window-to-workspace "10"; }
+
+    // Special Workspace (Scratchpad) & Overview
+    Mod+S       { focus-workspace "magic"; }
+    Mod+Shift+S { move-window-to-workspace "magic"; }
+    Mod+O       { toggle-overview; }
+
+    // Media Keys
+    XF86AudioRaiseVolume allow-when-locked=true { spawn "wpctl" "set-volume" "-l" "1.0" "@DEFAULT_AUDIO_SINK@" "5%+"; }
+    XF86AudioLowerVolume allow-when-locked=true { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "5%-"; }
+    XF86AudioMute        allow-when-locked=true { spawn "wpctl" "set-mute" "@DEFAULT_AUDIO_SINK@" "toggle"; }
+    XF86AudioMicMute     allow-when-locked=true { spawn "wpctl" "set-mute" "@DEFAULT_AUDIO_SOURCE@" "toggle"; }
+    XF86MonBrightnessUp   allow-when-locked=true { spawn "brightnessctl" "-e4" "-n2" "set" "5%+"; }
+    XF86MonBrightnessDown allow-when-locked=true { spawn "brightnessctl" "-e4" "-n2" "set" "5%-"; }
+    XF86AudioNext        allow-when-locked=true { spawn "playerctl" "next"; }
+    XF86AudioPause       allow-when-locked=true { spawn "playerctl" "play-pause"; }
+    XF86AudioPlay        allow-when-locked=true { spawn "playerctl" "play-pause"; }
+    XF86AudioPrev        allow-when-locked=true { spawn "playerctl" "previous"; }
+
+    // Screenshots
+    Print          { spawn "screenshot" "full-copy"; }
+    Alt+Print      { spawn "screenshot" "region-copy"; }
+    Ctrl+Print     { spawn "screenshot" "full-save"; }
+    Ctrl+Alt+Print { spawn "screenshot" "region-save"; }
+
+    // Session Management
+    Mod+Shift+E     { quit; }
+    Ctrl+Alt+Delete { quit; }
+}

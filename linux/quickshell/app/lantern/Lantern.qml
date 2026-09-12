@@ -233,7 +233,6 @@ PanelWindow {
                                 hoverEnabled: true
                                 cursorShape: Qt.PointingHandCursor
 
-                                onEntered: root.selectedIndex = index
                                 onClicked: Services.Lantern.launch(modelData)
 
                                 Rectangle {

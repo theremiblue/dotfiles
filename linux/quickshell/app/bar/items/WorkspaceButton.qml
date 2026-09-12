@@ -1,7 +1,7 @@
-import Quickshell.Hyprland
 import QtQuick
 import qs.config as Config
 import qs.ui.primitives as UIPrimitives
+import qs.services as Services
 
 UIPrimitives.IconButton {
     id: root
@@ -52,12 +52,7 @@ UIPrimitives.IconButton {
     }
 
     function focusWorkspace() {
-        if (Hyprland.usingLua) {
-            Hyprland.dispatch('hl.dsp.focus({ workspace = "' + root.wsId + '" })');
-            return;
-        }
-
-        Hyprland.dispatch("workspace " + root.wsId);
+        Services.Niri.focusWorkspace(root.wsId);
     }
 
     implicitWidth: Config.Theme.workspaceWidth

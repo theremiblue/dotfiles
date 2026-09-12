@@ -88,8 +88,11 @@ verify_mime_associations() {
 make_desktop_noscale_override() {
     local desktop_id="$1"
     local app_cmd="$2"
+    local app_env="${3:-QT_SCALE_FACTOR=1 GDK_SCALE=1}"
     local src=""
     local dst="$HOME/.local/share/applications/$desktop_id"
+
+    echo "Creating no-scale desktop override: $desktop_id -> env $app_env $app_cmd"
 
     mkdir -p "$HOME/.local/share/applications"
 
@@ -106,13 +109,25 @@ make_desktop_noscale_override() {
 
     # Replace only non-action Exec lines. Leave Desktop Actions alone for now.
     sed -i \
-    -e "/^\[Desktop Entry\]/,/^\[/ s|^Exec=.*|Exec=env QT_SCALE_FACTOR=1 GDK_SCALE=1 $app_cmd %U|" \
+    -e "/^\[Desktop Entry\]/,/^\[/ s|^Exec=.*|Exec=env $app_env $app_cmd %U|" \
     "$dst"
+
+    echo "Installed no-scale override at $dst"
 
     update-desktop-database "$HOME/.local/share/applications" >/dev/null 2>&1 || true
 }
 
-lnk "linux/hypr" "$HOME/.config/hypr"
+refresh_lantern_index() {
+    echo "Refreshing Lantern application index..."
+
+    if quickshell ipc call lantern refresh >/dev/null 2>&1; then
+        echo "Lantern application index refreshed."
+    else
+        echo "Lantern application index refresh skipped; Quickshell IPC is unavailable." >&2
+    fi
+}
+
+lnk "linux/niri" "$HOME/.config/niri"
 lnk "linux/quickshell" "$HOME/.config/quickshell"
 lnk "linux/uwsm" "$HOME/.config/uwsm"
 lnk "linux/fontconfig" "$HOME/.config/fontconfig"
@@ -125,3 +140,18 @@ verify_mime_associations
 make_desktop_noscale_override \
   org.strawberrymusicplayer.strawberry.desktop \
   strawberry
+
+make_desktop_noscale_override \
+  com.obsproject.Studio.desktop \
+  obs
+
+make_desktop_noscale_override \
+  calibre-gui.desktop \
+  "calibre --detach"
+
+make_desktop_noscale_override \
+  org.rncbc.qpwgraph.desktop \
+  qpwgraph \
+  "QT_QPA_PLATFORM=xcb QT_SCALE_FACTOR=1 QT_AUTO_SCREEN_SCALE_FACTOR=0 QT_ENABLE_HIGHDPI_SCALING=0 QT_SCREEN_SCALE_FACTORS=1 QT_FONT_DPI=96 GDK_SCALE=1"
+
+refresh_lantern_index

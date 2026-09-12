@@ -3,6 +3,7 @@ set -euo pipefail
 
 field_separator=$'\037'
 seen_dirs=":"
+seen_desktop_ids=":"
 seen_icon_dirs=":"
 
 append_icon_dir() {
@@ -192,8 +193,17 @@ for dir in "${data_dirs[@]}"; do
 done
 
 for dir in "${app_dirs[@]}"; do
-  find "$dir" -type f -name "*.desktop" -print 2>/dev/null
-done | sort -u | while IFS= read -r file; do
+  while IFS= read -r file; do
+    desktop_id="${file##*/}"
+
+    case "$seen_desktop_ids" in
+      *:"$desktop_id":*) continue ;;
+    esac
+
+    seen_desktop_ids="$seen_desktop_ids$desktop_id:"
+    printf '%s\n' "$file"
+  done < <(find "$dir" -type f -name "*.desktop" -print 2>/dev/null | sort -f)
+done | while IFS= read -r file; do
   desktop_field "$file"
 done | while IFS="$field_separator" read -r file name generic comment icon; do
   icon_path="$(resolve_icon "$icon")"

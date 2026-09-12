@@ -1,5 +1,4 @@
 import Quickshell
-import Quickshell.Hyprland
 import QtQuick
 import QtQuick.Layouts
 
@@ -17,13 +16,7 @@ ScratchDrawer {
 
     function logout() {
         root.dismiss();
-
-        if (Hyprland.usingLua) {
-            Hyprland.dispatch("hl.dsp.exit()");
-            return;
-        }
-
-        Hyprland.dispatch("exit");
+        Services.Niri.logout();
     }
 
     drawerType: Services.Drawers.power

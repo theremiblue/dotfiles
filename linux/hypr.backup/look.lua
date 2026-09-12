@@ -1,14 +1,42 @@
+local props = require("props")
+
+-- Global variable or props setting controls rounded borders and gaps
+local gaps_and_rounding = _G.gaps_and_rounding
+if gaps_and_rounding == nil then
+    gaps_and_rounding = props.gaps_and_rounding
+end
+
+local enabled = gaps_and_rounding == true or type(gaps_and_rounding) == "table"
+local gaps_in = 0
+local gaps_out = 0
+local rounding = 0
+local border_size = 0
+
+if enabled then
+    if type(gaps_and_rounding) == "table" then
+        gaps_in = gaps_and_rounding.gaps_in or 4
+        gaps_out = gaps_and_rounding.gaps_out or 8
+        rounding = gaps_and_rounding.rounding or 8
+        border_size = gaps_and_rounding.border_size or 2
+    else
+        gaps_in = 4
+        gaps_out = 8
+        rounding = 8
+        border_size = 2
+    end
+end
+
 -- Refer to https://wiki.hypr.land/Configuring/Basics/Variables/
 hl.config({
     general = {
-        gaps_in  = 4,
-        gaps_out = 8,
+        gaps_in  = gaps_in,
+        gaps_out = gaps_out,
 
-        border_size = 2,
+        border_size = border_size,
 
         resize_on_border = false,
 
-        allow_tearing = false,
+        allow_tearing = true,
 
         col = {
             active_border   = "rgba(81a2beee)",
@@ -29,7 +57,7 @@ hl.config({
     },
 
     decoration = {
-        rounding       = 8,
+        rounding       = rounding,
         rounding_power = 2,
 
         -- Change transparency of focused and unfocused windows
@@ -37,7 +65,10 @@ hl.config({
         inactive_opacity = 1.0,
 
         shadow = {
-            enabled = false,
+            enabled      = true,
+            range        = 6,
+            render_power = 2,
+            color        = "rgba(00000066)",
         },
 
         blur = {
@@ -74,6 +105,10 @@ hl.config({
 
     scrolling = {
         fullscreen_on_one_column = true,
+    },
+
+    render = {
+        direct_scanout = true,
     },
 })
 

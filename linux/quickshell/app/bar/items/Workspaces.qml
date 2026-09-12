@@ -1,63 +1,37 @@
 import Quickshell
-import Quickshell.Hyprland
 import QtQuick
 import QtQuick.Layouts
 import qs.config as Config
+import qs.services as Services
 
 Item {
     id: root
 
     required property ShellScreen screen
 
-    readonly property int activeWsId: currentWorkspaceId()
+    readonly property int activeWsId: Services.Niri.activeWorkspaceId
     readonly property var workspaceIds: visibleWorkspaceIds()
-
-    function currentWorkspaceId() {
-        const monitor = Hyprland.monitorFor(screen);
-
-        if (monitor && monitor.activeWorkspace) {
-            return monitor.activeWorkspace.id;
-        }
-
-        if (Hyprland.focusedWorkspace) {
-            return Hyprland.focusedWorkspace.id;
-        }
-
-        return 1;
-    }
 
     function visibleWorkspaceIds() {
         const ids = [1, 2, 3, 4];
-        const workspaces = Hyprland.workspaces.values;
+        const workspaces = Services.Niri.workspaces;
 
-        for (const workspace of workspaces) {
-            if (workspace.id > Config.Theme.minWorkspaceCount
-             && (workspaceWindowCount(workspace) > 0 || workspace.id === activeWsId)) {
-                ids.push(workspace.id);
+        for (let i = 0; i < workspaces.length; i++) {
+            const ws = workspaces[i];
+            const num = ws.idx !== undefined ? ws.idx : ws.id;
+            if (num > Config.Theme.minWorkspaceCount
+             && (Services.Niri.isWorkspaceOccupied(num) || num === activeWsId)) {
+                if (!ids.includes(num)) {
+                    ids.push(num);
+                }
             }
         }
 
         return ids.sort((a, b) => a - b);
     }
 
-    function workspaceWindowCount(workspace) {
-        if (workspace.lastIpcObject && workspace.lastIpcObject.windows) {
-            return workspace.lastIpcObject.windows;
-        }
-
-        return 0;
-    }
-
     function workspaceOccupied(id) {
-        const workspaces = Hyprland.workspaces.values;
-
-        for (const workspace of workspaces) {
-            if (workspace.id === id) {
-                return workspaceWindowCount(workspace) > 0;
-            }
-        }
-
-        return false;
+        return Services.Niri.isWorkspaceOccupied(id);
     }
 
     implicitWidth: workspaceLayout.implicitWidth

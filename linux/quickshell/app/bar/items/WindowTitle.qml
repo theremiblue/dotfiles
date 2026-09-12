@@ -1,5 +1,4 @@
 import Quickshell
-import Quickshell.Hyprland
 import QtQuick
 
 import qs.config as Config
@@ -12,13 +11,7 @@ MouseArea {
     required property ShellScreen screen
     required property var drawerLayer
 
-    readonly property string title: {
-        if (Hyprland.activeToplevel) {
-            return Hyprland.activeToplevel.title
-        }
-
-        return "Desktop"
-    }
+    readonly property string title: Services.Niri.focusedWindowTitle || "Desktop"
 
     implicitHeight: Config.Theme.barHeight
     hoverEnabled: true
