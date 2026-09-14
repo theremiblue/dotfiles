@@ -88,6 +88,9 @@
     "agent_ui_font_size": 16,
 
     // Editor
+    "tabs": {
+        "close_position": "left",
+    },
     "autosave": "off",
     "current_line_highlight": "all",
     "format_on_save": "off",
