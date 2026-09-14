@@ -1,24 +1,19 @@
 # dotfiles
 
-My dotfiles.
-Currently for  Linux, MacOS, Windows (Git Bash).
-
 ### Setup
 
-I assume `bash` and `git` are installed on every system.
+I assume `bash` and `git` are installed on the system.
 
 ```bash
-git clone ssh://git@codeberg.org/remiblue/dotfiles.git ~/dotfiles
+git clone https://github.com/theremiblue/dotfiles.git ~/dotfiles
 cd ~/dotfiles
 
 ./packages.sh
 ./setup.sh
 ```
 
-It's important to install packages before running `setup.sh`,
-it depends on some.
-
-You can install linux desktop with `./setup.sh --desktop`
+Additionally, you can install linux desktop config with `./setup.sh --desktop`.
+Reference the [linux](./linux/README.md) folder for details.
 
 Setup logs:
 - `+ name` - added or changed `name`
@@ -30,11 +25,10 @@ If it's hard to read - time for edit.
 
 ### Local shell config
 
-Put your machine shell configuration under `.posix-profile`.
+Put your machine shell configuration under `~/.posix-profile`.
+Don't edit `.zshrc`, `.bashrc`, etc.
 
-Don't edit `.zshrc` or `.bashrc`.
-
-### Windows notes
+### Additional notes
 
 - Symlinks on Windows Git Bash require Developer Mode
   enabled (Settings > Developer settings). Do that before clonning repo.
