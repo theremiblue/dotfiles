@@ -26,6 +26,9 @@
 
 - NuPhy IO only works on chromium :(
 
+- System-wide scaling - study niri and do the best practices
+    - Currently, too much overrides - per-app in desktop.sh, quickshell, environment, etc
+
 # Other
 - Customize themes everywhere
 - Pick the best fonts

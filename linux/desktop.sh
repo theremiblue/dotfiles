@@ -3,7 +3,7 @@
 DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 . "$DOTFILES_DIR/scripts/setup-lib.sh"
 
-# TODO: do we want to setup packages here or not?
+"$DOTFILES_DIR/linux/packages.sh" "$@"
 set_mime_associations() {
     echo "Setting MIME associations..."
 
@@ -131,6 +131,7 @@ lnk "linux/niri" "$HOME/.config/niri"
 lnk "linux/quickshell" "$HOME/.config/quickshell"
 lnk "linux/uwsm" "$HOME/.config/uwsm"
 lnk "linux/fontconfig" "$HOME/.config/fontconfig"
+"$DOTFILES_DIR/scripts/linux/install-fonts"
 
 lnk "resources/wallpaper.jpg" "$HOME/.config/wallpapers/main.jpg"
 
