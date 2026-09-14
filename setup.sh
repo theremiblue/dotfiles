@@ -1,10 +1,10 @@
 #!/bin/bash
 
-# Not set until this setup
-# Other scripts can rely on the env var
+# Assuming not set until this setup
+# Other scripts in repository can rely on the env var
 DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-# Detect only systems with specific configuration
+# Detect only supported systems
 macos=
 linux=
 windows=
@@ -38,7 +38,6 @@ lnk_tree "$DOTFILES_DIR/zed/themes" "$HOME/.config/zed/themes"
 if [ -z "$windows" ]; then
     lnk "kitty" "$HOME/.config/kitty"
     lnk "tmux" "$HOME/.config/tmux"
-    # TODO: keep zshrc and bashrc thin wrappers around .posix-profile?
     lnk "zsh/.zshrc" "$HOME/.zshrc"
 fi
 
