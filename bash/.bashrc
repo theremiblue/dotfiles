@@ -11,4 +11,3 @@ source "$DOTFILES_DIR/shell/.profile"
 
 command -v starship &>/dev/null && eval "$(starship init bash)"
 command -v direnv &>/dev/null && eval "$(direnv hook bash)"
-source "$HOME/.cargo/env"
