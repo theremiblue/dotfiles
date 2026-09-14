@@ -91,7 +91,3 @@ if [ -n "$windows" ]; then
 
     bash "$DOTFILES_DIR/windows/fix-windows-terminal.sh"
 fi
-
-section "ai"
-
-bash "$DOTFILES_DIR/ai/setup.sh"
