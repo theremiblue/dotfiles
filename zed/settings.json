@@ -153,8 +153,8 @@
         "model_parameters": [],
     },
     "agent_servers": {
-        "gemini": {
-            "type": "registry",
+        "antigravity-acp": {
+            "type": "registry"
         },
         "opencode": {
             "type": "registry",

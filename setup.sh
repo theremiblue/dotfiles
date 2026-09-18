@@ -77,6 +77,8 @@ git_config_add_once "$HOME/.gitconfig" \
 
 "$DOTFILES_DIR/git/install-delta.sh"
 
+bash "$DOTFILES_DIR/ai/setup.sh"
+
 if [ -n "$linux" ]; then
     if [ "$1" = "--desktop" ]; then
         section "linux"
