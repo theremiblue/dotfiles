@@ -1,4 +1,16 @@
 # Remaining
+
+- System-wide scaling - study niri and do the best practices
+    - Currently, too much overrides - per-app in desktop.sh, quickshell, environment, etc
+- [ ] Remove UWSM and migrate to native niri-session + systemd
+    - Niri natively provides systemd session management (`niri-session`, `niri.service`, `niri-shutdown.target`), auto-imports environment variables, and activates `graphical-session.target`. UWSM is redundant overhead and clutters binds/autostarts with `uwsm app --`. Environment belongs in `~/.config/environment.d/` and daemons belong in systemd user units.
+- [ ] Check Nvidia VRAM usage and apply driver profile fix: https://niri-wm.github.io/niri/Nvidia.html
+    - Workaround for driver quirk where Niri leaks buffer pool memory (~1 GiB instead of ~100 MiB). Configured via `GLVidHeapReuseRatio=0` profile in `/etc/nvidia/nvidia-application-profiles-rc.d/`.
+- [ ] I'm missing deep understanding of systemd
+- [ ] Missing understanding of portals
+- [ ] Setup screencasting with niri
+    - Do not forget to block out some windows, good feature
+
 - [ ] clipboard tool
 
 - Software
@@ -25,9 +37,6 @@
 - Screenshot is not pasted to browser
 
 - NuPhy IO only works on chromium :(
-
-- System-wide scaling - study niri and do the best practices
-    - Currently, too much overrides - per-app in desktop.sh, quickshell, environment, etc
 
 # Other
 - Customize themes everywhere

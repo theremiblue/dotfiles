@@ -85,6 +85,7 @@ verify_mime_associations() {
     xdg-mime query default audio/flac
 }
 
+# TODO: this function ideally shouldn't exist
 make_desktop_noscale_override() {
     local desktop_id="$1"
     local app_cmd="$2"
