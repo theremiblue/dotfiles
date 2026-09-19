@@ -213,7 +213,7 @@ Singleton {
         }
 
         hide();
-        Quickshell.execDetached(["env", "-u", "QT_SCALE_FACTOR", "gio", "launch", app.path]);
+        Quickshell.execDetached(["gio", "launch", app.path]);
     }
 
     function refresh() {

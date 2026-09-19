@@ -140,7 +140,7 @@ window-rule {
     open-floating true
 }
 
-spawn-at-startup "env" "QT_SCALE_FACTOR=2" "quickshell"
+spawn-at-startup "quickshell"
 spawn-at-startup "/usr/lib/polkit-kde-authentication-agent-1"
 spawn-at-startup "kitty"
 spawn-at-startup "librewolf"

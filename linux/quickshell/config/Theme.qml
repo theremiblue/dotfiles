@@ -30,20 +30,20 @@ QtObject {
     readonly property color barUrgent: base08
     readonly property color bluetoothAccent: "#0082fc"
 
-    readonly property int barHeight: 18
-    readonly property int fontSize: 10
-    readonly property int smallFontSize: 10
-    readonly property int padding: 4
-    readonly property int spacing: 4
-    readonly property int statusIconSize: 14
-    readonly property int statusIconSpacing: 2
-    readonly property int workspaceWidth: 16
-    readonly property int notificationWidth: 256
+    readonly property int barHeight: 36
+    readonly property int fontSize: 20
+    readonly property int smallFontSize: 18
+    readonly property int padding: 8
+    readonly property int spacing: 8
+    readonly property int statusIconSize: 28
+    readonly property int statusIconSpacing: 4
+    readonly property int workspaceWidth: 32
+    readonly property int notificationWidth: 512
     readonly property int notificationTimeout: 5000
     readonly property int animationDurationShort: 120
     readonly property int animationDurationNormal: 180
     readonly property int animationDurationLong: 300
-    readonly property int panelShadowSize: 14
+    readonly property int panelShadowSize: 28
     readonly property color panelShadowColor: "#000000"
     readonly property real panelShadowOuterOpacity: 0.08
     readonly property real panelShadowMiddleOpacity: 0.12

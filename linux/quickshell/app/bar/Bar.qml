@@ -16,7 +16,7 @@ Item {
 
     readonly property int position: Bar.BarConfig.position
     readonly property int implicitSize: Bar.BarConfig.size
-    readonly property int archHoverGlowHeight: 14
+    readonly property int archHoverGlowHeight: 28
 
     readonly property bool vertical: Bar.BarConfig.isVertical(position)
     readonly property bool horizontal: !vertical

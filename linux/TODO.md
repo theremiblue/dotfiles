@@ -1,9 +1,5 @@
 # Remaining
 
-- System-wide scaling - study niri and do the best practices
-    - Currently, too much overrides - per-app in desktop.sh, quickshell, environment, etc
-- [ ] Check Nvidia VRAM usage and apply driver profile fix: https://niri-wm.github.io/niri/Nvidia.html
-    - Workaround for driver quirk where Niri leaks buffer pool memory (~1 GiB instead of ~100 MiB). Configured via `GLVidHeapReuseRatio=0` profile in `/etc/nvidia/nvidia-application-profiles-rc.d/`.
 - [ ] I'm missing deep understanding of systemd
 - [ ] Missing understanding of portals
 - [ ] Setup screencasting with niri

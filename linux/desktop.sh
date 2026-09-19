@@ -85,38 +85,6 @@ verify_mime_associations() {
     xdg-mime query default audio/flac
 }
 
-# TODO: this function ideally shouldn't exist
-make_desktop_noscale_override() {
-    local desktop_id="$1"
-    local app_cmd="$2"
-    local app_env="${3:-QT_SCALE_FACTOR=1 GDK_SCALE=1}"
-    local src=""
-    local dst="$HOME/.local/share/applications/$desktop_id"
-
-    echo "Creating no-scale desktop override: $desktop_id -> env $app_env $app_cmd"
-
-    mkdir -p "$HOME/.local/share/applications"
-
-    if [[ -f "/usr/share/applications/$desktop_id" ]]; then
-        src="/usr/share/applications/$desktop_id"
-    elif [[ -f "$HOME/.local/share/applications/$desktop_id" ]]; then
-        src="$HOME/.local/share/applications/$desktop_id"
-    else
-        echo "Missing desktop file: $desktop_id" >&2
-        return 1
-    fi
-
-    cp "$src" "$dst"
-
-    # Replace only non-action Exec lines. Leave Desktop Actions alone for now.
-    sed -i \
-    -e "/^\[Desktop Entry\]/,/^\[/ s|^Exec=.*|Exec=env $app_env $app_cmd %U|" \
-    "$dst"
-
-    echo "Installed no-scale override at $dst"
-
-    update-desktop-database "$HOME/.local/share/applications" >/dev/null 2>&1 || true
-}
 
 refresh_lantern_index() {
     echo "Refreshing Lantern application index..."
@@ -137,22 +105,5 @@ lnk "resources/wallpaper.jpg" "$HOME/.config/wallpapers/main.jpg"
 
 set_mime_associations
 verify_mime_associations
-
-make_desktop_noscale_override \
-  org.strawberrymusicplayer.strawberry.desktop \
-  strawberry
-
-make_desktop_noscale_override \
-  com.obsproject.Studio.desktop \
-  obs
-
-make_desktop_noscale_override \
-  calibre-gui.desktop \
-  "calibre --detach"
-
-make_desktop_noscale_override \
-  org.rncbc.qpwgraph.desktop \
-  qpwgraph \
-  "QT_QPA_PLATFORM=xcb QT_SCALE_FACTOR=1 QT_AUTO_SCREEN_SCALE_FACTOR=0 QT_ENABLE_HIGHDPI_SCALING=0 QT_SCREEN_SCALE_FACTORS=1 QT_FONT_DPI=96 GDK_SCALE=1"
 
 refresh_lantern_index

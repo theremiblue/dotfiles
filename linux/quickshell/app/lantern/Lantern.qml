@@ -13,7 +13,7 @@ PanelWindow {
     readonly property int edgeMargin: Config.Theme.padding * 4
     readonly property int panelWidth: Math.min(720, Math.round(screen.width * 0.48))
     readonly property int panelTop: Math.round(screen.height * 0.16)
-    readonly property int appIconSize: 20
+    readonly property int appIconSize: 40
     readonly property real dimOpacity: 0.42
     readonly property var results: Services.Lantern.search(searchInput.text)
 

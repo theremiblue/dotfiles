@@ -29,13 +29,13 @@ UIPrimitives.IconButton {
 
     Rectangle {
         anchors.right: parent.right
-        anchors.rightMargin: 1
+        anchors.rightMargin: 2
         anchors.top: parent.top
-        anchors.topMargin: 1
+        anchors.topMargin: 2
 
         visible: root.notificationCount > 0
-        width: Math.max(10, countText.implicitWidth + 4)
-        height: 10
+        width: Math.max(20, countText.implicitWidth + 8)
+        height: 20
         radius: height / 2
         color: Config.Theme.base08
 
@@ -46,7 +46,7 @@ UIPrimitives.IconButton {
 
             text: root.notificationCount > 9 ? "9+" : root.notificationCount.toString()
             color: Config.Theme.base07
-            font.pixelSize: 7
+            font.pixelSize: 14
         }
     }
 

@@ -40,7 +40,7 @@ UIPrimitives.Drawer {
             anchors.right: parent.right
             anchors.verticalCenter: parent.verticalCenter
 
-            height: 4
+            height: 8
             radius: height / 2
             color: Config.Theme.base02
         }
@@ -50,7 +50,7 @@ UIPrimitives.Drawer {
             anchors.verticalCenter: parent.verticalCenter
 
             width: Math.round(parent.width * slider.value / 100)
-            height: 4
+            height: 8
             radius: height / 2
             color: Services.Sound.outputMuted ? Config.Theme.barMuted : Config.Theme.base0C
 
@@ -63,8 +63,8 @@ UIPrimitives.Drawer {
         }
 
         Rectangle {
-            width: 12
-            height: 12
+            width: 24
+            height: 24
             radius: height / 2
             x: Math.round((slider.width - width) * slider.value / 100)
             anchors.verticalCenter: parent.verticalCenter
