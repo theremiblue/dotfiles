@@ -5,7 +5,6 @@ pacman_packages=(
     hyprpaper # TODO: migrate to something different
     niri
     polkit-kde-agent # TODO: figure out why we use it now
-    uwsm
     # TODO: double-check the packages below
     xdg-desktop-portal
     xdg-desktop-portal-gnome

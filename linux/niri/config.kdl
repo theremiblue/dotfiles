@@ -5,6 +5,18 @@ output "DP-1" {
     scale 1.5
 }
 
+environment {
+    XCURSOR_SIZE "24"
+    HYPRCURSOR_SIZE "24"
+    QT_QPA_PLATFORM "wayland;xcb"
+    SDL_VIDEODRIVER "wayland,x11"
+    CLUTTER_BACKEND "wayland,x11"
+    QT_WAYLAND_DISABLE_WINDOWDECORATION "1"
+    MOZ_ENABLE_WAYLAND "1"
+    ELECTRON_OZONE_PLATFORM_HINT "auto"
+    LIBVA_DRIVER_NAME "nvidia"
+}
+
 // TODO: remove static workspaces
 workspace "1"
 workspace "2"
@@ -128,21 +140,19 @@ window-rule {
     open-floating true
 }
 
-spawn-at-startup "xwayland-satellite"
-spawn-at-startup "uwsm" "app" "--" "hyprpaper"
-spawn-at-startup "uwsm" "app" "--" "env" "QT_SCALE_FACTOR=2" "quickshell"
-spawn-at-startup "uwsm" "app" "--" "/usr/lib/polkit-kde-authentication-agent-1"
-spawn-at-startup "uwsm" "app" "--" "kitty"
-spawn-at-startup "uwsm" "app" "--" "librewolf"
-spawn-at-startup "uwsm" "app" "--" "telegram-desktop"
+spawn-at-startup "env" "QT_SCALE_FACTOR=2" "quickshell"
+spawn-at-startup "/usr/lib/polkit-kde-authentication-agent-1"
+spawn-at-startup "kitty"
+spawn-at-startup "librewolf"
+spawn-at-startup "telegram-desktop"
 
 binds {
     // Application Launchers
-    Mod+Return { spawn "uwsm" "app" "--" "kitty"; }
-    Mod+E      { spawn "uwsm" "app" "--" "thunar"; }
+    Mod+Return { spawn "kitty"; }
+    Mod+E      { spawn "thunar"; }
     Mod+R      { spawn "lantern"; }
     Alt+Space  { spawn "lantern"; }
-    Mod+B      { spawn "uwsm" "app" "--" "librewolf"; }
+    Mod+B      { spawn "librewolf"; }
 
     // Quickshell Power Drawer
     Mod+P { spawn "quickshell" "ipc" "call" "drawers" "toggle" "power"; }

@@ -130,7 +130,6 @@ refresh_lantern_index() {
 
 lnk "linux/niri" "$HOME/.config/niri"
 lnk "linux/quickshell" "$HOME/.config/quickshell"
-lnk "linux/uwsm" "$HOME/.config/uwsm"
 lnk "linux/fontconfig" "$HOME/.config/fontconfig"
 "$DOTFILES_DIR/scripts/linux/install-fonts"
 
