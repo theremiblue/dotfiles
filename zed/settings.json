@@ -1,205 +1,226 @@
-// Zed settings
-//
-// For information on how to configure Zed, see the Zed
-// documentation: https://zed.dev/docs/configuring-zed
-//
-// To see all of Zed's default settings without changing your
-// custom settings, run `zed: open default settings` from the
-// command palette (cmd-shift-p / ctrl-shift-p)
 {
-    // General
     "telemetry": {
         "diagnostics": false,
-        "metrics": false,
+        "metrics": false
     },
     "auto_update": false,
-    "auto_install_extensions": {
-        "assembly": true,
-        "awk": true,
-        "bash": true,
-        "elixir": true,
-        "glsl": true,
-        "hlsl": true,
-        "html": true,
-        "java": true,
-        "kotlin": true,
-        "lua": true,
-        "make": true,
-        "neocmake": true,
-        "nix": true,
-        "objective-c": true,
-        "perl": true,
-        "php": true,
-        "sql": true,
-        "toml": true,
-        "zig": true,
-    },
 
-    // UI & Appearance
     "theme": "Base16 Tomorrow Night",
     "icon_theme": "Colored Zed Icons Theme Dark",
-    "title_bar": {
-        "show_project_items": true,
-        "show_branch_name": true,
-        "show_onboarding_banner": false,
-        "show_user_picture": true,
-        "show_user_menu": true,
-        "show_sign_in": true,
-        "show_menus": false,
-    },
-    "project_panel": {
-        "button": true,
-        "default_width": 240,
-        "indent_size": 24,
-        "dock": "right",
-        "starts_open": false,
-    },
-    "gutter": {
-        "line_numbers": true,
-        "min_line_number_digits": 6,
-    },
-    "line_indicator_format": "short",
-    "pane_split_direction_horizontal": "down",
-    "pane_split_direction_vertical": "right",
-    "preview_tabs": {
-        "enable_preview_from_project_panel": false,
-        "enabled": false,
-    },
-    "max_tabs": 4,
-
-    // Fonts
-    "ui_font_family": "Inter",
-    "ui_font_weight": 400,
+    "ui_font_family": "IBM Plex Mono",
     "ui_font_size": 16,
-    "buffer_font_family": "0xProto NL",
+    "ui_font_features": {
+        "liga": false,
+        "calt": false,
+        "dlig": false,
+        "clig": false
+    },
+    "buffer_font_family": "IBM Plex Mono",
     "buffer_font_size": 16,
-    "buffer_font_weight": 400,
     "buffer_line_height": "comfortable",
     "buffer_font_features": {
         "liga": false,
         "calt": false,
         "dlig": false,
-    },
-    "terminal": {
-        "font_family": "0xProto NL",
-        "font_size": 16,
-        "line_height": "comfortable",
+        "clig": false
     },
     "agent_ui_font_size": 16,
-
-    // Editor
-    "tabs": {
-        "close_position": "left",
-    },
-    "autosave": "off",
-    "current_line_highlight": "all",
-    "format_on_save": "off",
-    "hard_tabs": false,
-    "line_ending": "prefer_lf",
-    "relative_line_numbers": "enabled",
-    "remove_trailing_whitespace_on_save": true,
-    "scroll_beyond_last_line": "off",
-    "show_whitespaces": "none",
-    "show_wrap_guides": false,
-    "soft_wrap": "none",
-    "tab_size": 4,
-    "use_on_type_format": false,
-    "use_smartcase_search": true,
-    "vertical_scroll_margin": 16,
-    "cursor_blink": false,
-    "cursor_shape": null,
-    "indent_guides": {
-        "enabled": false,
+    "terminal": {
+        "font_family": "IBM Plex Mono",
+        "font_size": 16,
+        "line_height": "comfortable",
+        "font_features": {
+            "liga": false,
+            "calt": false,
+            "dlig": false,
+            "clig": false
+        }
     },
 
-    // Keymaps & Vim
-    "base_keymap": "JetBrains",
-    "vim_mode": true,
-    "vim": {
-        "use_smartcase_find": true,
-        "toggle_relative_line_numbers": true,
+    "close_panel_on_toggle": true,
+    "project_panel": {
+        "dock": "right",
+        "default_width": 240,
+        "indent_size": 24,
+        "starts_open": false
     },
-
-    // AI & Agents
-    "edit_predictions": {
-        "provider": "zed",
-        "mode": "subtle",
+    "git_panel": {
+        "dock": "right",
+        "starts_open": false
     },
-    "agent": {
-        "default_profile": "ask",
-        "inline_assistant_model": {
-            "provider": "google",
-            "model": "gemini-3.5-flash",
-        },
-        "default_model": {
-            "provider": "google",
-            "model": "gemini-3.1-pro-preview",
-            "enable_thinking": true,
-            "effort": "high",
-        },
-        "thread_summary_model": {
-            "provider": "google",
-            "model": "gemini-3.5-flash",
-        },
-        "commit_message_model": {
-            "provider": "google",
-            "model": "gemini-3.5-flash",
-        },
-        "subagent_model": {
-            "provider": "google",
-            "model": "gemini-3.5-flash",
-        },
-        "favorite_models": [],
-        "model_parameters": [],
+    "outline_panel": {
+        "dock": "right",
+        "starts_open": false
     },
-    "agent_servers": {
-        "antigravity-acp": {
-            "type": "registry"
-        },
-        "opencode": {
-            "type": "registry",
-        },
-        "codex-acp": {
-            "type": "registry",
-        },
+    "collaboration_panel": {
+        "dock": "right"
     },
-
-    // Tools
+    "title_bar": {
+        "show_onboarding_banner": false,
+        "show_menus": false
+    },
+    "tab_bar": {
+        "show": false
+    },
     "diagnostics": {
         "button": false,
         "inline": {
-            "enabled": false,
-        },
+            "enabled": true
+        }
     },
     "search": {
-        "button": false,
-        "case_sensitive": false,
-        "center_on_match": true,
-        "include_ignored": false,
-        "regex": false,
-        "whole_word": false,
-    },
-    "git": {
-        "inline_blame": {
-            "enabled": false,
-        },
+        "button": false
     },
 
-    // Languages
+    "vim_mode": true,
+    "vim": {
+        "use_system_clipboard": "never",
+        "use_smartcase_find": true,
+        "toggle_relative_line_numbers": true
+    },
+    "relative_line_numbers": "enabled",
+    "gutter": {
+        "min_line_number_digits": 6
+    },
+    "line_indicator_format": "short",
+    "preferred_line_length": 80,
+    "soft_wrap": "none",
+    "show_wrap_guides": false,
+    "indent_guides": {
+        "enabled": false
+    },
+    "scroll_beyond_last_line": "off",
+    "vertical_scroll_margin": 16,
+    "cursor_blink": false,
+    "autosave": "off",
+    "format_on_save": "on",
+    "remove_trailing_whitespace_on_save": true,
+    "use_on_type_format": false,
+    "diff_view_style": "unified",
+
+    "edit_predictions": {
+        "allow_data_collection": "no",
+        "provider": "zed",
+        "mode": "subtle"
+    },
+    "agent": {
+        "tool_permissions": {
+            "tools": {
+                "terminal": {
+                    "always_allow": [
+                        {
+                            "pattern": "^git\\s+ls-remote(\\s|$)"
+                        },
+                        {
+                            "pattern": "^tail\\b"
+                        },
+                        {
+                            "pattern": "^cmake\\b"
+                        },
+                        {
+                            "pattern": "^find\\s+\\.build/cmake/_deps(\\s|$)"
+                        },
+                        {
+                            "pattern": "^head\\b"
+                        },
+                        {
+                            "pattern": "^grep\\b"
+                        }
+                    ]
+                }
+            }
+        },
+        "dock": "right",
+        "use_modifier_to_send": true,
+        "terminal_init_command": "agy",
+        "default_profile": "write",
+        "inline_assistant_model": {
+            "provider": "google",
+            "model": "gemini-3.5-flash"
+        },
+        "default_model": {
+            "effort": "high",
+            "provider": "openrouter",
+            "model": "deepseek/deepseek-v4.1-flash-1017",
+            "enable_thinking": true
+        },
+        "favorite_models": [
+            {
+                "provider": "ollama",
+                "model": "qwen2.5-coder:7b",
+                "enable_thinking": false
+            },
+            {
+                "provider": "openrouter",
+                "model": "~z-ai/glm-latest",
+                "enable_thinking": true,
+                "effort": "high"
+            },
+            {
+                "provider": "openrouter",
+                "model": "~anthropic/claude-opus-latest",
+                "enable_thinking": true,
+                "effort": "high"
+            },
+            {
+                "provider": "openrouter",
+                "model": "~openai/gpt-astra-latest",
+                "enable_thinking": true,
+                "effort": "medium"
+            },
+            {
+                "provider": "openrouter",
+                "model": "deepseek/deepseek-v4.1-flash-1017",
+                "enable_thinking": true,
+                "effort": "high"
+            },
+            {
+                "provider": "openrouter",
+                "model": "~z-ai/glm-flash-latest",
+                "enable_thinking": true,
+                "effort": "max"
+            },
+            {
+                "provider": "openrouter",
+                "model": "openai/gpt-6-luna",
+                "enable_thinking": true,
+                "effort": "medium"
+            }
+        ]
+    },
+    "agent_servers": {
+        "antigravity-acp": {
+            "default_config_options": {
+                "mode": "auto_edit",
+                "model": "gemini-4-argon"
+            },
+            "type": "registry"
+        }
+    },
+
+    "lsp": {
+        "clangd": {
+            "binary": {
+                "arguments": [
+                    "--compile-commands-dir=_build",
+                    "--background-index",
+                    "--clang-tidy",
+                    "--enable-config",
+                    "--all-scopes-completion",
+                    "--header-insertion=iwyu",
+                    "--completion-style=bundled"
+                ]
+            }
+        }
+    },
+
     "languages": {
-        "C": {
-            "format_on_save": "on",
-        },
-        "C++": {
-            "format_on_save": "on",
-        },
         "Python": {
-            "format_on_save": "on",
             "formatter": {
                 "language_server": {
-                    "name": "ruff",
-                },
-            },
-        },
-    },
+                    "name": "ruff"
+                }
+            }
+        }
+    }
 }

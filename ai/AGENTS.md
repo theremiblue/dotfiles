@@ -56,3 +56,17 @@ If the user requests "shorter", "condense", "compress", or "bullets only":
 - Never keep compatibility shims, wrappers, or unused imports unless explicitly requested.
 - Delete dead functions, stale types, and orphaned variables immediately.
 - Do not leave commented-out code or TODO stubs.
+
+---
+
+## 3. Testing & Verification Rules
+
+### Rule 3.1: No Unsolicited Tests
+- Do NOT create any tests unless asked.
+
+### Rule 3.2: Implementation Precedence Over Tests
+- Do NOT change the agreed upon implementation to satisfy tests.
+
+### Rule 3.3: Frozen Test Code
+- Do NOT change the test code unless explicitly asking, even if after changes tests fail.
+

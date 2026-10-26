@@ -1,0 +1,59 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+usage() {
+  cat <<'EOF'
+Usage: install-fonts [--user|--system]
+
+Install the fonts vendored in this dotfiles repo on macOS.
+
+Options:
+  --user      Install for the current user under ~/Library/Fonts/dotfiles (default)
+  --system    Install system-wide under /Library/Fonts/dotfiles
+  -h, --help  Show this help
+EOF
+}
+
+run_root() {
+  if [ "$(id -u)" -eq 0 ]; then
+    "$@"
+  else
+    sudo "$@"
+  fi
+}
+
+script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+dotfiles_dir="$(cd "$script_dir/../.." && pwd)"
+source_dir="$dotfiles_dir/fonts"
+scope="${1:---user}"
+
+case "$scope" in
+  --user)
+    target_dir="$HOME/Library/Fonts/dotfiles"
+    install_cmd=(install -d "$target_dir")
+    copy_cmd=(find "$source_dir" -type f -name "*.ttf" -exec cp -f {} "$target_dir/" \;)
+    ;;
+  --system)
+    target_dir="/Library/Fonts/dotfiles"
+    install_cmd=(run_root install -d "$target_dir")
+    copy_cmd=(run_root find "$source_dir" -type f -name "*.ttf" -exec cp -f {} "$target_dir/" \;)
+    ;;
+  -h|--help)
+    usage
+    exit 0
+    ;;
+  *)
+    usage >&2
+    exit 2
+    ;;
+esac
+
+if [ ! -d "$source_dir" ]; then
+  echo "Font source directory not found: $source_dir" >&2
+  exit 1
+fi
+
+"${install_cmd[@]}"
+"${copy_cmd[@]}"
+
+echo "Installed fonts from $source_dir to $target_dir"

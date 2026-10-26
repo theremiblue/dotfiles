@@ -79,6 +79,12 @@ git_config_add_once "$HOME/.gitconfig" \
 
 bash "$DOTFILES_DIR/ai/setup.sh"
 
+if [ -n "$macos" ]; then
+    section "macos"
+
+    "$DOTFILES_DIR/scripts/macos/install-fonts"
+fi
+
 if [ -n "$linux" ]; then
     if [ "$1" = "--desktop" ]; then
         section "linux"

@@ -1,94 +1,58 @@
 [
     {
-        "bindings": {
-            "cmd-r": null,
-        },
-    },
-    {
-        "context": "Editor && mode == full",
-        "bindings": {
-            "cmd-r": ["buffer_search::Deploy", { "replace_enabled": true }],
-        },
-    },
-    {
-        "context": "!(vim_mode == insert)",
-        "bindings": {
-            "-":  "project_panel::Toggle",
-        }
-    },
-    {
         "context": "vim_mode == normal && !menu",
         "bindings": {
-            "tab": "editor::ToggleRelativeLineNumbers",
-            "= =": "editor::Format",
-            "ctrl-space": "editor::ShowCompletions",
             "space w": "workspace::Save",
-            "space b d": "pane::CloseActiveItem",
-            "space f f": "file_finder::Toggle",
-            "space f g": "pane::DeploySearch",
-            "space f b": "tab_switcher::Toggle",
-            "space f h": "zed::OpenDocs",
-            "space f k": "zed::OpenKeymap",
-            "space f s": "outline::Toggle",
-            "space f shift-s": "project_symbols::Toggle",
-            "space f d": "diagnostics::Deploy",
-            "space /": "buffer_search::Deploy",
-            "space v b": "git::Branch",
-            "space v h": "editor::ToggleSelectedDiffHunks",
-            "space v s": "git::ToggleStaged",
-            "space v r": "git::Restore",
-            "space v f": "git::Blame",
-            "space v d": "git::Diff",
-            "space v q": "git_panel::ToggleFocus",
-            "space t b": "editor::ToggleGitBlameInline",
-            "space t w": "editor::ToggleSoftWrap",
-            "space d q": "diagnostics::Deploy",
-            "g d": "editor::GoToDefinition",
-            "g shift-d": "editor::GoToDeclaration",
-            "d l": "editor::Hover",
-            "] d": "editor::GoToDiagnostic",
-            "[ d": "editor::GoToPreviousDiagnostic",
-            "] h": "editor::GoToHunk",
-            "[ h": "editor::GoToPreviousHunk",
-            "ctrl-w h": "workspace::ActivatePaneLeft",
-            "ctrl-w j": "workspace::ActivatePaneDown",
-            "ctrl-w k": "workspace::ActivatePaneUp",
-            "ctrl-w l": "workspace::ActivatePaneRight",
-            "left": "workspace::ActivatePaneLeft",
-            "down": "workspace::ActivatePaneDown",
-            "up": "workspace::ActivatePaneUp",
-            "right": "workspace::ActivatePaneRight",
-            "space j": "editor::GoToDiagnostic",
-            "space k": "editor::GoToPreviousDiagnostic",
-            "space q": "diagnostics::Deploy",
-            "space s": "buffer_search::DeployReplace",
-
-            "space space d": [
-                "task::Spawn", { "task_name": "dev", }
-            ],
-        },
+            "space e": "project_panel::ToggleFocus",
+            "space g": "git_panel::ToggleFocus",
+            "space t": "terminal_panel::ToggleFocus",
+            "space a": "agent::ToggleFocus",
+            "space s h": "editor::SwitchSourceHeader",
+            "enter": "vim::HelixJumpToWord",
+            "space y": ["workspace::SendKeystrokes", "\" + y"],
+            "space shift-y": ["workspace::SendKeystrokes", "\" + shift-y"],
+            "space p": ["workspace::SendKeystrokes", "\" + p"],
+            "space shift-p": ["workspace::SendKeystrokes", "\" + shift-p"],
+            "space d": ["workspace::SendKeystrokes", "\" _ d"],
+            "space shift-d": ["workspace::SendKeystrokes", "\" _ shift-d"],
+            ", p": ["workspace::SendKeystrokes", "\" 0 p"],
+            ", shift-p": ["workspace::SendKeystrokes", "\" 0 shift-p"]
+        }
     },
     {
         "context": "vim_mode == visual && !menu",
         "bindings": {
             "shift-j": "editor::MoveLineDown",
             "shift-k": "editor::MoveLineUp",
-            "space f m": "editor::FormatSelections",
-        },
+            "enter": "vim::HelixJumpToWord",
+            "space y": ["workspace::SendKeystrokes", "\" + y"],
+            "space p": ["workspace::SendKeystrokes", "\" + p"],
+            "space shift-p": ["workspace::SendKeystrokes", "\" + shift-p"],
+            "space d": ["workspace::SendKeystrokes", "\" _ d"],
+            "space r p": ["workspace::SendKeystrokes", "\" _ d shift-p"]
+        }
     },
     {
-        "context": "vim_mode == insert && !menu",
+        "context": "(ProjectPanel || GitPanel || OutlinePanel || CollabPanel) && !editing",
         "bindings": {
-            "ctrl-;": ["workspace::SendKeystrokes", "end ; enter"],
-        },
+            "space e": "project_panel::ToggleFocus",
+            "space g": "git_panel::ToggleFocus",
+            "space t": "terminal_panel::ToggleFocus",
+            "space a": "agent::ToggleFocus",
+            "q": "workspace::CloseActiveDock",
+            "escape": "workspace::CloseActiveDock"
+        }
     },
     {
-        "context": "Dock",
         "bindings": {
-            "ctrl-w h": "workspace::ActivatePaneLeft",
-            "ctrl-w j": "workspace::ActivatePaneDown",
-            "ctrl-w k": "workspace::ActivatePaneUp",
-            "ctrl-w l": "workspace::ActivatePaneRight",
-        },
-    },
+            "cmd-1": "project_panel::ToggleFocus",
+            "cmd-2": "git_panel::ToggleFocus",
+            "cmd-3": "terminal_panel::ToggleFocus",
+            "ctrl-`": "terminal_panel::ToggleFocus",
+            "cmd-4": "agent::ToggleFocus",
+            "cmd-b": "workspace::ToggleRightDock",
+            "cmd-j": "workspace::ToggleBottomDock",
+            "cmd-shift-w": "workspace::CloseActiveDock"
+        }
+    }
 ]
