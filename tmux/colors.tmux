@@ -1,8 +1,17 @@
-set -g @charcoal "#1c1f26"     # hsl(220, 9, 13)
-set -g @steel_blue "#5b7a9d"   # hsl(204, 37, 59)
-set -g @lavender "#a192b6"     # hsl(276, 17, 66)
-set -g @muted_green "#8fa68f"  # hsl(92, 14, 55)
-set -g @light_gray "#e4e6e9"   # hsl(210, 8, 90)
-set -g @tan "#d8b374"          # hsl(29, 65, 65)
-set -g @teal "#6b8f92"         # hsl(178, 14, 53)
-set -g @dark_red "#b6555c"     # hsl(355, 46, 56)
+set -g @base00 "#1d1f21"
+set -g @base01 "#282a2e"
+set -g @base02 "#373b41"
+set -g @base03 "#969896"
+set -g @base04 "#b4b7b4"
+set -g @base05 "#c5c8c6"
+set -g @base06 "#e0e0e0"
+set -g @base07 "#ffffff"
+set -g @base08 "#cc6666"
+set -g @base09 "#de935f"
+set -g @base0A "#f0c674"
+set -g @base0B "#b5bd68"
+set -g @base0C "#8abeb7"
+set -g @base0D "#81a2be"
+set -g @base0E "#b294bb"
+set -g @surface_inset "#191b1d"
+set -g @hairline "#2d3035"

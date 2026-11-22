@@ -44,6 +44,13 @@ window-rule {
 }
 
 window-rule {
+    match app-id=r#"^steam$"# title=r#"^notificationtoasts_\d+_desktop$"#
+    open-floating true
+    open-focused false
+    default-floating-position x=16 y=16 relative-to="bottom-right"
+}
+
+window-rule {
     match app-id=r#"^thunar$"# title=r#"File Operation Progress"#
     match app-id=r#"^blueman-manager$"#
     match app-id=r#"^org\.kde\.polkit-kde-authentication-agent-1$"#

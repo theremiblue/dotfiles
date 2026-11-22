@@ -1,23 +1,32 @@
-set -g @status_bg "#22252b"
-
-set -g status-style "bg=#{@status_bg},fg=#{@light_gray}"
-set -g status-justify right
+set -g status-style "bg=#{@base00},fg=#{@base05}"
+set -g status-justify left
 set -g status-position bottom
 
-# Left side: Session name with charcoal and steel blue
 set -g status-left-length 48
-set -g status-left '    #[fg=#{@teal}]#H#[fg=#{@dark_red},bold]:#[fg=#{@dark_red}]#S#[default]    '
+set -g status-left ' #[fg=#{@base0D}]#S #[fg=#{@base02}]│ '
 
-# Right side: Hostname, battery, time, and date using teal, tan, lavender
-set -g status-right-length 48
-set -g status-right '    #[fg=#{@lavender}]%Y-%m-%d#[fg=#{@tan}]T#[fg=#{@tan},bold]%H:%M    '
+set -g status-right-length 64
+set -g status-right '#{?client_prefix,#[fg=#{@base0D}]PREFIX #[fg=#{@base02}]│ ,}#{?pane_in_mode,#[fg=#{@base0A}]COPY #[fg=#{@base02}]│ ,}#{?window_zoomed_flag,#[fg=#{@base0E}]ZOOM #[fg=#{@base02}]│ ,}#[fg=#{@base03}]#H '
 
-# Windows
-set-window-option -g window-status-current-style "fg=#{@dark_red},bg=default,bold"
-set-window-option -g window-status-style "fg=#{@teal},bg=default"
+set -g window-status-separator ""
+set -g window-status-style "fg=#{@base03},bg=default"
+set -g window-status-format " #I:#W "
+set -g window-status-current-style "fg=#{@base07},bg=#{@base01}"
+set -g window-status-current-format "#[fg=#{@base0D}]▎#[fg=#{@base07}]#I:#W#{?window_zoomed_flag, Z,} "
+set -g window-status-activity-style "fg=#{@base0A},bg=default"
+set -g window-status-bell-style "fg=#{@base08},bg=default"
 
-set-option -g pane-border-style "fg=#{@steel_blue}"
-set-option -g pane-active-border-style "fg=#{@steel_blue}"
+set -g pane-border-lines single
+set -g pane-border-style "fg=#{@hairline}"
+set -g pane-active-border-style "fg=#{@base0D}"
 
-set-option -g message-style "fg=#{@dark_red},bold,reverse"
-set-option -g message-command-style "fg=#{@steel_blue},bold,reverse"
+set -g mode-style "bg=#{@base02},fg=#{@base06}"
+set -g copy-mode-match-style "bg=#{@base02},fg=#{@base0A}"
+set -g copy-mode-current-match-style "bg=#{@base0A},fg=#{@base00}"
+
+set -g message-style "bg=#{@base01},fg=#{@base06}"
+set -g message-command-style "bg=#{@base01},fg=#{@base0D}"
+
+set -g popup-style "bg=#{@base00},fg=#{@base05}"
+set -g popup-border-style "fg=#{@base02}"
+set -g popup-border-lines single

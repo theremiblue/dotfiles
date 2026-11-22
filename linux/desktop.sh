@@ -139,6 +139,7 @@ lnk "linux/gtk-3.0/settings.ini" "$HOME/.config/gtk-3.0/settings.ini"
 lnk "linux/gtk-4.0/settings.ini" "$HOME/.config/gtk-4.0/settings.ini"
 lnk "linux/xfce4/helpers.rc" "$HOME/.config/xfce4/helpers.rc"
 lnk "linux/Thunar/uca.xml" "$HOME/.config/Thunar/uca.xml"
+lnk "linux/librewolf/librewolf.overrides.cfg" "$HOME/.config/librewolf/librewolf/librewolf.overrides.cfg"
 "$DOTFILES_DIR/scripts/linux/install-fonts"
 
 lnk "resources/wallpaper.jpg" "$HOME/.config/wallpapers/main.jpg"
