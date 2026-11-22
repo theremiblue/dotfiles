@@ -20,6 +20,8 @@ QtObject {
     readonly property color base0E: "#b294bb"
     readonly property color base0F: "#a3685a"
 
+    readonly property color surfaceInset: "#191b1d"
+    readonly property color hairlineSubtle: "#2d3035"
     readonly property color barBackground: base00
     readonly property color barForeground: base05
     readonly property color barMuted: base03
@@ -30,33 +32,29 @@ QtObject {
     readonly property color barUrgent: base08
     readonly property color bluetoothAccent: "#0082fc"
 
-    readonly property int barHeight: 36
-    readonly property int fontSize: 20
-    readonly property int smallFontSize: 18
-    readonly property int padding: 8
-    readonly property int spacing: 8
-    readonly property int statusIconSize: 28
-    readonly property int statusIconSpacing: 4
-    readonly property int workspaceWidth: 32
-    readonly property int notificationWidth: 512
+    readonly property int barHeight: 34
+    readonly property int fontSize: 17
+    readonly property int smallFontSize: 15
+    readonly property int padding: 7
+    readonly property int spacing: 7
+    readonly property int radius: 2
+    readonly property int statusIconSize: 22
+    readonly property int statusIconSpacing: 3
+    readonly property int workspaceWidth: 30
+    readonly property int notificationWidth: 420
     readonly property int controlHeight: Math.round(fontSize * 1.9)
-    readonly property int inlineIconSize: Math.round(fontSize * 1.1)
-    readonly property int drawerIconSize: Math.round(fontSize * 1.8)
+    readonly property int inlineIconSize: Math.round(fontSize * 1.05)
+    readonly property int drawerIconSize: Math.round(fontSize * 1.4)
     readonly property int detailLabelWidth: Math.round(fontSize * 6.5)
-    readonly property int switchHeight: Math.round(fontSize * 1.3)
+    readonly property int switchHeight: Math.round(fontSize * 1.25)
     readonly property int switchWidth: Math.round(switchHeight * 1.85)
     readonly property int notificationTimeout: 5000
     readonly property int animationDurationShort: 120
     readonly property int animationDurationNormal: 180
     readonly property int animationDurationLong: 300
-    readonly property int panelShadowSize: 28
-    readonly property color panelShadowColor: "#000000"
-    readonly property real panelShadowOuterOpacity: 0.08
-    readonly property real panelShadowMiddleOpacity: 0.12
-    readonly property real panelShadowInnerOpacity: 0.16
-    readonly property real drawerSizeSmall: 0.2
-    readonly property real drawerSizeNormal: 0.4
-    readonly property real drawerSizeLarge: 0.8
+    readonly property real drawerSizeSmall: 0.17
+    readonly property real drawerSizeNormal: 0.32
+    readonly property real drawerSizeLarge: 0.58
 
     readonly property string fontFamily: "sans-serif"
     readonly property string monospaceFontFamily: "monospace"
@@ -67,6 +65,4 @@ QtObject {
 
     readonly property url archIcon: Qt.resolvedUrl("../assets/icons/arch/archlinux-logo.svg")
     readonly property url linuxPenguinIcon: Qt.resolvedUrl("../assets/icons/linux/tux.svg")
-
-    readonly property int minWorkspaceCount: 4
 }

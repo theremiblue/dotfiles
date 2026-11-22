@@ -9,13 +9,13 @@ MouseArea {
     property url iconSource: ""
     property string label: ""
     property color accentColor: Config.Theme.barAccent
-    property color backgroundColor: Config.Theme.base00
-    property color hoverBackgroundColor: Config.Theme.base02
+    property color backgroundColor: Config.Theme.surfaceInset
+    property color hoverBackgroundColor: Config.Theme.base01
 
     signal triggered
 
-    implicitWidth: Math.max(Math.round(Config.Theme.fontSize * 6), contentColumn.implicitWidth + Config.Theme.padding * 4)
-    implicitHeight: contentColumn.implicitHeight + Config.Theme.padding * 4
+    implicitWidth: Math.max(Math.round(Config.Theme.fontSize * 7), contentColumn.implicitWidth + Config.Theme.padding * 4)
+    implicitHeight: contentColumn.implicitHeight + Config.Theme.padding * 5
     hoverEnabled: true
     cursorShape: Qt.PointingHandCursor
 
@@ -23,9 +23,9 @@ MouseArea {
         anchors.fill: parent
 
         color: root.containsMouse ? root.hoverBackgroundColor : root.backgroundColor
-        border.color: root.containsMouse ? root.accentColor : Config.Theme.barBorder
+        border.color: root.containsMouse ? root.accentColor : Config.Theme.hairlineSubtle
         border.width: 1
-        radius: 6
+        radius: Config.Theme.radius
 
         Behavior on color {
             ColorAnimation {

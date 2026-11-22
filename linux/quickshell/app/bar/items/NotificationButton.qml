@@ -29,25 +29,15 @@ UIPrimitives.IconButton {
 
     Rectangle {
         anchors.right: parent.right
-        anchors.rightMargin: 2
+        anchors.rightMargin: 4
         anchors.top: parent.top
-        anchors.topMargin: 2
+        anchors.topMargin: 5
 
         visible: root.notificationCount > 0
-        width: Math.max(20, countText.implicitWidth + 8)
-        height: 20
-        radius: height / 2
+        width: 6
+        height: 6
+        radius: 3
         color: Config.Theme.base08
-
-        UIPrimitives.AppText {
-            id: countText
-
-            anchors.centerIn: parent
-
-            text: root.notificationCount > 9 ? "9+" : root.notificationCount.toString()
-            color: Config.Theme.base07
-            font.pixelSize: 14
-        }
     }
 
     onClicked: clickTimer.restart()

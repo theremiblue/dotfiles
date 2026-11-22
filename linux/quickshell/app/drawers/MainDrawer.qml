@@ -11,7 +11,7 @@ UIPrimitives.Drawer {
     drawerType: Services.Drawers.main
     drawerSize: UIPrimitives.Drawer.Size.Large
     drawerPosition: UIPrimitives.Drawer.Position.ScreenHorizontalCenter
-    borderColor: Config.Theme.base0D
+    borderColor: Config.Theme.barBorder
 
     component MetricCard: Rectangle {
         id: card
@@ -26,9 +26,9 @@ UIPrimitives.Drawer {
         Layout.fillWidth: true
         Layout.fillHeight: true
         implicitHeight: metricCardContent.implicitHeight + Config.Theme.padding * 4
-        radius: 6
-        color: Config.Theme.base00
-        border.color: Config.Theme.barBorder
+        radius: Config.Theme.radius
+        color: Config.Theme.surfaceInset
+        border.color: Config.Theme.hairlineSubtle
         border.width: 1
 
         ColumnLayout {
@@ -73,10 +73,10 @@ UIPrimitives.Drawer {
 
             Rectangle {
                 Layout.fillWidth: true
-                Layout.preferredHeight: Math.max(6, Math.round(Config.Theme.spacing * 0.85))
+                Layout.preferredHeight: 3
 
                 visible: card.showProgress
-                radius: height / 2
+                radius: 1
                 color: Config.Theme.base02
                 clip: true
 
@@ -160,9 +160,9 @@ UIPrimitives.Drawer {
         Layout.fillWidth: true
         Layout.fillHeight: true
         implicitHeight: networkCardContent.implicitHeight + Config.Theme.padding * 4
-        radius: 6
-        color: Config.Theme.base00
-        border.color: Config.Theme.barBorder
+        radius: Config.Theme.radius
+        color: Config.Theme.surfaceInset
+        border.color: Config.Theme.hairlineSubtle
         border.width: 1
 
         ColumnLayout {
@@ -245,20 +245,6 @@ UIPrimitives.Drawer {
         ColumnLayout {
             width: parent.width
             spacing: Config.Theme.spacing * 2
-
-            RowLayout {
-                Layout.fillWidth: true
-                spacing: Config.Theme.spacing
-
-                UIPrimitives.AppText {
-                    Layout.fillWidth: true
-
-                    text: "Resource monitor"
-                    color: Config.Theme.base06
-                    font.pixelSize: Config.Theme.fontSize + 2
-                    horizontalAlignment: Text.AlignLeft
-                }
-            }
 
             UIPrimitives.AppText {
                 Layout.fillWidth: true

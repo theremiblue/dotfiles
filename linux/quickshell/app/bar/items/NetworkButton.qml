@@ -34,7 +34,8 @@ UIPrimitives.IconButton {
     alternateIconSource: Services.Network.ethernetConnected ? disconnectedIcon : connectedIcon
     textColor: currentIconColor()
     hoverTextColor: textColor
-    underlineColor: textColor
+    underlineColor: Services.Drawers.isActive(Services.Drawers.network) ? Config.Theme.base0D : textColor
+    underlineVisible: containsMouse || Services.Drawers.isActive(Services.Drawers.network)
     iconSize: Config.Theme.statusIconSize
 
     onClicked: {

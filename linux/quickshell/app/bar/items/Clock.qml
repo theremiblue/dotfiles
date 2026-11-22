@@ -12,8 +12,8 @@ Item {
 
     readonly property string plainText: datePart + " " + timePart
 
-    readonly property color dateColor: Config.Theme.base0A
-    readonly property color timeColor: Config.Theme.base0E
+    readonly property color dateColor: Config.Theme.barMuted
+    readonly property color timeColor: Config.Theme.base06
 
     implicitWidth: metrics.advanceWidth + Config.Theme.padding * 2
     implicitHeight: Config.Theme.barHeight
@@ -28,6 +28,7 @@ Item {
 
         textFormat: Text.RichText
         font.family: Config.Theme.monospaceFontFamily
+        font.pixelSize: Config.Theme.smallFontSize + 1
     }
 
     SystemClock {

@@ -6,7 +6,7 @@ import qs.app.bar as Bar
 import qs.app.bar.items as Items
 import qs.config as Config
 import qs.services as Services
-import qs.ui.controls as Controls
+import qs.ui.primitives as UIPrimitives
 
 Item {
     id: statusBar
@@ -16,14 +16,9 @@ Item {
 
     readonly property int position: Bar.BarConfig.position
     readonly property int implicitSize: Bar.BarConfig.size
-    readonly property int archHoverGlowHeight: 28
 
     readonly property bool vertical: Bar.BarConfig.isVertical(position)
     readonly property bool horizontal: !vertical
-
-    function colorWithAlpha(color, alpha) {
-        return Qt.rgba(color.r, color.g, color.b, alpha);
-    }
 
     function registerDrawerAnchors() {
         if (!drawerLayer) {
@@ -40,11 +35,9 @@ Item {
         drawerLayer.setAnchor(Services.Drawers.notifications, notificationButton);
     }
 
-    implicitHeight: implicitSize + archHoverGlowHeight
+    implicitHeight: implicitSize
 
     readonly property int exclusiveZone: Bar.BarConfig.reserveSpace ? implicitSize : 0
-
-    // Backwards-compatible name for code that still reads reservedSize.
     readonly property int reservedSize: exclusiveZone
 
     Rectangle {
@@ -90,6 +83,8 @@ Item {
 
             Spacer {}
 
+            Items.OverviewButton {}
+
             Items.Workspaces {
                 screen: statusBar.screen
             }
@@ -117,6 +112,44 @@ Item {
 
             onWidthChanged: Qt.callLater(statusBar.registerDrawerAnchors)
 
+            MouseArea {
+                id: castIndicator
+
+                visible: Services.Niri.isCasting
+                implicitWidth: castRow.implicitWidth + Config.Theme.padding * 2
+                implicitHeight: Config.Theme.barHeight
+                hoverEnabled: true
+                cursorShape: Qt.PointingHandCursor
+
+                Rectangle {
+                    anchors.fill: parent
+                    color: castIndicator.containsMouse ? Config.Theme.barHoverBackground : "transparent"
+                }
+
+                RowLayout {
+                    id: castRow
+
+                    anchors.centerIn: parent
+                    spacing: Config.Theme.spacing
+
+                    Rectangle {
+                        width: 6
+                        height: 6
+                        radius: 3
+                        color: Config.Theme.barUrgent
+                    }
+
+                    UIPrimitives.AppText {
+                        text: "CAST"
+                        color: Config.Theme.barUrgent
+                        font.family: Config.Theme.monospaceFontFamily
+                        font.pixelSize: Config.Theme.smallFontSize
+                    }
+                }
+
+                onClicked: Services.Niri.clearDynamicCastTarget()
+            }
+
             Items.Tray {}
 
             Items.SoundButton {
@@ -127,9 +160,10 @@ Item {
 
             Spacer {}
 
-            Controls.ButtonGroup {
+            RowLayout {
                 id: networkingButtonGroup
 
+                Layout.fillHeight: true
                 spacing: Config.Theme.statusIconSpacing
 
                 Items.WifiButton {
@@ -175,74 +209,8 @@ Item {
                 implicitWidth: Config.Theme.padding
             }
         }
-
-        Rectangle {
-            anchors.left: parent.left
-            anchors.right: parent.right
-            anchors.bottom: parent.bottom
-
-            height: 2
-            opacity: archIcon.hovered ? 1 : 0
-            color: archIcon.highlightColor
-
-            Behavior on opacity {
-                NumberAnimation {
-                    duration: Config.Theme.animationDurationLong
-                }
-            }
-        }
     }
 
     Component.onCompleted: registerDrawerAnchors()
     onDrawerLayerChanged: registerDrawerAnchors()
-
-    Item {
-        anchors.left: parent.left
-        anchors.right: parent.right
-        anchors.top: barSurface.bottom
-
-        height: statusBar.archHoverGlowHeight
-        clip: true
-        opacity: archIcon.hovered ? 1 : 0
-
-        Rectangle {
-            anchors.left: parent.left
-            anchors.right: parent.right
-            anchors.top: parent.top
-
-            height: archIcon.hovered ? parent.height : 0
-            gradient: Gradient {
-                orientation: Gradient.Vertical
-
-                GradientStop {
-                    position: 0
-                    color: statusBar.colorWithAlpha(archIcon.highlightColor, 0.42)
-                }
-
-                GradientStop {
-                    position: 0.65
-                    color: statusBar.colorWithAlpha(archIcon.highlightColor, 0.12)
-                }
-
-                GradientStop {
-                    position: 1
-                    color: statusBar.colorWithAlpha(archIcon.highlightColor, 0)
-                }
-            }
-
-            Behavior on height {
-                NumberAnimation {
-                    duration: Config.Theme.animationDurationNormal
-                    easing.type: Easing.OutCubic
-                }
-            }
-        }
-
-        Behavior on opacity {
-            NumberAnimation {
-                duration: Config.Theme.animationDurationNormal
-                easing.type: Easing.OutCubic
-            }
-        }
-    }
 }

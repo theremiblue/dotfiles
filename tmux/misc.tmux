@@ -8,5 +8,8 @@ set -g renumber-windows on
 set -g history-limit 8192
 
 set -g default-terminal "tmux-256color"
-set -as terminal-features ',xterm-kitty:RGB'
+set -s extended-keys on
+set -as terminal-features ',xterm-ghostty:RGB'
+set -as terminal-features ',xterm-ghostty:extkeys'
+set -g allow-passthrough on
 

@@ -35,11 +35,11 @@ PanelWindow {
     property int customHeight: 0
     property int animationDuration: Config.Theme.animationDurationNormal
     property int mouseLeaveTimeout: 3000
-    property int contentPadding: Config.Theme.padding * 3
+    property int contentPadding: Config.Theme.padding * 2.5
     property int edgeMargin: Config.Theme.padding * 2
-    property int topOffset: Config.Theme.barHeight
+    property int topOffset: Config.Theme.barHeight - 1
     property real anchorCenterX: -1
-    property color backgroundColor: Config.Theme.base01
+    property color backgroundColor: Config.Theme.base00
     property color borderColor: Config.Theme.barBorder
     readonly property bool drawerActive: Services.Drawers.isActive(drawerType)
     readonly property int maxDrawerHeight: Math.max(0, screen.height - topOffset - edgeMargin)
@@ -100,10 +100,10 @@ PanelWindow {
 
     function hiddenTopForPosition() {
         if (drawerPosition === Drawer.Position.ScreenCenter) {
-            return frameTopForPosition() - panelShadow.margin;
+            return frameTopForPosition();
         }
 
-        return -drawerHost.height;
+        return -frame.height;
     }
 
     function open() {
@@ -232,14 +232,19 @@ PanelWindow {
             onClicked: root.dismiss()
         }
 
-        Item {
-            id: drawerHost
+        Rectangle {
+            id: frame
 
-            width: frame.width + panelShadow.margin * 2
-            height: frame.height + panelShadow.margin * 2
-            x: root.frameLeftForPosition() - panelShadow.margin
-            y: root.drawerOpen ? root.frameTopForPosition() - panelShadow.margin : root.hiddenTopForPosition()
+            width: root.implicitWidth
+            height: root.implicitHeight
+            x: root.frameLeftForPosition()
+            y: root.drawerOpen ? root.frameTopForPosition() : root.hiddenTopForPosition()
             opacity: root.drawerOpen ? 1 : 0
+
+            color: root.backgroundColor
+            border.color: root.borderColor
+            border.width: 1
+            radius: Config.Theme.radius
 
             Behavior on y {
                 NumberAnimation {
@@ -255,47 +260,22 @@ PanelWindow {
                 }
             }
 
-            PanelShadow {
-                id: panelShadow
-
-                anchors.centerIn: frame
-
-                sourceWidth: frame.width
-                sourceHeight: frame.height
-                sourceRadius: frame.radius
+            MouseArea {
+                anchors.fill: parent
+                acceptedButtons: Qt.AllButtons
             }
 
-            Rectangle {
-                id: frame
+            HoverHandler {
+                id: drawerHover
 
-                width: root.implicitWidth
-                height: root.implicitHeight
-                anchors.horizontalCenter: parent.horizontalCenter
-                anchors.top: parent.top
-                anchors.topMargin: panelShadow.margin
+                onHoveredChanged: root.updateMouseLeaveTimer()
+            }
 
-                color: root.backgroundColor
-                border.color: root.borderColor
-                border.width: 1
-                radius: 6
+            Item {
+                id: contentHost
 
-                MouseArea {
-                    anchors.fill: parent
-                    acceptedButtons: Qt.AllButtons
-                }
-
-                HoverHandler {
-                    id: drawerHover
-
-                    onHoveredChanged: root.updateMouseLeaveTimer()
-                }
-
-                Item {
-                    id: contentHost
-
-                    anchors.fill: parent
-                    anchors.margins: root.contentPadding
-                }
+                anchors.fill: parent
+                anchors.margins: root.contentPadding
             }
         }
     }

@@ -4,38 +4,18 @@ import qs.config as Config
 import qs.ui.primitives as UIPrimitives
 import qs.services as Services
 
-MouseArea {
+UIPrimitives.IconButton {
     id: root
 
     required property var drawerLayer
 
-    readonly property color highlightColor: Qt.rgba(0.09, 0.58, 0.82, 0.85)
-    readonly property bool hovered: containsMouse
+    readonly property bool active: Services.Drawers.isActive(Services.Drawers.power)
 
-    function toggleDrawer() {
-        drawerLayer.toggle(Services.Drawers.power, root);
-    }
+    iconSource: Config.Theme.archIcon
+    alternateIconSource: iconSource
+    iconSize: Config.Theme.statusIconSize
+    underlineVisible: containsMouse || active
+    underlineColor: Config.Theme.base0D
 
-    implicitWidth: Config.Theme.barHeight + Config.Theme.padding
-    implicitHeight: Config.Theme.barHeight
-    hoverEnabled: true
-    cursorShape: Qt.PointingHandCursor
-
-    UIPrimitives.Icon {
-        id: icon
-
-        anchors.centerIn: parent
-        anchors.verticalCenterOffset: root.containsMouse ? -1 : 0
-
-        source: Config.Theme.archIcon
-        implicitSize: Config.Theme.statusIconSize
-
-        Behavior on anchors.verticalCenterOffset {
-            NumberAnimation {
-                duration: Config.Theme.animationDurationLong
-            }
-        }
-    }
-
-    onClicked: toggleDrawer()
+    onClicked: drawerLayer.toggle(Services.Drawers.power, root)
 }

@@ -15,7 +15,7 @@ UIPrimitives.Drawer {
     drawerSize: UIPrimitives.Drawer.Size.Normal
     drawerPosition: UIPrimitives.Drawer.Position.AnchorCenter
     customWidth: Config.Theme.notificationWidth + contentPadding * 2
-    borderColor: Config.Theme.base0D
+    borderColor: Config.Theme.barBorder
 
     ColumnLayout {
         anchors.fill: parent

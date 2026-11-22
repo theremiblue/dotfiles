@@ -1,0 +1,87 @@
+layout {
+    gaps 0
+    center-focused-column "never"
+    always-center-single-column
+
+    default-column-width {
+        proportion 0.5
+    }
+
+    preset-column-widths {
+        proportion 0.33333
+        proportion 0.5
+        proportion 0.66667
+        proportion 1.0
+    }
+
+    preset-window-heights {
+        proportion 0.33333
+        proportion 0.5
+        proportion 0.66667
+        proportion 1.0
+    }
+
+    focus-ring {
+        off
+    }
+
+    border {
+        width 1
+        active-color "#81a2be"
+        inactive-color "#2d3035"
+        urgent-color "#cc6666"
+    }
+
+    tab-indicator {
+        place-within-column
+        hide-when-single-tab
+        position "left"
+        width 3
+        gap 2
+        gaps-between-tabs 2
+        corner-radius 0
+        active-color "#81a2be"
+        inactive-color "#373b41"
+        urgent-color "#cc6666"
+    }
+
+    insert-hint {
+        color "#81a2be40"
+    }
+
+    shadow {
+        off
+    }
+}
+
+overview {
+    zoom 0.5
+    backdrop-color "#1d1f21"
+
+    workspace-shadow {
+        off
+    }
+}
+
+recent-windows {
+    open-delay-ms 150
+
+    highlight {
+        active-color "#81a2beff"
+        urgent-color "#cc6666ff"
+        padding 16
+        corner-radius 2
+    }
+
+    previews {
+        max-height 480
+        max-scale 0.5
+    }
+
+    binds {
+        Alt+Tab         { next-window; }
+        Alt+Shift+Tab   { previous-window; }
+        Alt+grave       { next-window filter="app-id"; }
+        Alt+Shift+grave { previous-window filter="app-id"; }
+    }
+}

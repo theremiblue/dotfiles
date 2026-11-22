@@ -1,0 +1,67 @@
+window-rule {
+    match is-floating=false
+    geometry-corner-radius 0
+}
+
+window-rule {
+    match is-floating=true
+    border {
+        width 1
+        active-color "#81a2be"
+        inactive-color "#373b41"
+    }
+    shadow {
+        off
+    }
+    geometry-corner-radius 2
+}
+
+window-rule {
+    match app-id=r#"^1[Pp]assword$"#
+    block-out-from "screen-capture"
+}
+
+window-rule {
+    match app-id=r#"^(org\.telegram\.desktop|TelegramDesktop)$"#
+    match app-id=r#"^(discord|Discord)$"#
+    block-out-from "screencast"
+}
+
+window-rule {
+    match is-window-cast-target=true
+    border {
+        on
+        width 2
+        active-color "#cc6666"
+        inactive-color "#a3685a"
+    }
+}
+
+window-rule {
+    match app-id=r#"librewolf$"# title="^Picture-in-Picture$"
+    open-floating true
+    default-floating-position x=16 y=16 relative-to="bottom-right"
+}
+
+window-rule {
+    match app-id=r#"^thunar$"# title=r#"File Operation Progress"#
+    match app-id=r#"^blueman-manager$"#
+    match app-id=r#"^org\.kde\.polkit-kde-authentication-agent-1$"#
+    open-floating true
+}
+
+window-rule {
+    match app-id=r#"^REAPER$"#
+    match app-id=r#"^steam_app_"#
+    variable-refresh-rate true
+}
+
+layer-rule {
+    match namespace="^quickshell-notifications$"
+    block-out-from "screencast"
+}
+
+layer-rule {
+    match namespace="^wallpaper$"
+    place-within-backdrop true
+}

@@ -1,20 +1,21 @@
 #!/bin/bash
+set -euo pipefail
 
 pacman_packages=(
     # Compositor and session
-    hyprpaper # TODO: migrate to something different
     niri
-    polkit-kde-agent # TODO: figure out why we use it now
-    # TODO: double-check the packages below
+    polkit-kde-agent
+    swaybg
     xdg-desktop-portal
     xdg-desktop-portal-gnome
+    xdg-desktop-portal-gtk
     xwayland-satellite
 
     # Shell and UI
     quickshell
 
     # Terminal
-    kitty
+    ghostty
 
     # Browser
     librewolf
@@ -48,10 +49,8 @@ pacman_packages=(
     playerctl
     wireplumber
 
-    # Screenshot and clipboard
-    grim
+    # Notifications and clipboard
     libnotify
-    slurp
     wl-clipboard
 
     # System and hardware utilities
@@ -59,6 +58,7 @@ pacman_packages=(
     bluez
     bluez-utils
     desktop-file-utils
+    keyd
     networkmanager
     xdg-utils
 
@@ -90,7 +90,7 @@ ensure_paru() {
     rm -rf "$build_dir"
 }
 
-if [ "$1" = "--dry" ]; then
+if [ "${1:-}" = "--dry" ]; then
     printf '%s\n' "${pacman_packages[@]}" "${aur_packages[@]}"
     exit 0
 fi

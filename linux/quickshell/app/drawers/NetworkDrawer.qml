@@ -42,7 +42,7 @@ UIPrimitives.Drawer {
     drawerType: Services.Drawers.network
     drawerSize: UIPrimitives.Drawer.Size.Small
     drawerPosition: UIPrimitives.Drawer.Position.AnchorCenter
-    borderColor: Services.Network.ethernetConnected ? Config.Theme.base0B : Config.Theme.base08
+    borderColor: Config.Theme.barBorder
 
     onDrawerActivated: Services.Network.refresh()
 

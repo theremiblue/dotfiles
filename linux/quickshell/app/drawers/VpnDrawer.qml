@@ -26,7 +26,7 @@ UIPrimitives.Drawer {
     drawerType: Services.Drawers.vpn
     drawerSize: UIPrimitives.Drawer.Size.Small
     drawerPosition: UIPrimitives.Drawer.Position.AnchorCenter
-    borderColor: Services.Vpn.connected ? Config.Theme.base0B : Config.Theme.barBorder
+    borderColor: Config.Theme.barBorder
 
     onDrawerActivated: Services.Vpn.refresh()
 

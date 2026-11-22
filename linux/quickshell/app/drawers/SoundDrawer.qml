@@ -12,7 +12,7 @@ UIPrimitives.Drawer {
     drawerType: Services.Drawers.sound
     drawerSize: UIPrimitives.Drawer.Size.Small
     drawerPosition: UIPrimitives.Drawer.Position.AnchorCenter
-    borderColor: Services.Sound.outputMuted ? Config.Theme.barMuted : Config.Theme.base0C
+    borderColor: Config.Theme.barBorder
 
     component VolumeSlider: MouseArea {
         id: slider
@@ -28,8 +28,8 @@ UIPrimitives.Drawer {
             return Math.round(Math.max(0, Math.min(1, x / width)) * 100);
         }
 
-        readonly property int thumbSize: Math.round(Config.Theme.fontSize * 1.2)
-        readonly property int trackHeight: Math.max(6, Math.round(thumbSize / 3))
+        readonly property int thumbSize: Math.round(Config.Theme.fontSize * 0.9)
+        readonly property int trackHeight: 4
 
         Layout.fillWidth: true
         Layout.preferredHeight: thumbSize + Config.Theme.padding

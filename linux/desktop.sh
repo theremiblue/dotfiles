@@ -1,4 +1,5 @@
 #!/bin/bash
+set -euo pipefail
 
 DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 . "$DOTFILES_DIR/scripts/setup-lib.sh"
@@ -85,25 +86,65 @@ verify_mime_associations() {
     xdg-mime query default audio/flac
 }
 
+install_keyd_config() {
+    local src="$DOTFILES_DIR/linux/keyd/default.conf"
+    local dst="/etc/keyd/default.conf"
 
-refresh_lantern_index() {
-    echo "Refreshing Lantern application index..."
+    if ! command -v keyd >/dev/null 2>&1; then
+        echo "keyd is not installed; skipping keyd service setup" >&2
+        return 1
+    fi
 
-    if quickshell ipc call lantern refresh >/dev/null 2>&1; then
-        echo "Lantern application index refreshed."
+    if [ ! -f "$dst" ] || ! cmp -s "$src" "$dst"; then
+        sudo install -Dm644 "$src" "$dst"
+        echo "+ keyd/default.conf"
     else
-        echo "Lantern application index refresh skipped; Quickshell IPC is unavailable." >&2
+        echo "@ keyd/default.conf"
+    fi
+
+    if systemctl is-active --quiet keyd; then
+        sudo keyd reload
+        return
+    fi
+
+    sudo systemctl enable --now keyd
+}
+
+install_nvidia_profile() {
+    local src="$DOTFILES_DIR/linux/nvidia/50-limit-free-buffer-pool-in-wayland-compositors.json"
+    local dst="/etc/nvidia/nvidia-application-profiles-rc.d/50-limit-free-buffer-pool-in-wayland-compositors.json"
+
+    if ! command -v nvidia-smi >/dev/null 2>&1 && [ ! -d /etc/nvidia ]; then
+        return
+    fi
+
+    if [ ! -f "$dst" ] || ! cmp -s "$src" "$dst"; then
+        sudo install -Dm644 "$src" "$dst"
+        echo "+ nvidia-application-profiles/50-limit-free-buffer-pool-in-wayland-compositors.json"
+    else
+        echo "@ nvidia-application-profiles/50-limit-free-buffer-pool-in-wayland-compositors.json"
+    fi
+}
+
+set_dark_theme() {
+    if command -v gsettings >/dev/null 2>&1; then
+        gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark' || true
     fi
 }
 
 lnk "linux/niri" "$HOME/.config/niri"
 lnk "linux/quickshell" "$HOME/.config/quickshell"
 lnk "linux/fontconfig" "$HOME/.config/fontconfig"
+lnk "linux/gtk-3.0/settings.ini" "$HOME/.config/gtk-3.0/settings.ini"
+lnk "linux/gtk-4.0/settings.ini" "$HOME/.config/gtk-4.0/settings.ini"
+lnk "linux/xfce4/helpers.rc" "$HOME/.config/xfce4/helpers.rc"
+lnk "linux/Thunar/uca.xml" "$HOME/.config/Thunar/uca.xml"
 "$DOTFILES_DIR/scripts/linux/install-fonts"
 
 lnk "resources/wallpaper.jpg" "$HOME/.config/wallpapers/main.jpg"
 
+install_nvidia_profile
+install_keyd_config
+set_dark_theme
 set_mime_associations
 verify_mime_associations
-
-refresh_lantern_index

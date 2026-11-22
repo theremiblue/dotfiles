@@ -41,6 +41,8 @@ MouseArea {
     Rectangle {
         anchors.left: parent.left
         anchors.right: parent.right
+        anchors.leftMargin: Config.Theme.padding * 2
+        anchors.rightMargin: Config.Theme.padding * 2
         anchors.bottom: parent.bottom
 
         visible: root.containsMouse || Services.Drawers.isActive(Services.Drawers.main)

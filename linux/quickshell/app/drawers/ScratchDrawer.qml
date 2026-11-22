@@ -4,7 +4,6 @@ import QtQuick
 
 import qs.config as Config
 import qs.services as Services
-import qs.ui.primitives as UIPrimitives
 
 PanelWindow {
     id: root
@@ -28,12 +27,24 @@ PanelWindow {
     property string drawerType: Services.Drawers.none
     property int drawerSize: ScratchDrawer.Size.Normal
     property int drawerPosition: ScratchDrawer.Position.ScreenCenter
-    property int contentPadding: Config.Theme.padding * 2
+    property int contentPadding: Config.Theme.padding * 2.5
     property int mouseLeaveTimeout: 3000
-    property color backgroundColor: Config.Theme.base01
-    property color borderColor: Config.Theme.base0E
+    property color backgroundColor: Config.Theme.base00
+    property color borderColor: Config.Theme.barBorder
     readonly property bool drawerActive: Services.Drawers.isActive(drawerType)
     readonly property int maxDrawerHeight: Math.max(0, screen.height - Config.Theme.padding * 8)
+    readonly property int fittedContentWidth: {
+        if (contentHost.children.length === 0) {
+            return 0;
+        }
+
+        const firstChild = contentHost.children[0];
+        if (firstChild.implicitWidth > 0) {
+            return Math.ceil(firstChild.implicitWidth);
+        }
+
+        return Math.ceil(contentHost.childrenRect.width || 0);
+    }
     readonly property int fittedContentHeight: {
         if (contentHost.children.length === 0) {
             return 0;
@@ -111,7 +122,7 @@ PanelWindow {
     }
 
     visible: false
-    implicitWidth: drawerWidthForSize(drawerSize)
+    implicitWidth: Math.max(drawerWidthForSize(drawerSize), fittedContentWidth + contentPadding * 2)
     implicitHeight: Math.min(maxDrawerHeight, fittedContentHeight + contentPadding * 2)
     color: "transparent"
     exclusiveZone: 0
@@ -176,52 +187,34 @@ PanelWindow {
             onClicked: root.dismiss()
         }
 
-        Item {
-            id: popupBounds
+        Rectangle {
+            id: frame
 
-            width: frame.width + panelShadow.margin * 2
-            height: frame.height + panelShadow.margin * 2
+            width: root.implicitWidth
+            height: root.implicitHeight
             anchors.centerIn: parent
 
-            UIPrimitives.PanelShadow {
-                id: panelShadow
+            color: root.backgroundColor
+            border.color: root.borderColor
+            border.width: 1
+            radius: Config.Theme.radius
 
-                anchors.centerIn: parent
-
-                sourceWidth: frame.width
-                sourceHeight: frame.height
-                sourceRadius: frame.radius
+            MouseArea {
+                anchors.fill: parent
+                acceptedButtons: Qt.AllButtons
             }
 
-            Rectangle {
-                id: frame
+            HoverHandler {
+                id: popupHover
 
-                width: root.implicitWidth
-                height: root.implicitHeight
-                anchors.centerIn: parent
+                onHoveredChanged: root.updateMouseLeaveTimer()
+            }
 
-                color: root.backgroundColor
-                border.color: root.borderColor
-                border.width: 1
-                radius: 8
+            Item {
+                id: contentHost
 
-                MouseArea {
-                    anchors.fill: parent
-                    acceptedButtons: Qt.AllButtons
-                }
-
-                HoverHandler {
-                    id: popupHover
-
-                    onHoveredChanged: root.updateMouseLeaveTimer()
-                }
-
-                Item {
-                    id: contentHost
-
-                    anchors.fill: parent
-                    anchors.margins: root.contentPadding
-                }
+                anchors.fill: parent
+                anchors.margins: root.contentPadding
             }
         }
     }

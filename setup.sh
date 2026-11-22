@@ -34,9 +34,8 @@ lnk "zed/keymap.json" "$HOME/.config/zed/keymap.json"
 lnk "zed/tasks.json" "$HOME/.config/zed/tasks.json"
 lnk_tree "$DOTFILES_DIR/zed/themes" "$HOME/.config/zed/themes"
 
-# tmux, kitty and zsh are not available on windows (sadly)
 if [ -z "$windows" ]; then
-    lnk "kitty" "$HOME/.config/kitty"
+    lnk "ghostty" "$HOME/.config/ghostty"
     lnk "tmux" "$HOME/.config/tmux"
     lnk "zsh/.zshrc" "$HOME/.zshrc"
 fi

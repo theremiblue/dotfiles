@@ -21,6 +21,7 @@ tools=(
     coreutils
     ripgrep
     fd
+    fzf
     sd
 
     # Lang
@@ -89,6 +90,7 @@ package_name() {
         winget:neovim) echo "Neovim.Neovim" ;;
         winget:ripgrep) echo "BurntSushi.ripgrep.MSVC" ;;
         winget:fd) echo "sharkdp.fd" ;;
+        winget:fzf) echo "junegunn.fzf" ;;
         winget:sd) echo "chmln.sd" ;;
         winget:node) echo "OpenJS.NodeJS.LTS" ;;
         winget:tree-sitter-cli) ;;

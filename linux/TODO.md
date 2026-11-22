@@ -2,10 +2,6 @@
 
 - [ ] I'm missing deep understanding of systemd
 - [ ] Missing understanding of portals
-- [ ] Setup screencasting with niri
-    - Do not forget to block out some windows, good feature
-
-- [ ] clipboard tool
 
 - Software
     - Programming
@@ -27,9 +23,6 @@
 - browser open link not focused
 - 1password opens login for some reason on start
 - 1password couldn't save the token
-- theme is not propagated to browser and other apps
-- Screenshot is not pasted to browser
-
 - NuPhy IO only works on chromium :(
 
 # Other
@@ -37,4 +30,3 @@
 - Pick the best fonts
 - try gaming
 - install software
-- [ ] open terminal here doesn't work from fileman

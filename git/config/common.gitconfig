@@ -2,6 +2,21 @@
 [init]
     defaultBranch = main
 
+[branch]
+    sort = -committerdate
+
+[fetch]
+    prune = true
+
+[push]
+    autoSetupRemote = true
+
+[rebase]
+    autoStash = true
+
+[rerere]
+    enabled = true
+
 [submodule]
     recurse = true
 

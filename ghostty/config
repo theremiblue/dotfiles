@@ -1,0 +1,42 @@
+background = #1d1f21
+foreground = #c5c8c6
+cursor-color = #cccccc
+cursor-text = #111111
+background-opacity = 1.0
+
+palette = 0=#1d1f21
+palette = 1=#cc6666
+palette = 2=#b5bd68
+palette = 3=#f0c674
+palette = 4=#81a2be
+palette = 5=#b294bb
+palette = 6=#8abeb7
+palette = 7=#c5c8c6
+palette = 8=#969896
+palette = 9=#cc6666
+palette = 10=#b5bd68
+palette = 11=#f0c674
+palette = 12=#81a2be
+palette = 13=#b294bb
+palette = 14=#8abeb7
+palette = 15=#ffffff
+
+font-family = monospace
+font-size = 18
+font-feature = -calt
+font-feature = -liga
+font-feature = -dlig
+
+cursor-style = bar
+cursor-style-blink = false
+
+scrollback-limit = 10000000
+mouse-scroll-multiplier = 5
+
+window-decoration = none
+gtk-single-instance = true
+macos-option-as-alt = true
+shell-integration-features = no-cursor,sudo,title,ssh-terminfo
+
+keybind = ctrl+shift+p=unbind
+keybind = ctrl+shift+n=unbind

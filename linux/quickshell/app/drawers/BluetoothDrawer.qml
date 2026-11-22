@@ -29,7 +29,7 @@ UIPrimitives.Drawer {
     drawerType: Services.Drawers.bluetooth
     drawerSize: UIPrimitives.Drawer.Size.Small
     drawerPosition: UIPrimitives.Drawer.Position.AnchorCenter
-    borderColor: Config.Theme.bluetoothAccent
+    borderColor: Config.Theme.barBorder
 
     onDrawerActivated: Services.Bluetooth.scan()
     onDrawerDeactivated: Services.Bluetooth.stopScan()
@@ -199,9 +199,9 @@ UIPrimitives.Drawer {
 
                             Layout.fillWidth: true
                             implicitHeight: deviceContent.implicitHeight + Config.Theme.padding * 3
-                            radius: 6
-                            color: active ? Config.Theme.base02 : Config.Theme.base00
-                            border.color: device.connected ? Config.Theme.base0D : Config.Theme.barBorder
+                            radius: Config.Theme.radius
+                            color: active ? Config.Theme.base01 : Config.Theme.surfaceInset
+                            border.color: device.connected ? Config.Theme.base0D : Config.Theme.hairlineSubtle
                             border.width: 1
 
                             ColumnLayout {

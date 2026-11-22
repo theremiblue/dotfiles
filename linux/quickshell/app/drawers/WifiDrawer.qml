@@ -66,7 +66,7 @@ UIPrimitives.Drawer {
     drawerType: Services.Drawers.wifi
     drawerSize: UIPrimitives.Drawer.Size.Small
     drawerPosition: UIPrimitives.Drawer.Position.AnchorCenter
-    borderColor: Services.Network.wifiEnabled ? Config.Theme.base0D : Config.Theme.base08
+    borderColor: Config.Theme.barBorder
 
     onDrawerActivated: {
         Services.Network.refresh();
@@ -234,9 +234,9 @@ UIPrimitives.Drawer {
 
                             Layout.fillWidth: true
                             implicitHeight: networkContent.implicitHeight + Config.Theme.padding * 3
-                            radius: 6
-                            color: network.inUse ? Config.Theme.base02 : Config.Theme.base00
-                            border.color: network.inUse ? Config.Theme.base0D : Config.Theme.barBorder
+                            radius: Config.Theme.radius
+                            color: network.inUse ? Config.Theme.base01 : Config.Theme.surfaceInset
+                            border.color: network.inUse ? Config.Theme.base0D : Config.Theme.hairlineSubtle
                             border.width: 1
 
                             ColumnLayout {
@@ -308,8 +308,8 @@ UIPrimitives.Drawer {
                                     Layout.preferredHeight: networkRow.expanded ? Math.max(Config.Theme.controlHeight, passwordInput.implicitHeight + Config.Theme.padding * 2) : 0
 
                                     visible: networkRow.expanded
-                                    radius: 5
-                                    color: Config.Theme.base01
+                                    radius: Config.Theme.radius
+                                    color: Config.Theme.base00
                                     border.color: Config.Theme.barBorder
                                     border.width: 1
 

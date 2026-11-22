@@ -22,12 +22,22 @@ ScratchDrawer {
     drawerType: Services.Drawers.power
     drawerSize: ScratchDrawer.Size.Small
     drawerPosition: ScratchDrawer.Position.ScreenCenter
-    backgroundColor: Config.Theme.base01
-    borderColor: Config.Theme.base0E
+    backgroundColor: Config.Theme.base00
+    borderColor: Config.Theme.barBorder
 
     RowLayout {
         anchors.fill: parent
         spacing: Config.Theme.spacing
+
+        Controls.ActionTile {
+            Layout.fillWidth: true
+
+            iconSource: Config.Theme.tablerIcon("sleep")
+            label: "Sleep"
+            accentColor: Config.Theme.base0D
+
+            onTriggered: root.hideAndRun(["systemctl", "suspend"])
+        }
 
         Controls.ActionTile {
             Layout.fillWidth: true

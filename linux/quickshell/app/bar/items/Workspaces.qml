@@ -1,6 +1,7 @@
 import Quickshell
 import QtQuick
 import QtQuick.Layouts
+
 import qs.config as Config
 import qs.services as Services
 
@@ -9,29 +10,18 @@ Item {
 
     required property ShellScreen screen
 
-    readonly property int activeWsId: Services.Niri.activeWorkspaceId
-    readonly property var workspaceIds: visibleWorkspaceIds()
+    readonly property var screenWorkspaces: Services.Niri.workspacesForOutput(root.screen.name)
 
-    function visibleWorkspaceIds() {
-        const ids = [1, 2, 3, 4];
-        const workspaces = Services.Niri.workspaces;
-
-        for (let i = 0; i < workspaces.length; i++) {
-            const ws = workspaces[i];
-            const num = ws.idx !== undefined ? ws.idx : ws.id;
-            if (num > Config.Theme.minWorkspaceCount
-             && (Services.Niri.isWorkspaceOccupied(num) || num === activeWsId)) {
-                if (!ids.includes(num)) {
-                    ids.push(num);
-                }
-            }
+    function workspaceLabel(ws) {
+        if (ws.name && ws.name.length > 0) {
+            return ws.name;
         }
 
-        return ids.sort((a, b) => a - b);
+        return ws.idx.toString();
     }
 
-    function workspaceOccupied(id) {
-        return Services.Niri.isWorkspaceOccupied(id);
+    function workspaceOccupied(ws) {
+        return ws.active_window_id !== null || Services.Niri.isWorkspaceOccupiedById(ws.id);
     }
 
     implicitWidth: workspaceLayout.implicitWidth
@@ -44,14 +34,16 @@ Item {
         spacing: 2
 
         Repeater {
-            model: root.workspaceIds
+            model: root.screenWorkspaces
 
             WorkspaceButton {
-                required property int modelData
+                required property var modelData
 
-                wsId: modelData
-                activeWsId: root.activeWsId
+                wsIdx: modelData.idx
+                wsLabel: root.workspaceLabel(modelData)
+                active: !!modelData.is_active || !!modelData.is_focused
                 occupied: root.workspaceOccupied(modelData)
+                urgent: !!modelData.is_urgent
             }
         }
     }

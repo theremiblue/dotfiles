@@ -44,8 +44,8 @@ MouseArea {
 
     Rectangle {
         anchors.fill: parent
-        radius: 4
-        color: root.copyEnabled && root.containsMouse ? Config.Theme.base02 : "transparent"
+        radius: Config.Theme.radius
+        color: root.copyEnabled && root.containsMouse ? Config.Theme.base01 : "transparent"
     }
 
     RowLayout {

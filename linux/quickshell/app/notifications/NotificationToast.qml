@@ -118,9 +118,9 @@ Rectangle {
     implicitHeight: content.implicitHeight + Config.Theme.padding * 4 + (showProgress ? 2 : 0)
     Layout.preferredHeight: visible ? implicitHeight : 0
     opacity: closing ? 0 : 1
-    radius: 6
-    color: Config.Theme.base01
-    border.color: accentColor
+    radius: Config.Theme.radius
+    color: Config.Theme.surfaceInset
+    border.color: Config.Theme.barBorder
     border.width: 1
     clip: true
     transform: Translate {
@@ -184,6 +184,15 @@ Rectangle {
         easing.type: Easing.Linear
     }
 
+    Rectangle {
+        anchors.left: parent.left
+        anchors.top: parent.top
+        anchors.bottom: parent.bottom
+
+        width: 2
+        color: root.accentColor
+    }
+
     MouseArea {
         anchors.fill: parent
 
@@ -225,9 +234,9 @@ Rectangle {
                     Layout.fillWidth: true
 
                     text: root.notification.summary || root.notification.appName || "Notification"
-                    color: Config.Theme.barForeground
-                    font.pixelSize: Config.Theme.fontSize + 1
-                    font.bold: true
+                    color: Config.Theme.base06
+                    font.pixelSize: Config.Theme.fontSize
+                    font.weight: Font.Medium
                     elide: Text.ElideRight
                     horizontalAlignment: Text.AlignLeft
                 }
@@ -238,6 +247,7 @@ Rectangle {
                     text: root.notification.appName
                     visible: root.notification.appName.length > 0
                     color: Config.Theme.barMuted
+                    font.family: Config.Theme.monospaceFontFamily
                     font.pixelSize: Config.Theme.smallFontSize
                     elide: Text.ElideRight
                     horizontalAlignment: Text.AlignRight
@@ -277,8 +287,8 @@ Rectangle {
                         Rectangle {
                             anchors.fill: parent
 
-                            radius: 4
-                            color: parent.containsMouse ? Config.Theme.base02 : Config.Theme.base00
+                            radius: Config.Theme.radius
+                            color: parent.containsMouse ? Config.Theme.base01 : Config.Theme.base00
                             border.color: Config.Theme.barBorder
                             border.width: 1
                         }

@@ -1,0 +1,27 @@
+input {
+    keyboard {
+        xkb {
+            layout "us,ru"
+        }
+        repeat-delay 400
+        repeat-rate 40
+        track-layout "global"
+    }
+
+    mouse {
+        accel-speed 0.0
+    }
+
+    workspace-auto-back-and-forth
+}
+
+cursor {
+    xcursor-size 24
+    hide-when-typing
+}
+
+gestures {
+    hot-corners {
+        off
+    }
+}

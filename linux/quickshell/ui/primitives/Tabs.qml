@@ -36,7 +36,7 @@ Item {
 
                     readonly property bool active: root.currentIndex === index
 
-                    Layout.preferredWidth: tabText.implicitWidth + Config.Theme.padding * 4
+                    Layout.preferredWidth: tabText.implicitWidth + Config.Theme.padding * 3
                     Layout.preferredHeight: Math.max(Config.Theme.controlHeight, tabText.implicitHeight + Config.Theme.padding * 2)
                     hoverEnabled: true
                     cursorShape: Qt.PointingHandCursor
@@ -44,14 +44,8 @@ Item {
                     Rectangle {
                         anchors.fill: parent
 
-                        radius: 5
-                        color: tabButton.active
-                            ? Config.Theme.base02
-                            : tabButton.containsMouse ? Config.Theme.base01 : "transparent"
-                        border.color: tabButton.active || tabButton.containsMouse
-                            ? Config.Theme.base0D
-                            : Config.Theme.barBorder
-                        border.width: 1
+                        radius: Config.Theme.radius
+                        color: tabButton.containsMouse ? Config.Theme.base01 : "transparent"
 
                         Behavior on color {
                             ColorAnimation {
@@ -60,14 +54,25 @@ Item {
                         }
                     }
 
+                    Rectangle {
+                        anchors.left: parent.left
+                        anchors.right: parent.right
+                        anchors.bottom: parent.bottom
+
+                        visible: tabButton.active
+                        height: 2
+                        color: Config.Theme.base0D
+                    }
+
                     AppText {
                         id: tabText
 
                         anchors.centerIn: parent
 
                         text: tabButton.modelData
-                        color: tabButton.active ? Config.Theme.base0D : Config.Theme.barForeground
-                        font.pixelSize: Config.Theme.smallFontSize
+                        color: tabButton.active ? Config.Theme.base06 : Config.Theme.barMuted
+                        font.pixelSize: Config.Theme.fontSize
+                        font.weight: tabButton.active ? Font.Medium : Font.Normal
                     }
 
                     onClicked: root.currentIndex = index

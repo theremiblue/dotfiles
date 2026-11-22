@@ -9,16 +9,16 @@ MouseArea {
     property string label: ""
     property color accentColor: Config.Theme.base0D
 
-    implicitWidth: buttonText.implicitWidth + Config.Theme.padding * 4
-    implicitHeight: Math.max(Config.Theme.controlHeight, buttonText.implicitHeight + Config.Theme.padding * 2)
+    implicitWidth: buttonText.implicitWidth + Config.Theme.padding * 3
+    implicitHeight: Math.max(Config.Theme.controlHeight, buttonText.implicitHeight + Config.Theme.padding * 1.5)
     hoverEnabled: true
     cursorShape: Qt.PointingHandCursor
 
     Rectangle {
         anchors.fill: parent
 
-        radius: 5
-        color: root.containsMouse ? Config.Theme.base02 : Config.Theme.base00
+        radius: Config.Theme.radius
+        color: root.containsMouse ? Config.Theme.base01 : Config.Theme.surfaceInset
         border.color: root.containsMouse ? root.accentColor : Config.Theme.barBorder
         border.width: 1
     }

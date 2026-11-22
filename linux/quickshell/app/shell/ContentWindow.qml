@@ -22,7 +22,7 @@ PanelWindow {
     implicitHeight: statusBar.implicitHeight
     exclusiveZone: statusBar.exclusiveZone
     aboveWindows: true
-    focusable: true
+    focusable: false
     color: "transparent"
 
     mask: Region {
