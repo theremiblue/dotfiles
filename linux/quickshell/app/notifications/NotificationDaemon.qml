@@ -16,7 +16,7 @@ PanelWindow {
 
     visible: Services.Notifications.popupNotifications.length > 0
     implicitWidth: toastWidth + edgeMargin * 2
-    implicitHeight: Math.min(640, notificationColumn.implicitHeight + topMargin + edgeMargin)
+    implicitHeight: Math.min(Math.round(screen.height * 0.6), notificationColumn.implicitHeight + topMargin + edgeMargin)
     color: "transparent"
     exclusiveZone: 0
     exclusionMode: ExclusionMode.Ignore

@@ -24,15 +24,19 @@ UIPrimitives.Drawer {
         property bool showProgress: true
 
         Layout.fillWidth: true
-        Layout.preferredHeight: 86
-        implicitHeight: 86
+        Layout.fillHeight: true
+        implicitHeight: metricCardContent.implicitHeight + Config.Theme.padding * 4
         radius: 6
         color: Config.Theme.base00
         border.color: Config.Theme.barBorder
         border.width: 1
 
         ColumnLayout {
-            anchors.fill: parent
+            id: metricCardContent
+
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.top: parent.top
             anchors.margins: Config.Theme.padding * 2
             spacing: Config.Theme.spacing
 
@@ -69,7 +73,7 @@ UIPrimitives.Drawer {
 
             Rectangle {
                 Layout.fillWidth: true
-                Layout.preferredHeight: 6
+                Layout.preferredHeight: Math.max(6, Math.round(Config.Theme.spacing * 0.85))
 
                 visible: card.showProgress
                 radius: height / 2
@@ -107,11 +111,11 @@ UIPrimitives.Drawer {
             UIPrimitives.Icon {
                 id: icon
 
-                Layout.preferredWidth: 16
-                Layout.preferredHeight: 16
+                Layout.preferredWidth: Config.Theme.inlineIconSize
+                Layout.preferredHeight: Config.Theme.inlineIconSize
 
                 source: networkValue.iconSource
-                implicitSize: 16
+                implicitSize: Config.Theme.inlineIconSize
             }
 
             UIPrimitives.AppText {
@@ -154,14 +158,16 @@ UIPrimitives.Drawer {
 
     component NetworkCard: Rectangle {
         Layout.fillWidth: true
-        Layout.preferredHeight: 86
-        implicitHeight: 86
+        Layout.fillHeight: true
+        implicitHeight: networkCardContent.implicitHeight + Config.Theme.padding * 4
         radius: 6
         color: Config.Theme.base00
         border.color: Config.Theme.barBorder
         border.width: 1
 
         ColumnLayout {
+            id: networkCardContent
+
             anchors.fill: parent
             anchors.margins: Config.Theme.padding * 2
             spacing: Config.Theme.spacing
@@ -221,11 +227,11 @@ UIPrimitives.Drawer {
         tabs: ["Resource monitor"]
         rightContent: [
             UIPrimitives.Icon {
-                Layout.preferredWidth: 16
-                Layout.preferredHeight: 16
+                Layout.preferredWidth: Config.Theme.inlineIconSize
+                Layout.preferredHeight: Config.Theme.inlineIconSize
 
                 source: Config.Theme.linuxPenguinIcon
-                implicitSize: 16
+                implicitSize: Config.Theme.inlineIconSize
             },
 
             UIPrimitives.AppText {
@@ -265,7 +271,7 @@ UIPrimitives.Drawer {
 
             GridLayout {
                 Layout.fillWidth: true
-                columns: root.implicitWidth >= 900 ? 4 : root.implicitWidth >= 520 ? 2 : 1
+                columns: root.implicitWidth >= Config.Theme.fontSize * 48 ? 4 : root.implicitWidth >= Config.Theme.fontSize * 26 ? 2 : 1
                 columnSpacing: Config.Theme.spacing * 2
                 rowSpacing: Config.Theme.spacing * 2
 

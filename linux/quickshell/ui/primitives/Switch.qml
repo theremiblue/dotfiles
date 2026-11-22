@@ -8,8 +8,8 @@ MouseArea {
     property bool checked: false
     signal toggled(bool checked)
 
-    implicitWidth: 42
-    implicitHeight: 22
+    implicitWidth: Config.Theme.switchWidth
+    implicitHeight: Config.Theme.switchHeight
     hoverEnabled: true
     cursorShape: Qt.PointingHandCursor
 
@@ -29,8 +29,8 @@ MouseArea {
     }
 
     Rectangle {
-        width: 18
-        height: 18
+        width: root.height - 4
+        height: root.height - 4
         radius: height / 2
         x: root.checked ? root.width - width - 2 : 2
         anchors.verticalCenter: parent.verticalCenter

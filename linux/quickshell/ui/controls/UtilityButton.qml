@@ -10,7 +10,7 @@ MouseArea {
     property color accentColor: Config.Theme.base0D
 
     implicitWidth: buttonText.implicitWidth + Config.Theme.padding * 4
-    implicitHeight: 24
+    implicitHeight: Math.max(Config.Theme.controlHeight, buttonText.implicitHeight + Config.Theme.padding * 2)
     hoverEnabled: true
     cursorShape: Qt.PointingHandCursor
 

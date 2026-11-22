@@ -202,12 +202,12 @@ Rectangle {
         spacing: Config.Theme.spacing * 2
 
         IconImage {
-            Layout.preferredWidth: visible ? 34 : 0
-            Layout.preferredHeight: visible ? 34 : 0
+            Layout.preferredWidth: visible ? Config.Theme.drawerIconSize : 0
+            Layout.preferredHeight: visible ? Config.Theme.drawerIconSize : 0
             Layout.alignment: Qt.AlignTop
 
             visible: root.hasIcon
-            implicitSize: 34
+            implicitSize: Config.Theme.drawerIconSize
             source: root.iconSource()
             asynchronous: true
             mipmap: true
@@ -233,7 +233,7 @@ Rectangle {
                 }
 
                 UIPrimitives.AppText {
-                    Layout.preferredWidth: 78
+                    Layout.maximumWidth: Math.round(root.width * 0.35)
 
                     text: root.notification.appName
                     visible: root.notification.appName.length > 0
@@ -270,7 +270,7 @@ Rectangle {
                         required property NotificationAction modelData
 
                         implicitWidth: actionLabel.implicitWidth + Config.Theme.padding * 3
-                        implicitHeight: 22
+                        implicitHeight: Math.max(Config.Theme.controlHeight, actionLabel.implicitHeight + Config.Theme.padding * 1.5)
                         hoverEnabled: true
                         cursorShape: Qt.PointingHandCursor
 

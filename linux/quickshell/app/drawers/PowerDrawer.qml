@@ -30,6 +30,8 @@ ScratchDrawer {
         spacing: Config.Theme.spacing
 
         Controls.ActionTile {
+            Layout.fillWidth: true
+
             iconSource: Config.Theme.tablerIcon("logout")
             label: "Logout"
             accentColor: Config.Theme.base0A
@@ -38,6 +40,8 @@ ScratchDrawer {
         }
 
         Controls.ActionTile {
+            Layout.fillWidth: true
+
             iconSource: Config.Theme.tablerIcon("reboot")
             label: "Reboot"
             accentColor: Config.Theme.base09
@@ -46,6 +50,8 @@ ScratchDrawer {
         }
 
         Controls.ActionTile {
+            Layout.fillWidth: true
+
             iconSource: Config.Theme.tablerIcon("power")
             label: "Turn Off"
             accentColor: Config.Theme.base08

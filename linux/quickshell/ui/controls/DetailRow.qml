@@ -10,7 +10,7 @@ RowLayout {
     property string name: ""
     property string value: ""
     property string fallbackValue: "Unavailable"
-    property int nameWidth: 62
+    property int nameWidth: Config.Theme.detailLabelWidth
 
     function displayValue() {
         if (value && value.length > 0 && value !== "--") {
@@ -28,6 +28,7 @@ RowLayout {
 
         text: root.name
         color: Config.Theme.barMuted
+        elide: Text.ElideRight
         horizontalAlignment: Text.AlignLeft
     }
 

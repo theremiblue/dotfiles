@@ -39,11 +39,11 @@ UIPrimitives.Drawer {
             spacing: Config.Theme.spacing * 2
 
             UIPrimitives.Icon {
-                Layout.preferredWidth: 26
-                Layout.preferredHeight: 26
+                Layout.preferredWidth: Config.Theme.drawerIconSize
+                Layout.preferredHeight: Config.Theme.drawerIconSize
 
                 source: Config.Theme.tablerIcon(Services.Vpn.connected ? "vpn-connected" : "vpn-disconnected")
-                implicitSize: 24
+                implicitSize: Config.Theme.drawerIconSize
             }
 
             ColumnLayout {
@@ -109,7 +109,7 @@ UIPrimitives.Drawer {
 
         ColumnLayout {
             Layout.fillWidth: true
-            spacing: 5
+            spacing: Config.Theme.spacing
 
             Controls.DetailRow {
                 name: "Server"

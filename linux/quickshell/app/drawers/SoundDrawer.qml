@@ -28,8 +28,11 @@ UIPrimitives.Drawer {
             return Math.round(Math.max(0, Math.min(1, x / width)) * 100);
         }
 
+        readonly property int thumbSize: Math.round(Config.Theme.fontSize * 1.2)
+        readonly property int trackHeight: Math.max(6, Math.round(thumbSize / 3))
+
         Layout.fillWidth: true
-        Layout.preferredHeight: 28
+        Layout.preferredHeight: thumbSize + Config.Theme.padding
         enabled: Services.Sound.outputReady
         opacity: enabled ? 1 : 0.45
         hoverEnabled: true
@@ -40,7 +43,7 @@ UIPrimitives.Drawer {
             anchors.right: parent.right
             anchors.verticalCenter: parent.verticalCenter
 
-            height: 8
+            height: slider.trackHeight
             radius: height / 2
             color: Config.Theme.base02
         }
@@ -50,7 +53,7 @@ UIPrimitives.Drawer {
             anchors.verticalCenter: parent.verticalCenter
 
             width: Math.round(parent.width * slider.value / 100)
-            height: 8
+            height: slider.trackHeight
             radius: height / 2
             color: Services.Sound.outputMuted ? Config.Theme.barMuted : Config.Theme.base0C
 
@@ -63,8 +66,8 @@ UIPrimitives.Drawer {
         }
 
         Rectangle {
-            width: 24
-            height: 24
+            width: slider.thumbSize
+            height: slider.thumbSize
             radius: height / 2
             x: Math.round((slider.width - width) * slider.value / 100)
             anchors.verticalCenter: parent.verticalCenter
@@ -97,11 +100,11 @@ UIPrimitives.Drawer {
             spacing: Config.Theme.spacing * 2
 
             UIPrimitives.Icon {
-                Layout.preferredWidth: 26
-                Layout.preferredHeight: 26
+                Layout.preferredWidth: Config.Theme.drawerIconSize
+                Layout.preferredHeight: Config.Theme.drawerIconSize
 
                 source: Config.Theme.tablerIcon(Services.Sound.iconName())
-                implicitSize: 24
+                implicitSize: Config.Theme.drawerIconSize
             }
 
             ColumnLayout {
@@ -197,7 +200,7 @@ UIPrimitives.Drawer {
 
         ColumnLayout {
             Layout.fillWidth: true
-            spacing: 5
+            spacing: Config.Theme.spacing
 
             Controls.DetailRow {
                 name: "Output"

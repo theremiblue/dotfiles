@@ -40,7 +40,11 @@ PanelWindow {
         }
 
         const firstChild = contentHost.children[0];
-        return Math.ceil(Math.max(firstChild.implicitHeight || 0, contentHost.childrenRect.height || 0));
+        if (firstChild.implicitHeight > 0) {
+            return Math.ceil(firstChild.implicitHeight);
+        }
+
+        return Math.ceil(contentHost.childrenRect.height || 0);
     }
 
     function drawerFractionForSize(size) {

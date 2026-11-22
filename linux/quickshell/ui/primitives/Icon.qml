@@ -13,8 +13,8 @@ Item {
     Image {
         anchors.fill: parent
         source: root.source
-        sourceSize.width: root.width
-        sourceSize.height: root.height
+        sourceSize.width: Math.max(1, Math.round(root.width > 0 ? root.width : root.implicitSize))
+        sourceSize.height: Math.max(1, Math.round(root.height > 0 ? root.height : root.implicitSize))
         fillMode: Image.PreserveAspectFit
         asynchronous: root.asynchronous
         mipmap: false

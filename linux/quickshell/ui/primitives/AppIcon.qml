@@ -20,17 +20,20 @@ Item {
     property bool mipmap: true
 
     readonly property bool hasSource: source.length > 0
+    readonly property bool imageFailed: sourceMode === AppIcon.ImageSource && rasterImage.status === Image.Error
 
     implicitWidth: iconSize
     implicitHeight: iconSize
 
     Image {
+        id: rasterImage
+
         anchors.centerIn: parent
 
-        visible: root.hasSource && root.sourceMode === AppIcon.ImageSource
+        visible: root.hasSource && root.sourceMode === AppIcon.ImageSource && !root.imageFailed
         width: root.iconSize
         height: root.iconSize
-        source: visible ? root.source : ""
+        source: root.hasSource && root.sourceMode === AppIcon.ImageSource ? root.source : ""
         sourceSize.width: root.sourceSize
         sourceSize.height: root.sourceSize
         fillMode: Image.PreserveAspectFit
@@ -55,7 +58,7 @@ Item {
     AppText {
         anchors.centerIn: parent
 
-        visible: !root.hasSource
+        visible: !root.hasSource || root.imageFailed
         text: root.label.length > 0 ? root.label[0].toUpperCase() : "?"
         color: Config.Theme.base0D
         font.pixelSize: root.iconSize

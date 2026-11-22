@@ -37,7 +37,7 @@ Item {
                     readonly property bool active: root.currentIndex === index
 
                     Layout.preferredWidth: tabText.implicitWidth + Config.Theme.padding * 4
-                    Layout.preferredHeight: 24
+                    Layout.preferredHeight: Math.max(Config.Theme.controlHeight, tabText.implicitHeight + Config.Theme.padding * 2)
                     hoverEnabled: true
                     cursorShape: Qt.PointingHandCursor
 
@@ -81,7 +81,7 @@ Item {
             RowLayout {
                 id: rightContentLayout
 
-                Layout.preferredHeight: 24
+                Layout.preferredHeight: Config.Theme.controlHeight
                 Layout.alignment: Qt.AlignVCenter
                 spacing: Config.Theme.spacing
             }

@@ -11,11 +11,29 @@ PanelWindow {
     id: root
 
     readonly property int edgeMargin: Config.Theme.padding * 4
-    readonly property int panelWidth: Math.min(720, Math.round(screen.width * 0.48))
+    readonly property int panelWidth: Math.min(Math.round(Config.Theme.fontSize * 40), Math.round(screen.width * 0.48))
     readonly property int panelTop: Math.round(screen.height * 0.16)
-    readonly property int appIconSize: 40
+    readonly property int appIconSize: Math.round(Config.Theme.fontSize * 2)
     readonly property real dimOpacity: 0.42
     readonly property var results: Services.Lantern.search(searchInput.text)
+
+    function ensureSelectionVisible() {
+        const item = resultsRepeater.itemAt(selectedIndex);
+        if (!item || resultsFlickable.height <= 0) {
+            return;
+        }
+
+        if (item.y < resultsFlickable.contentY) {
+            resultsFlickable.contentY = item.y;
+            return;
+        }
+
+        const itemBottom = item.y + item.height;
+        const viewBottom = resultsFlickable.contentY + resultsFlickable.height;
+        if (itemBottom > viewBottom) {
+            resultsFlickable.contentY = itemBottom - resultsFlickable.height;
+        }
+    }
 
     function clampSelection() {
         selectedIndex = Math.max(0, Math.min(selectedIndex, results.length - 1));
@@ -64,6 +82,7 @@ PanelWindow {
         if (!visible) {
             searchInput.text = "";
             selectedIndex = 0;
+            resultsFlickable.contentY = 0;
             return;
         }
 
@@ -75,6 +94,7 @@ PanelWindow {
     }
 
     onResultsChanged: clampSelection()
+    onSelectedIndexChanged: Qt.callLater(ensureSelectionVisible)
 
     FocusScope {
         id: overlay
@@ -137,7 +157,7 @@ PanelWindow {
 
                 Rectangle {
                     Layout.fillWidth: true
-                    Layout.preferredHeight: 42
+                    Layout.preferredHeight: Math.max(Config.Theme.controlHeight + Config.Theme.padding, searchInput.implicitHeight + Config.Theme.padding * 2)
 
                     radius: 6
                     color: Config.Theme.base00
@@ -151,11 +171,11 @@ PanelWindow {
                         spacing: Config.Theme.spacing * 2
 
                         UIPrimitives.Icon {
-                            Layout.preferredWidth: 18
-                            Layout.preferredHeight: 18
+                            Layout.preferredWidth: Config.Theme.inlineIconSize
+                            Layout.preferredHeight: Config.Theme.inlineIconSize
 
                             source: Config.Theme.tablerIcon("search")
-                            implicitSize: 18
+                            implicitSize: Config.Theme.inlineIconSize
                         }
 
                         TextInput {
@@ -199,6 +219,7 @@ PanelWindow {
 
                 Item {
                     Layout.fillWidth: true
+                    Layout.fillHeight: true
                     Layout.preferredHeight: Math.max(emptyState.implicitHeight, resultsList.implicitHeight)
 
                     UIPrimitives.AppText {
@@ -211,75 +232,93 @@ PanelWindow {
                         color: Config.Theme.barMuted
                     }
 
-                    ColumnLayout {
-                        id: resultsList
+                    Flickable {
+                        id: resultsFlickable
 
-                        width: parent.width
-                        spacing: Config.Theme.spacing
+                        anchors.fill: parent
                         visible: root.results.length > 0
+                        clip: true
+                        contentWidth: width
+                        contentHeight: resultsList.implicitHeight
+                        interactive: contentHeight > height
 
-                        Repeater {
-                            model: root.results
+                        ColumnLayout {
+                            id: resultsList
 
-                            delegate: MouseArea {
-                                id: result
+                            width: parent.width
+                            spacing: Config.Theme.spacing
 
-                                required property int index
-                                required property var modelData
+                            Repeater {
+                                id: resultsRepeater
 
-                                Layout.fillWidth: true
-                                Layout.preferredHeight: 44
+                                model: root.results
 
-                                hoverEnabled: true
-                                cursorShape: Qt.PointingHandCursor
+                                delegate: MouseArea {
+                                    id: result
 
-                                onClicked: Services.Lantern.launch(modelData)
+                                    required property int index
+                                    required property var modelData
 
-                                Rectangle {
-                                    anchors.fill: parent
-                                    radius: 6
-                                    color: root.selectedIndex === result.index ? Config.Theme.base02 : "transparent"
-                                }
+                                    Layout.fillWidth: true
+                                    Layout.preferredHeight: Math.max(root.appIconSize, resultTextColumn.implicitHeight) + Config.Theme.padding * 2
+                                    implicitHeight: Layout.preferredHeight
 
-                                RowLayout {
-                                    anchors.fill: parent
-                                    anchors.leftMargin: Config.Theme.padding * 3
-                                    anchors.rightMargin: Config.Theme.padding * 3
-                                    spacing: Config.Theme.spacing * 2
+                                    hoverEnabled: true
+                                    cursorShape: Qt.PointingHandCursor
 
-                                    UIPrimitives.AppIcon {
-                                        Layout.preferredWidth: root.appIconSize
-                                        Layout.preferredHeight: root.appIconSize
-                                        Layout.alignment: Qt.AlignVCenter
+                                    onClicked: Services.Lantern.launch(modelData)
 
-                                        iconSize: root.appIconSize
-                                        source: result.modelData.iconSource
-                                        label: result.modelData.name
+                                    Rectangle {
+                                        anchors.fill: parent
+                                        radius: 6
+                                        color: root.selectedIndex === result.index ? Config.Theme.base02 : "transparent"
                                     }
 
-                                    ColumnLayout {
-                                        Layout.fillWidth: true
-                                        spacing: 1
+                                    RowLayout {
+                                        anchors.fill: parent
+                                        anchors.leftMargin: Config.Theme.padding * 3
+                                        anchors.rightMargin: Config.Theme.padding * 3
+                                        anchors.topMargin: Config.Theme.padding
+                                        anchors.bottomMargin: Config.Theme.padding
+                                        spacing: Config.Theme.spacing * 2
 
-                                        UIPrimitives.AppText {
-                                            Layout.fillWidth: true
+                                        UIPrimitives.AppIcon {
+                                            Layout.preferredWidth: root.appIconSize
+                                            Layout.preferredHeight: root.appIconSize
+                                            Layout.alignment: Qt.AlignVCenter
 
-                                            text: result.modelData.name
-                                            color: root.selectedIndex === result.index ? Config.Theme.base06 : Config.Theme.barForeground
-                                            font.pixelSize: Config.Theme.fontSize + 2
-                                            horizontalAlignment: Text.AlignLeft
-                                            elide: Text.ElideRight
+                                            iconSize: root.appIconSize
+                                            source: result.modelData.iconSource
+                                            label: result.modelData.name
                                         }
 
-                                        UIPrimitives.AppText {
-                                            Layout.fillWidth: true
+                                        ColumnLayout {
+                                            id: resultTextColumn
 
-                                            visible: result.modelData.subtext.length > 0
-                                            text: result.modelData.subtext
-                                            color: Config.Theme.barMuted
-                                            font.pixelSize: Config.Theme.smallFontSize
-                                            horizontalAlignment: Text.AlignLeft
-                                            elide: Text.ElideRight
+                                            Layout.fillWidth: true
+                                            Layout.alignment: Qt.AlignVCenter
+                                            spacing: 2
+
+                                            UIPrimitives.AppText {
+                                                Layout.fillWidth: true
+
+                                                text: result.modelData.name
+                                                color: root.selectedIndex === result.index ? Config.Theme.base06 : Config.Theme.barForeground
+                                                font.pixelSize: Config.Theme.fontSize + 2
+                                                horizontalAlignment: Text.AlignLeft
+                                                elide: Text.ElideRight
+                                            }
+
+                                            UIPrimitives.AppText {
+                                                Layout.fillWidth: true
+
+                                                visible: result.modelData.subtext.length > 0
+                                                text: result.modelData.subtext
+                                                color: Config.Theme.barMuted
+                                                font.pixelSize: Config.Theme.smallFontSize
+                                                horizontalAlignment: Text.AlignLeft
+                                                elide: Text.ElideRight
+                                            }
                                         }
                                     }
                                 }

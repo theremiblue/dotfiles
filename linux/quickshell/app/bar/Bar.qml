@@ -57,6 +57,8 @@ Item {
         height: statusBar.implicitSize
         color: Config.Theme.barBackground
 
+        onWidthChanged: Qt.callLater(statusBar.registerDrawerAnchors)
+
         Rectangle {
             anchors.left: parent.left
             anchors.right: parent.right
@@ -73,6 +75,8 @@ Item {
             anchors.verticalCenter: parent.verticalCenter
             height: parent.height
             spacing: Config.Theme.spacing
+
+            onWidthChanged: Qt.callLater(statusBar.registerDrawerAnchors)
 
             Item {
                 implicitWidth: Config.Theme.padding
@@ -110,6 +114,8 @@ Item {
             anchors.verticalCenter: parent.verticalCenter
             height: parent.height
             spacing: Config.Theme.spacing
+
+            onWidthChanged: Qt.callLater(statusBar.registerDrawerAnchors)
 
             Items.Tray {}
 

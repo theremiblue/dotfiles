@@ -92,11 +92,11 @@ UIPrimitives.Drawer {
             spacing: Config.Theme.spacing * 2
 
             UIPrimitives.Icon {
-                Layout.preferredWidth: 26
-                Layout.preferredHeight: 26
+                Layout.preferredWidth: Config.Theme.drawerIconSize
+                Layout.preferredHeight: Config.Theme.drawerIconSize
 
                 source: Config.Theme.tablerIcon(Services.Network.wifiEnabled ? "wifi-enabled" : "wifi-disabled")
-                implicitSize: 24
+                implicitSize: Config.Theme.drawerIconSize
             }
 
             ColumnLayout {
@@ -277,8 +277,8 @@ UIPrimitives.Drawer {
                                     }
 
                                     Rectangle {
-                                        Layout.preferredWidth: 36
-                                        Layout.preferredHeight: 6
+                                        Layout.preferredWidth: Math.round(Config.Theme.fontSize * 2.5)
+                                        Layout.preferredHeight: Math.max(6, Math.round(Config.Theme.spacing * 0.75))
 
                                         radius: height / 2
                                         color: Config.Theme.base02
@@ -305,7 +305,7 @@ UIPrimitives.Drawer {
 
                                 Rectangle {
                                     Layout.fillWidth: true
-                                    Layout.preferredHeight: networkRow.expanded ? 28 : 0
+                                    Layout.preferredHeight: networkRow.expanded ? Math.max(Config.Theme.controlHeight, passwordInput.implicitHeight + Config.Theme.padding * 2) : 0
 
                                     visible: networkRow.expanded
                                     radius: 5
@@ -314,6 +314,7 @@ UIPrimitives.Drawer {
                                     border.width: 1
 
                                     TextInput {
+                                        id: passwordInput
                                         anchors.fill: parent
                                         anchors.leftMargin: Config.Theme.padding * 2
                                         anchors.rightMargin: Config.Theme.padding * 2

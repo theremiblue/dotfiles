@@ -39,6 +39,12 @@ QtObject {
     readonly property int statusIconSpacing: 4
     readonly property int workspaceWidth: 32
     readonly property int notificationWidth: 512
+    readonly property int controlHeight: Math.round(fontSize * 1.9)
+    readonly property int inlineIconSize: Math.round(fontSize * 1.1)
+    readonly property int drawerIconSize: Math.round(fontSize * 1.8)
+    readonly property int detailLabelWidth: Math.round(fontSize * 6.5)
+    readonly property int switchHeight: Math.round(fontSize * 1.3)
+    readonly property int switchWidth: Math.round(switchHeight * 1.85)
     readonly property int notificationTimeout: 5000
     readonly property int animationDurationShort: 120
     readonly property int animationDurationNormal: 180

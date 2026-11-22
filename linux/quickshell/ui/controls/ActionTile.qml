@@ -14,8 +14,8 @@ MouseArea {
 
     signal triggered
 
-    implicitWidth: 74
-    implicitHeight: 62
+    implicitWidth: Math.max(Math.round(Config.Theme.fontSize * 6), contentColumn.implicitWidth + Config.Theme.padding * 4)
+    implicitHeight: contentColumn.implicitHeight + Config.Theme.padding * 4
     hoverEnabled: true
     cursorShape: Qt.PointingHandCursor
 
@@ -35,14 +35,16 @@ MouseArea {
     }
 
     Column {
+        id: contentColumn
+
         anchors.centerIn: parent
-        spacing: 4
+        spacing: Config.Theme.spacing
 
         UIPrimitives.Icon {
             anchors.horizontalCenter: parent.horizontalCenter
 
             source: root.iconSource
-            implicitSize: 18
+            implicitSize: Config.Theme.drawerIconSize
         }
 
         UIPrimitives.AppText {

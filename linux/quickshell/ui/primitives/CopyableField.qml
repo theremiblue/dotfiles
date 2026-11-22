@@ -11,7 +11,7 @@ MouseArea {
     property string value: ""
     property string copyText: ""
     property string fallbackValue: "Unavailable"
-    property int nameWidth: 62
+    property int nameWidth: Config.Theme.detailLabelWidth
 
     property bool copied: false
     readonly property string effectiveCopyText: copyText.length > 0 ? copyText : value
@@ -59,6 +59,7 @@ MouseArea {
 
             text: root.name
             color: Config.Theme.barMuted
+            elide: Text.ElideRight
             horizontalAlignment: Text.AlignLeft
         }
 

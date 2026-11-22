@@ -113,6 +113,13 @@ clean_field() {
   printf '%s\n' "$value"
 }
 
+is_image_file() {
+  case "${1,,}" in
+    *.svg|*.png|*.xpm|*.jpg|*.jpeg|*.webp|*.ico|*.bmp) return 0 ;;
+    *) return 1 ;;
+  esac
+}
+
 resolve_icon() {
   local icon="$1"
   local ext
@@ -124,7 +131,7 @@ resolve_icon() {
   fi
 
   if [[ "$icon" == /* || "$icon" == */* ]]; then
-    if [ -f "$icon" ]; then
+    if [ -f "$icon" ] && is_image_file "$icon"; then
       printf '%s\n' "$icon"
       return
     fi
