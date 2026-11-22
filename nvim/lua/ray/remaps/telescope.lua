@@ -26,6 +26,8 @@ tmap('k', "Keymaps",   builtin.keymaps)
 
 tmap('s', "Document Symbols",  builtin.lsp_document_symbols)
 tmap('S', "Workspace Symbols", builtin.lsp_workspace_symbols)
+vim.keymap.set('n', 'gs', builtin.lsp_document_symbols, { desc = "Document Symbols" })
+vim.keymap.set('n', 'gS', builtin.lsp_workspace_symbols, { desc = "Workspace Symbols" })
 tmap('d', "Diagnostics",       builtin.diagnostics)
 
 -- Custom remaps

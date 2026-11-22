@@ -1,26 +1,5 @@
 #!/bin/sh
-
-logdir="$HOME/log"
-today="$logdir/$(date +%Y-%m-%d).md"
-
-if [ ! -d "$logdir" ]; then
-    mkdir -p "$logdir"
-    echo "Initialized log directory at $logdir"
-    echo "Welcome on your new machine!"
-    echo "Run 'ulog' daily to keep your log."
+if [ -x "/Users/ray/.bun/bin/bun" ]; then
+    exec /Users/ray/.bun/bin/bun run "$HOME/dotfiles/ai/ulog/index.ts" "$@"
 fi
-
-if [ ! -f "$today" ]; then
-    prev=$(ls -1 "$logdir"/*.md 2>/dev/null | tail -1)
-    if [ -n "$prev" ]; then
-        cp "$prev" "$today"
-    else
-        touch "$today"
-    fi
-
-    echo "Created $today"
-fi
-
-cd "$logdir"
-echo "Opening $today"
-nvim "$today"
+exec bun run "$HOME/dotfiles/ai/ulog/index.ts" "$@"

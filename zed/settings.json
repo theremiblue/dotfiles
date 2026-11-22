@@ -107,6 +107,7 @@
         "tool_permissions": {
             "tools": {
                 "terminal": {
+                    "default": "allow",
                     "always_allow": [
                         {
                             "pattern": "^git\\s+ls-remote(\\s|$)"
@@ -135,13 +136,12 @@
         "terminal_init_command": "agy",
         "default_profile": "write",
         "inline_assistant_model": {
-            "provider": "google",
-            "model": "gemini-3.5-flash"
+            "provider": "openrouter",
+            "model": "deepseek/deepseek-v4.1-flash-1017"
         },
         "default_model": {
-            "effort": "high",
             "provider": "openrouter",
-            "model": "deepseek/deepseek-v4.1-flash-1017",
+            "model": "z-ai/glm-5",
             "enable_thinking": true
         },
         "favorite_models": [
@@ -158,18 +158,6 @@
             },
             {
                 "provider": "openrouter",
-                "model": "~anthropic/claude-opus-latest",
-                "enable_thinking": true,
-                "effort": "high"
-            },
-            {
-                "provider": "openrouter",
-                "model": "~openai/gpt-astra-latest",
-                "enable_thinking": true,
-                "effort": "medium"
-            },
-            {
-                "provider": "openrouter",
                 "model": "deepseek/deepseek-v4.1-flash-1017",
                 "enable_thinking": true,
                 "effort": "high"
@@ -179,12 +167,6 @@
                 "model": "~z-ai/glm-flash-latest",
                 "enable_thinking": true,
                 "effort": "max"
-            },
-            {
-                "provider": "openrouter",
-                "model": "openai/gpt-6-luna",
-                "enable_thinking": true,
-                "effort": "medium"
             }
         ]
     },
@@ -202,13 +184,12 @@
         "clangd": {
             "binary": {
                 "arguments": [
-                    "--compile-commands-dir=_build",
                     "--background-index",
                     "--clang-tidy",
                     "--enable-config",
                     "--all-scopes-completion",
                     "--header-insertion=iwyu",
-                    "--completion-style=bundled"
+                    "--completion-style=detailed"
                 ]
             }
         }

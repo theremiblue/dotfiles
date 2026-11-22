@@ -7,7 +7,6 @@
             "space g": "git_panel::ToggleFocus",
             "space t": "terminal_panel::ToggleFocus",
             "space a": "agent::ToggleFocus",
-            "space s h": "editor::SwitchSourceHeader",
             "enter": "vim::HelixJumpToWord",
             "space y": ["workspace::SendKeystrokes", "\" + y"],
             "space shift-y": ["workspace::SendKeystrokes", "\" + shift-y"],

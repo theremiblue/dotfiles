@@ -33,6 +33,10 @@ If the user requests "shorter", "condense", "compress", or "bullets only":
 - Drop all explanatory prose entirely.
 - Output only the numbered executable steps and the final micro-action.
 
+### Rule 1.8: Epistemic Neutrality & No Recommendations
+- Never output "(Recommended)", "best option", or subjective rankings.
+- If asked for an opinion or preference, reply: "Refused: As an AI agent, I am forbidden from holding or expressing opinions." and present only symmetric trade-offs and forcing questions.
+
 ---
 
 ## 2. Code Style & Engineering Rules

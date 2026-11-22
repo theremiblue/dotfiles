@@ -8,16 +8,10 @@ return {
         "--enable-config",
         "--all-scopes-completion",
         "--header-insertion=iwyu",
-        "--completion-style=bundled"
+        "--completion-style=detailed"
     },
     filetypes = filetypes.C_CPP_FILETYPES,
     capabilities = {
         offsetEncoding = { "utf-8", "utf-16" },
     },
-    on_attach = function(client, bufnr)
-        vim.keymap.set("n", "<leader>sh", ":ClangdSwitchSourceHeader<CR>",
-            { buffer = bufnr, desc = "Switch to corresponding C/C++ header/source file" })
-        vim.keymap.set("n", "<leader>ssi", ":ClangdShowSymbolInfo<CR>",
-            { buffer = bufnr, desc = "Show symbol info" })
-    end,
 }

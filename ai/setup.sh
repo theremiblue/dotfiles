@@ -30,11 +30,15 @@ run_agent_setup() {
         codex)
             bash "$AI_DIR/setup/codex.sh"
             ;;
+        pi)
+            bash "$AI_DIR/setup/pi.sh"
+            ;;
         all)
             bash "$AI_DIR/setup/antigravity.sh"
             bash "$AI_DIR/setup/claude.sh"
             bash "$AI_DIR/setup/opencode.sh"
             bash "$AI_DIR/setup/codex.sh"
+            bash "$AI_DIR/setup/pi.sh"
             ;;
         *)
             echo "Unknown agent: $agent" >&2

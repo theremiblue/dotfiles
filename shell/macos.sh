@@ -10,8 +10,8 @@ if command -v brew >/dev/null 2>&1; then
     unset homebrew_prefix
 fi
 
-if ! command -v zed >/dev/null 2>&1; then
-    alias zed='open -a Zed'
+if [ -d "/Applications/Zed.app/Contents/MacOS" ] && ! command -v zed >/dev/null 2>&1; then
+    alias zed='/Applications/Zed.app/Contents/MacOS/cli'
 fi
 
 brew() {

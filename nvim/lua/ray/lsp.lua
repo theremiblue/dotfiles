@@ -44,6 +44,10 @@ vim.api.nvim_create_autocmd("LspAttach", {
         -- Add only muscle-memory aliases.
         map("n", "gd", vim.lsp.buf.definition, "go to definition")
         map("n", "gD", vim.lsp.buf.declaration, "go to declaration")
+        map("n", "gr", vim.lsp.buf.references, "go to references")
+        map("n", "gI", vim.lsp.buf.implementation, "go to implementation")
+        map("n", "gy", vim.lsp.buf.type_definition, "go to type definition")
+        map("n", "g.", vim.lsp.buf.code_action, "code action")
 
         map("n", "dl", vim.diagnostic.open_float, "line diagnostic")
         map("n", "[d", function() vim.diagnostic.jump({ count = -1 }) end, "previous diagnostic")

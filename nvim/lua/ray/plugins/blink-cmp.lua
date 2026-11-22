@@ -6,7 +6,7 @@ require('blink.cmp').setup({
             show_on_trigger_character = true,
         },
         documentation = {
-            auto_show = false,
+            auto_show = true,
         },
         menu = {
             border = "rounded",
@@ -30,7 +30,7 @@ require('blink.cmp').setup({
         sorts = { "score", "sort_text" },
     },
 
-    signature = { enabled = false },
+    signature = { enabled = true },
 
     sources = {
         default = { "lsp", "path", "snippets", "buffer" },

@@ -6,13 +6,6 @@ vim.keymap.set("n", "<leader>bd", ":bdelete<CR>", { desc = "Delete buffer" })
 -- TEMPORARY: finish statement keymap
 vim.keymap.set("i", "<C-;>", "<End>;<CR>", { desc = "Finish statement" })
 
--- Session management
-vim.keymap.set("n", "<leader>ss", "<cmd>SessionSave<CR>", { desc = "Save session" })
-vim.keymap.set("n", "<leader>sr", "<cmd>SessionRestore<CR>", { desc = "Restore session" })
-vim.keymap.set("n", "<leader>sd", "<cmd>SessionDelete<CR>", { desc = "Delete session" })
-vim.keymap.set("n", "<leader>sf", "<cmd>SessionSearch<CR>", { desc = "Find sessions" })
-vim.keymap.set("n", "<leader>sl", "<cmd>Autosession search<CR>", { desc = "List sessions" })
-
 vim.keymap.set("n", "==", function()
     vim.lsp.buf.format({ async = false })
 end, { desc = "Format whole file" })

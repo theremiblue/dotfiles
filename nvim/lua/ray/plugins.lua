@@ -67,14 +67,6 @@ add_plugin {
 
 ---- Core plugins
 add_plugin {
-    "ThePrimeagen/harpoon",
-    name = "harpoon",
-    branch = "harpoon2",
-    config = config("harpoon"),
-    dependencies = { plenary },
-}
-
-add_plugin {
     "folke/flash.nvim",
     name = "flash",
     event = "VeryLazy",
@@ -96,14 +88,6 @@ local treesitter = add_plugin {
     dependencies = {
         treesitter_textobjects,
     },
-}
-
-add_plugin {
-    "abecodes/tabout.nvim",
-    name = "tabout",
-    dependencies = { treesitter },
-    event = "InsertEnter",
-    config = config("tabout"),
 }
 
 add_plugin {
